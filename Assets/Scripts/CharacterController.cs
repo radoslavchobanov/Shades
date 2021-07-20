@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
@@ -9,27 +9,24 @@ public class CharacterController : MonoBehaviour
     float horizontal;
     float vertical;
 
-    Camera camera;
-
     private void Start() 
     {
-        camera = Camera.main;
     }
 
     private void Update() 
     {
-        Vector3 moveDirection = Vector3.forward * vertical + Vector3.right * horizontal;
-
-        transform.position += moveDirection * movementSpeed * Time.deltaTime;
-
-        camera.transform.position += moveDirection * movementSpeed * Time.deltaTime;
+        Move();
     }
 
-    public void OnMoveInput(float vertical, float horizontal)
+    private void Move()
     {
-        this.vertical = -vertical;
-        this.horizontal = horizontal;
+        Vector3 moveDirection = Vector3.forward * horizontal + Vector3.right * vertical;
+        transform.position += moveDirection * movementSpeed * Time.deltaTime;
+    }
 
-        // Debug.Log($"Move Input: {vertical}, {horizontal}");
+    public void OnMoveInput(float horizontal, float vertical)
+    {
+        this.horizontal = -horizontal;
+        this.vertical = vertical;
     }
 }

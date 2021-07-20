@@ -29,4 +29,5 @@ public class InputController : MonoBehaviour
 
         // Debug.Log($"Move Input: {moveInput}");
     }
+
 }
