@@ -10,7 +10,7 @@ public class CharacterController : MonoBehaviour
     float vertical;
 
     Camera camera;
-    
+
     private void Start() 
     {
         camera = Camera.main;
