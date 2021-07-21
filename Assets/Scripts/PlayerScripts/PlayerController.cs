@@ -3,20 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class CharacterController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    public float movementSpeed = 5.0f;
+    [SerializeField] private float movementSpeed;
 
     float horizontal;
     float vertical;
 
-    private void Start() 
+    protected void OnAwake() 
     {
+        InitializeVars();
+    }
+    protected void OnStart() 
+    {
+
     }
 
-    private void Update() 
+    protected void OnUpdate()
     {
         Move();
+    }
+
+    private void InitializeVars()
+    {
+        movementSpeed = 5f;
+
+        horizontal = 0f;
+        vertical = 0f;
     }
 
     private void Move()
