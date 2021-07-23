@@ -11771,10 +11771,10 @@ GameObject:
   - component: {fileID: 1290962774}
   - component: {fileID: 1290962773}
   - component: {fileID: 1290962772}
-  - component: {fileID: 1290962771}
   - component: {fileID: 1290962776}
+  - component: {fileID: 1290962771}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11789,11 +11789,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1290962770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10d8e56b1a3367242a39c3bd534afb67, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c2d82eab12543441babb1911a2c3d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
   movementSpeed: 0
+  attackRange: 0
   visionRange: 0
   target: {fileID: 0}
   distanceToTarget: 0

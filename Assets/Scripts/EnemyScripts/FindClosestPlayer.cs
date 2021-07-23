@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class FindClosestPlayer : MonoBehaviour
 {
-    private EnemyController enemyController; // EnemyController script attached to the enemy ... !!!cannot not have one
+    private EnemyController enemyController; // EnemyController script attached to the enemy ... !!! SHOULD ALWAYS HAVE ONE
+    private float distanceToPlayer;
 
     private void Awake()
     {
@@ -13,35 +14,49 @@ public class FindClosestPlayer : MonoBehaviour
 
     private void Start()
     {
+        distanceToPlayer = 0.0f;
     }
 
     private void Update() 
     {
         FindClosestPlayer_();
     }
+    private void FindDistanceToPlayer()
+    {
+        distanceToPlayer = Vector3.Distance(gameObject.transform.position, Player.singleton.transform.position);
+    }
     
     private void FindClosestPlayer_()
     {
-        var player = Player.singleton;
-        var distance = 0.0f;
+        FindDistanceToPlayer();
+// Vision Range
 
-        distance = Vector3.Distance(gameObject.transform.position, player.transform.position);
-
-        if (distance < enemyController.VisionRange) // if the target is in the VisionRange
+        // when the Target enters in VisionRange
+        if (enemyController.DistanceToTarget > enemyController.VisionRange && distanceToPlayer <= enemyController.VisionRange)
         {
-            enemyController.Target = player.gameObject;
-            enemyController.transform.LookAt(enemyController.Target.transform);
-            enemyController.DistanceToTarget = distance;
-            enemyController.State = EnemyState.Moving;
+            EnemyEvents.PlayerEntersVisionRange.Invoke();
         }
-
-// NOTE: Can be made to Invoke events when target is in VisionRange or not !!!
-
-        else
+        // when the Target leaves from VisionRange
+        else if (enemyController.DistanceToTarget <= enemyController.VisionRange && distanceToPlayer > enemyController.VisionRange)
         {
-            enemyController.Target = null;
-            enemyController.DistanceToTarget = 0.0f;
-            enemyController.State = EnemyState.Idle;
+            EnemyEvents.PlayerLeavesVisionRange.Invoke();
+        }   
+// ============
+
+// AttackRange
+        // when the Target enters in AttackRange
+        else if (enemyController.DistanceToTarget > enemyController.AttackRange && distanceToPlayer <= enemyController.AttackRange)
+        {
+            EnemyEvents.PlayerEntersAttackRange.Invoke();
         }
+        // when the Target leaves from AttackRange
+        else if (enemyController.DistanceToTarget <= enemyController.AttackRange && distanceToPlayer > enemyController.AttackRange)
+        {
+            EnemyEvents.PlayerLeavesAttackRange.Invoke();
+        } 
+// =============
+
+        // updates enemie's distance to the Player
+        enemyController.DistanceToTarget = distanceToPlayer;
     }
 }
