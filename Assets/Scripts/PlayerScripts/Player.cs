@@ -8,20 +8,27 @@ public class Player : PlayerController
 
     private void Awake() 
     {
+        OnControllerAwake();
+
         if (singleton == null)
             singleton = this;
         else print("More than one Player!!!");
-
-        OnAwake();
     }
 
     private void Start() 
     {
-
+        OnControllerStart();
     }
 
     private void Update() 
     {
-        OnUpdate();
+        OnControllerUpdate();
+    }
+
+    public override void InitializeController()
+    {
+        base.InitializeController();
+        this.Health = 100;
+        this.MovementSpeed = 7f;
     }
 }
