@@ -34,12 +34,12 @@ public class FindClosestPlayer : MonoBehaviour
         // when the Target enters in VisionRange
         if (enemyController.DistanceToTarget > enemyController.VisionRange && distanceToPlayer <= enemyController.VisionRange)
         {
-            EnemyEvents.PlayerEntersVisionRange.Invoke();
+            enemyController.EnemyEvents.PlayerEntersVisionRange.Invoke();
         }
         // when the Target leaves from VisionRange
         else if (enemyController.DistanceToTarget <= enemyController.VisionRange && distanceToPlayer > enemyController.VisionRange)
         {
-            EnemyEvents.PlayerLeavesVisionRange.Invoke();
+            enemyController.EnemyEvents.PlayerLeavesVisionRange.Invoke();
         }   
 // ============
 
@@ -47,12 +47,12 @@ public class FindClosestPlayer : MonoBehaviour
         // when the Target enters in AttackRange
         else if (enemyController.DistanceToTarget > enemyController.AttackRange && distanceToPlayer <= enemyController.AttackRange)
         {
-            EnemyEvents.PlayerEntersAttackRange.Invoke();
+            enemyController.EnemyEvents.PlayerEntersAttackRange.Invoke();
         }
         // when the Target leaves from AttackRange
         else if (enemyController.DistanceToTarget <= enemyController.AttackRange && distanceToPlayer > enemyController.AttackRange)
         {
-            EnemyEvents.PlayerLeavesAttackRange.Invoke();
+            enemyController.EnemyEvents.PlayerLeavesAttackRange.Invoke();
         } 
 // =============
 

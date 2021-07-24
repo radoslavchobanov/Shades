@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -6,31 +7,49 @@ using System;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float movementSpeed;
+    [SerializeField] private float health;
+
+    public Slider healthBarSlider;
+
+    public bool isDead;
+
+#region GETTERS AND SETTERS
+    public float MovementSpeed { get => movementSpeed; set => movementSpeed = value;}
+    public float Health { get => health; set => health = value;}
+
+#endregion
 
     float horizontal;
     float vertical;
 
-    protected void OnAwake() 
+    protected void OnControllerAwake() 
     {
-        InitializeVars();
+        InitializeController();
     }
-    protected void OnStart() 
+    protected void OnControllerStart()
     {
+        if (healthBarSlider == null)
+            print("Player's healthbar is not initialised !!!");
+        else
+        {
+            healthBarSlider.value = healthBarSlider.maxValue = Health;
+        }
 
+        isDead = false;
     }
 
-    protected void OnUpdate()
+    protected void OnControllerUpdate()
     {
         Move();
     }
-
-    private void InitializeVars()
+    protected void OnDead()
     {
-        movementSpeed = 5f;
-
-        horizontal = 0f;
-        vertical = 0f;
+        // Dead animation ... etc
+        Debug.Log("Player is Dead !");
+        isDead = true;
     }
+
+    public virtual void InitializeController() {}
 
     private void Move()
     {
@@ -42,5 +61,19 @@ public class PlayerController : MonoBehaviour
     {
         this.horizontal = -horizontal;
         this.vertical = vertical;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        // Take damage animation
+        Debug.Log("Player takes " + damage + " damage");
+
+        Health -= damage;
+        healthBarSlider.value = Health;
+        
+        if (Health <= 0)
+        {
+            OnDead();
+        }
     }
 }
