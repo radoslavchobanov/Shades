@@ -18929,11 +18929,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4430823627761757219, guid: 7ea1ee96d2135154b83b406ffe365570, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4430823627761757219, guid: 7ea1ee96d2135154b83b406ffe365570, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4430823627761757219, guid: 7ea1ee96d2135154b83b406ffe365570, type: 3}
       propertyPath: m_AnchorMin.x

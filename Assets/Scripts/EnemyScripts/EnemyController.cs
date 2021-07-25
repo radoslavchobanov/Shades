@@ -12,6 +12,7 @@ public class EnemyEvents
     public UnityEvent PlayerEntersAttackRange = new UnityEvent();
     public UnityEvent PlayerLeavesAttackRange = new UnityEvent();
 }
+// reused code ... better RandomMovement system is a must !
 public struct RandomMovementVars
 {
     public float latestDirectionChangeTime;
@@ -99,7 +100,6 @@ public class EnemyController : MonoBehaviour
         switch (State)
         {
             case EnemyState.Idle: 
-                // to make the enemy walk around randomly
                 MoveAround();
                 break;
 
