@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum EnemyState {Idle, MovingToTarget, Attacking};
+public enum EnemyState {Idle, Roaming, MovingToTarget, Attacking};
 public enum EnemyAttackType { Melee, Range };
 public class EnemyEvents
 {
@@ -11,15 +11,6 @@ public class EnemyEvents
     public UnityEvent PlayerLeavesVisionRange = new UnityEvent();
     public UnityEvent PlayerEntersAttackRange = new UnityEvent();
     public UnityEvent PlayerLeavesAttackRange = new UnityEvent();
-}
-// reused code ... better RandomMovement system is a must !
-public struct RandomMovementVars
-{
-    public float latestDirectionChangeTime;
-    public float directionChangeTime;
-    public float characterVelocity;
-    public Vector2 movementDirection;
-    public Vector2 movementPerSecond;
 }
 
 
@@ -49,7 +40,7 @@ public class EnemyController : MonoBehaviour
 
     public EnemyEvents EnemyEvents; // Events for this gameObject
     private float timeForNextAttack = 0;
-    RandomMovementVars randomMovementVars;
+    RoamingMovementVars roamingMovementVars;
 
 
 #region GETTERS AND SETTERS
@@ -77,6 +68,7 @@ public class EnemyController : MonoBehaviour
     private void Start() 
     {
         InitializeControllerVars();
+        InitializeRoamingVars();
 
     // Add listeners to EnemyEvents ==================================================
         EnemyEvents.PlayerEntersVisionRange.AddListener(OnPlayerEntersVisionRange);
@@ -85,14 +77,6 @@ public class EnemyController : MonoBehaviour
         EnemyEvents.PlayerLeavesAttackRange.AddListener(OnPlayerLeavesAttackRange);
     // ===============================================================================
 
-    // Initialize RandomMovementVars struct ==========================================
-        randomMovementVars = new RandomMovementVars()
-        {
-            directionChangeTime = 3f,
-            latestDirectionChangeTime = 0f,
-        };
-        calcuateNewMovementVector();
-    // ===============================================================================
     }
 
     private void Update()
@@ -100,7 +84,11 @@ public class EnemyController : MonoBehaviour
         switch (State)
         {
             case EnemyState.Idle: 
-                MoveAround();
+                Idle();
+                break;
+
+            case EnemyState.Roaming:
+                RoamAround();
                 break;
 
             case EnemyState.MovingToTarget:
@@ -122,22 +110,68 @@ public class EnemyController : MonoBehaviour
 
         EnemyEvents = new EnemyEvents();
     }
-
     public virtual void InitializeControllerVars() {}
-
-    private void MoveAround()
+    public virtual void InitializeRoamingVars() // BASE Initialize of roamingMovementVars struct
     {
-        //if the changeTime was reached, calculate a new movement vector
-        if (Time.time - randomMovementVars.latestDirectionChangeTime > randomMovementVars.directionChangeTime)
+        roamingMovementVars = new RoamingMovementVars()
         {
-            randomMovementVars.latestDirectionChangeTime = Time.time;
-            calcuateNewMovementVector();
+            arrived = true,
+            finishedIdle = false,
+            roamingMovementSpeed = movementSpeed/3,
+
+            isIdle = roamingMovementVars.ShouldIdleOrNot(),
+            idleStartTime = 0f,
+            idleDuration = roamingMovementVars.GetIdleDuration(),
+        };
+    }
+
+    private void Idle()
+    {
+        // Idle animation
+        if (roamingMovementVars.finishedIdle)
+        {
+            roamingMovementVars.arrived = true; // in order always to enter in MoveAround function arrived, so it will calculate new direction
+            roamingMovementVars.roamStartPoint = gameObject.transform.position;
+            
+            State = EnemyState.Roaming;
         }
-        
-        //move enemy: 
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x + (randomMovementVars.movementPerSecond.x * Time.deltaTime),
-                                        gameObject.transform.position.y, 
-                                        gameObject.transform.position.z + (randomMovementVars.movementPerSecond.y * Time.deltaTime));
+        else
+        {
+            if (Time.time - roamingMovementVars.idleStartTime >= roamingMovementVars.idleDuration)
+            {
+                roamingMovementVars.finishedIdle = true;
+            }
+        }
+    }
+
+    // Think about making RoamAround and Idle functions Coroutine
+    private void RoamAround()
+    {
+        if (roamingMovementVars.arrived)
+        {
+            roamingMovementVars.destinationPoint = GenerateRoamingPointFromGivenPoint(roamingMovementVars.roamStartPoint, 2, 2);
+
+            Debug.Log(roamingMovementVars.destinationPoint); // printing the next roaming point
+
+            roamingMovementVars.arrived = false;
+        }
+        else
+        {
+            MoveForwardpoint(roamingMovementVars.destinationPoint, roamingMovementVars.roamingMovementSpeed);
+            if (Vector3.Distance(transform.position, roamingMovementVars.destinationPoint) <= 0.1f)
+            {   
+                roamingMovementVars.arrived = true;
+
+                // REALLY BAD CODE ... Make it better if possible
+                if (roamingMovementVars.ShouldIdleOrNot())
+                {
+                    roamingMovementVars.idleStartTime = Time.time;
+                    roamingMovementVars.idleDuration = roamingMovementVars.GetIdleDuration();
+                    roamingMovementVars.finishedIdle = false;
+                    State = EnemyState.Idle;
+                }
+            }
+        }
     }
     private void MoveTowardsTarget()
     {
@@ -147,16 +181,17 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            FaceTarget();
-            MoveForward();
+            MoveForwardpoint(Target.transform.position, movementSpeed);
         }
     }
-    private void MoveForward()
+    private void MoveForwardpoint(Vector3 point, float movementSpeed)
     {
         // Run animation here :)
 
-        // changing the position of the enemy unit each frame towards the targeted Player
-        gameObject.transform.position += GetDirectionToTarget() * Time.deltaTime * movementSpeed;
+        // gameObject.transform.LookAt(point); // in order to look at the point
+
+        // changing the position of the enemy unit each frame towards the targeted point
+        gameObject.transform.position += GetDirectionToPoint(point).normalized * Time.deltaTime * movementSpeed;
 
         timeForNextAttack = Time.time + (1 / AttackSpeed); // in order not to attack instantly when target is reached
     }
@@ -172,27 +207,22 @@ public class EnemyController : MonoBehaviour
             timeForNextAttack = Time.time + (1 / AttackSpeed);
         }
     }
-    private void FaceTarget()
+
+    private Vector3 GenerateRandomPointInRange(float minX, float maxX, float minZ, float maxZ)
     {
-        transform.LookAt(Target.transform);
+        return new Vector3(Random.Range(minX, maxX), //x
+                    gameObject.transform.position.y, // y
+                    Random.Range(minZ, maxZ)); //z
     }
-    
-    public Vector3 GetDirectionToTarget()
+    private Vector3 GenerateRoamingPointFromGivenPoint(Vector3 point, float offsetX, float offsetZ)
     {
-        float targetX = Target.transform.position.x;
-        float targetZ = Target.transform.position.z;
-
-        float enemyX = gameObject.transform.position.x;
-        float enemyZ = gameObject.transform.position.z;
-
-        Vector3 headingTowardTarget = new Vector3(targetX - enemyX, 0, targetZ - enemyZ);
+        return GenerateRandomPointInRange(point.x - offsetX, point.x + offsetX, 
+                                            point.z - offsetZ, point.z + offsetZ);
+    }
+    public Vector3 GetDirectionToPoint(Vector3 point)
+    {
+        Vector3 headingTowardTarget = new Vector3(point.x - transform.position.x, 0, point.z - transform.position.z);
         return headingTowardTarget / distanceToTarget;
-    }
-    private void calcuateNewMovementVector()
-    {
-        //create a random direction vector with the magnitude of 1, later multiply it with the velocity of the enemy
-        randomMovementVars.movementDirection = new Vector2(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f)).normalized;
-        randomMovementVars.movementPerSecond = randomMovementVars.movementDirection * movementSpeed/3;
     }
 
     private void OnPlayerEntersVisionRange()
@@ -208,8 +238,18 @@ public class EnemyController : MonoBehaviour
         Debug.Log("Player Left Vision Range! ");
 
         Target = null;
+        roamingMovementVars.roamStartPoint = gameObject.transform.position;
 
-        State = EnemyState.Idle;
+        if (roamingMovementVars.ShouldIdleOrNot())
+        {
+            roamingMovementVars.idleStartTime = Time.time;
+            roamingMovementVars.idleDuration = roamingMovementVars.GetIdleDuration();
+            State = EnemyState.Idle;
+        }
+        else
+        {
+            State = EnemyState.Roaming;
+        }
     }
     private void OnPlayerEntersAttackRange()
     {
