@@ -129,10 +129,7 @@ public class EnemyController : MonoBehaviour
     {
         // Idle animation
         if (roamingMovementVars.finishedIdle)
-        {
-            roamingMovementVars.arrived = true; // in order always to enter in MoveAround function arrived, so it will calculate new direction
-            roamingMovementVars.roamStartPoint = gameObject.transform.position;
-            
+        { 
             State = EnemyState.Roaming;
         }
         else
@@ -151,7 +148,7 @@ public class EnemyController : MonoBehaviour
         {
             roamingMovementVars.destinationPoint = GenerateRoamingPointFromGivenPoint(roamingMovementVars.roamStartPoint, 2, 2);
 
-            Debug.Log(roamingMovementVars.destinationPoint); // printing the next roaming point
+            Debugger.Log(this, "Next destination point -> " + roamingMovementVars.destinationPoint); // printing the next roaming point
 
             roamingMovementVars.arrived = false;
         }
@@ -177,7 +174,7 @@ public class EnemyController : MonoBehaviour
     {
         if (Target == null)
         {
-            Debug.Log(this.gameObject.name + "has NO Target !!!");
+            Debugger.Log(this, "has NO Target !!!");
         }
         else
         {
@@ -227,7 +224,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnPlayerEntersVisionRange()
     {
-        Debug.Log("Player Enters Vision Range! ");
+        Debugger.Log(this, "Player Enters Vision Range! ");
 
         Target = Player.singleton.gameObject;
 
@@ -235,10 +232,11 @@ public class EnemyController : MonoBehaviour
     }
     private void OnPlayerLeavesVisionRange()
     {
-        Debug.Log("Player Left Vision Range! ");
+        Debugger.Log(this, "Player Left Vision Range! ");
 
         Target = null;
         roamingMovementVars.roamStartPoint = gameObject.transform.position;
+        roamingMovementVars.arrived = true; // in order always to enter in MoveAround function arrived, so it will calculate new direction
 
         if (roamingMovementVars.ShouldIdleOrNot())
         {
@@ -253,13 +251,13 @@ public class EnemyController : MonoBehaviour
     }
     private void OnPlayerEntersAttackRange()
     {
-        Debug.Log("Player Enters Attack Range! ");
+        Debugger.Log(this, "Player Enters Attack Range! ");
 
         State = EnemyState.Attacking;
     }
     private void OnPlayerLeavesAttackRange()
     {
-        Debug.Log("Player Left Attack Range! ");
+        Debugger.Log(this, "Player Left Attack Range! ");
         
         // To check if still has a targeted Player
         if (Target)
