@@ -84,6 +84,33 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Attacks"",
+            ""id"": ""9312386a-4773-428a-bd0d-f47423bf9c7c"",
+            ""actions"": [
+                {
+                    ""name"": ""LeftMouseClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""5b36919c-9bd3-4146-96d7-18ea5e91456a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""00007343-6f90-4438-953b-5316626829ab"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftMouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -91,6 +118,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
         // GroundMovement
         m_GroundMovement = asset.FindActionMap("GroundMovement", throwIfNotFound: true);
         m_GroundMovement_HorizontalMovement = m_GroundMovement.FindAction("HorizontalMovement", throwIfNotFound: true);
+        // Attacks
+        m_Attacks = asset.FindActionMap("Attacks", throwIfNotFound: true);
+        m_Attacks_LeftMouseClick = m_Attacks.FindAction("LeftMouseClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -169,8 +199,45 @@ public class @InputSystem : IInputActionCollection, IDisposable
         }
     }
     public GroundMovementActions @GroundMovement => new GroundMovementActions(this);
+
+    // Attacks
+    private readonly InputActionMap m_Attacks;
+    private IAttacksActions m_AttacksActionsCallbackInterface;
+    private readonly InputAction m_Attacks_LeftMouseClick;
+    public struct AttacksActions
+    {
+        private @InputSystem m_Wrapper;
+        public AttacksActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @LeftMouseClick => m_Wrapper.m_Attacks_LeftMouseClick;
+        public InputActionMap Get() { return m_Wrapper.m_Attacks; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(AttacksActions set) { return set.Get(); }
+        public void SetCallbacks(IAttacksActions instance)
+        {
+            if (m_Wrapper.m_AttacksActionsCallbackInterface != null)
+            {
+                @LeftMouseClick.started -= m_Wrapper.m_AttacksActionsCallbackInterface.OnLeftMouseClick;
+                @LeftMouseClick.performed -= m_Wrapper.m_AttacksActionsCallbackInterface.OnLeftMouseClick;
+                @LeftMouseClick.canceled -= m_Wrapper.m_AttacksActionsCallbackInterface.OnLeftMouseClick;
+            }
+            m_Wrapper.m_AttacksActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @LeftMouseClick.started += instance.OnLeftMouseClick;
+                @LeftMouseClick.performed += instance.OnLeftMouseClick;
+                @LeftMouseClick.canceled += instance.OnLeftMouseClick;
+            }
+        }
+    }
+    public AttacksActions @Attacks => new AttacksActions(this);
     public interface IGroundMovementActions
     {
         void OnHorizontalMovement(InputAction.CallbackContext context);
+    }
+    public interface IAttacksActions
+    {
+        void OnLeftMouseClick(InputAction.CallbackContext context);
     }
 }

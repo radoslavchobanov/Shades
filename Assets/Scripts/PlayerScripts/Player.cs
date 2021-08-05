@@ -6,7 +6,7 @@ public class Player : PlayerController
 {
     public static Player singleton;
 
-    private void Awake() 
+    private void Awake()
     {
         OnControllerAwake();
 
@@ -15,20 +15,26 @@ public class Player : PlayerController
         else print("More than one Player!!!");
     }
 
-    private void Start() 
+    private void Start()
     {
         OnControllerStart();
     }
 
-    private void Update() 
+    private void Update()
     {
         OnControllerUpdate();
     }
 
+    private void FixedUpdate()
+    {
+        OnControllerFixedUpdate();
+    }
+
     public override void InitializeController()
     {
-        base.InitializeController();
         this.Health = 100;
         this.MovementSpeed = 7f;
+
+        base.InitializeController();
     }
 }

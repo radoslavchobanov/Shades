@@ -19,6 +19,5 @@ public class Constants : MonoBehaviour
 
     private void Start() 
     {
-        DEBUG = true;
     }
 }
