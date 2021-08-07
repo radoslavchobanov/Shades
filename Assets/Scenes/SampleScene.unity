@@ -8353,8 +8353,8 @@ GameObject:
   - component: {fileID: 957227976}
   - component: {fileID: 957227975}
   - component: {fileID: 957227974}
-  - component: {fileID: 957227977}
   - component: {fileID: 957227978}
+  - component: {fileID: 957227977}
   m_Layer: 0
   m_Name: PlayerObject
   m_TagString: Player
@@ -8379,8 +8379,6 @@ MonoBehaviour:
   currentState: 0
   healthBarSlider: {fileID: 291923060534834460}
   isDead: 0
-  horizontal: 0
-  vertical: 0
 --- !u!136 &957227975
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8464,12 +8462,24 @@ MonoBehaviour:
     m_ActionId: 9733a792-3020-4047-bdf0-075715144fe6
     m_ActionName: GroundMovement/HorizontalMovement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 5b36919c-9bd3-4146-96d7-18ea5e91456a
-    m_ActionName: Attacks/LeftMouseClick[/Mouse/leftButton]
+      m_Calls:
+      - m_Target: {fileID: 957227977}
+        m_TargetAssemblyTypeName: PlayerInputHandler, Assembly-CSharp
+        m_MethodName: OnLeftMouseClick
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9f36c936-b23c-4ab0-898e-214f3180c86c
+    m_ActionName: GroundMovement/LeftMouseClick[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: GroundMovement
+  m_DefaultActionMap: GameplayControlls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &968991783
@@ -11723,7 +11733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1290962771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16179,7 +16189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19efaf39f24e0444a8c1215bc07a7b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DEBUG: 0
+  DEBUG: 1
 --- !u!1 &1810016231
 GameObject:
   m_ObjectHideFlags: 0

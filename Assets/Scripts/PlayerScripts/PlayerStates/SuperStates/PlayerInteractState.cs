@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGroundState : PlayerState
+public class PlayerInteractState : PlayerState
 {
-    protected Vector2 moveInput;
+    protected float leftMouseClickInput; // 0 -> not clicked || 1 -> clicked
 
-    public PlayerGroundState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
+    public PlayerInteractState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
         : base(playerController, stateMachine, state)
     { }
 
@@ -14,23 +14,26 @@ public class PlayerGroundState : PlayerState
     {
         base.DoChecks();
     }
+
     public override void Enter()
     {
         base.Enter();
     }
+
     public override void Exit()
     {
         base.Exit();
     }
+
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
 
-        moveInput = playerController.InputHandler.HorizontalMovementInput;
+        leftMouseClickInput = playerController.InputHandler.LeftMouseClick;
     }
+
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
     }
-
 }

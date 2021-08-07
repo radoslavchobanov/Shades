@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGroundState : PlayerState
+public class PlayerAttackState : PlayerInteractState
 {
-    protected Vector2 moveInput;
 
-    public PlayerGroundState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
+    public PlayerAttackState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
         : base(playerController, stateMachine, state)
     { }
 
@@ -14,23 +13,26 @@ public class PlayerGroundState : PlayerState
     {
         base.DoChecks();
     }
+
     public override void Enter()
     {
         base.Enter();
     }
+
     public override void Exit()
     {
         base.Exit();
     }
+
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
 
-        moveInput = playerController.InputHandler.HorizontalMovementInput;
+        // if clicked object is with tag enemy --> State = Attacking
     }
+
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
     }
-
 }

@@ -15,13 +15,21 @@ public class @InputSystem : IInputActionCollection, IDisposable
     ""name"": ""InputSystem"",
     ""maps"": [
         {
-            ""name"": ""GroundMovement"",
+            ""name"": ""GameplayControlls"",
             ""id"": ""68bcd418-ce34-4933-820b-9c90cb5e8d58"",
             ""actions"": [
                 {
                     ""name"": ""HorizontalMovement"",
                     ""type"": ""Button"",
                     ""id"": ""9733a792-3020-4047-bdf0-075715144fe6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f36c936-b23c-4ab0-898e-214f3180c86c"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -82,31 +90,15 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""action"": ""HorizontalMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                }
-            ]
-        },
-        {
-            ""name"": ""Attacks"",
-            ""id"": ""9312386a-4773-428a-bd0d-f47423bf9c7c"",
-            ""actions"": [
-                {
-                    ""name"": ""LeftMouseClick"",
-                    ""type"": ""Button"",
-                    ""id"": ""5b36919c-9bd3-4146-96d7-18ea5e91456a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                }
-            ],
-            ""bindings"": [
+                },
                 {
                     ""name"": """",
-                    ""id"": ""00007343-6f90-4438-953b-5316626829ab"",
+                    ""id"": ""112cd334-fd47-42f7-910f-c63d233d39a8"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""LeftMouseClick"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -115,12 +107,10 @@ public class @InputSystem : IInputActionCollection, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // GroundMovement
-        m_GroundMovement = asset.FindActionMap("GroundMovement", throwIfNotFound: true);
-        m_GroundMovement_HorizontalMovement = m_GroundMovement.FindAction("HorizontalMovement", throwIfNotFound: true);
-        // Attacks
-        m_Attacks = asset.FindActionMap("Attacks", throwIfNotFound: true);
-        m_Attacks_LeftMouseClick = m_Attacks.FindAction("LeftMouseClick", throwIfNotFound: true);
+        // GameplayControlls
+        m_GameplayControlls = asset.FindActionMap("GameplayControlls", throwIfNotFound: true);
+        m_GameplayControlls_HorizontalMovement = m_GameplayControlls.FindAction("HorizontalMovement", throwIfNotFound: true);
+        m_GameplayControlls_Interact = m_GameplayControlls.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -167,77 +157,49 @@ public class @InputSystem : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // GroundMovement
-    private readonly InputActionMap m_GroundMovement;
-    private IGroundMovementActions m_GroundMovementActionsCallbackInterface;
-    private readonly InputAction m_GroundMovement_HorizontalMovement;
-    public struct GroundMovementActions
+    // GameplayControlls
+    private readonly InputActionMap m_GameplayControlls;
+    private IGameplayControllsActions m_GameplayControllsActionsCallbackInterface;
+    private readonly InputAction m_GameplayControlls_HorizontalMovement;
+    private readonly InputAction m_GameplayControlls_Interact;
+    public struct GameplayControllsActions
     {
         private @InputSystem m_Wrapper;
-        public GroundMovementActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @HorizontalMovement => m_Wrapper.m_GroundMovement_HorizontalMovement;
-        public InputActionMap Get() { return m_Wrapper.m_GroundMovement; }
+        public GameplayControllsActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
+        public InputAction @HorizontalMovement => m_Wrapper.m_GameplayControlls_HorizontalMovement;
+        public InputAction @Interact => m_Wrapper.m_GameplayControlls_Interact;
+        public InputActionMap Get() { return m_Wrapper.m_GameplayControlls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(GroundMovementActions set) { return set.Get(); }
-        public void SetCallbacks(IGroundMovementActions instance)
+        public static implicit operator InputActionMap(GameplayControllsActions set) { return set.Get(); }
+        public void SetCallbacks(IGameplayControllsActions instance)
         {
-            if (m_Wrapper.m_GroundMovementActionsCallbackInterface != null)
+            if (m_Wrapper.m_GameplayControllsActionsCallbackInterface != null)
             {
-                @HorizontalMovement.started -= m_Wrapper.m_GroundMovementActionsCallbackInterface.OnHorizontalMovement;
-                @HorizontalMovement.performed -= m_Wrapper.m_GroundMovementActionsCallbackInterface.OnHorizontalMovement;
-                @HorizontalMovement.canceled -= m_Wrapper.m_GroundMovementActionsCallbackInterface.OnHorizontalMovement;
+                @HorizontalMovement.started -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnHorizontalMovement;
+                @HorizontalMovement.performed -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnHorizontalMovement;
+                @HorizontalMovement.canceled -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnHorizontalMovement;
+                @Interact.started -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnInteract;
             }
-            m_Wrapper.m_GroundMovementActionsCallbackInterface = instance;
+            m_Wrapper.m_GameplayControllsActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @HorizontalMovement.started += instance.OnHorizontalMovement;
                 @HorizontalMovement.performed += instance.OnHorizontalMovement;
                 @HorizontalMovement.canceled += instance.OnHorizontalMovement;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
-    public GroundMovementActions @GroundMovement => new GroundMovementActions(this);
-
-    // Attacks
-    private readonly InputActionMap m_Attacks;
-    private IAttacksActions m_AttacksActionsCallbackInterface;
-    private readonly InputAction m_Attacks_LeftMouseClick;
-    public struct AttacksActions
-    {
-        private @InputSystem m_Wrapper;
-        public AttacksActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
-        public InputAction @LeftMouseClick => m_Wrapper.m_Attacks_LeftMouseClick;
-        public InputActionMap Get() { return m_Wrapper.m_Attacks; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(AttacksActions set) { return set.Get(); }
-        public void SetCallbacks(IAttacksActions instance)
-        {
-            if (m_Wrapper.m_AttacksActionsCallbackInterface != null)
-            {
-                @LeftMouseClick.started -= m_Wrapper.m_AttacksActionsCallbackInterface.OnLeftMouseClick;
-                @LeftMouseClick.performed -= m_Wrapper.m_AttacksActionsCallbackInterface.OnLeftMouseClick;
-                @LeftMouseClick.canceled -= m_Wrapper.m_AttacksActionsCallbackInterface.OnLeftMouseClick;
-            }
-            m_Wrapper.m_AttacksActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @LeftMouseClick.started += instance.OnLeftMouseClick;
-                @LeftMouseClick.performed += instance.OnLeftMouseClick;
-                @LeftMouseClick.canceled += instance.OnLeftMouseClick;
-            }
-        }
-    }
-    public AttacksActions @Attacks => new AttacksActions(this);
-    public interface IGroundMovementActions
+    public GameplayControllsActions @GameplayControlls => new GameplayControllsActions(this);
+    public interface IGameplayControllsActions
     {
         void OnHorizontalMovement(InputAction.CallbackContext context);
-    }
-    public interface IAttacksActions
-    {
-        void OnLeftMouseClick(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }
