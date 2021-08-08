@@ -20,6 +20,8 @@ public class PlayerAttackState : PlayerInteractState
 
         playerController.transform.LookAt(playerController.GetPointerPosByGroundPlane());
 
+        playerController.Animator.SetBool("Shoot", true);
+
         // melee : do dmg in front of some radius
         // range : shoot projectile
 
@@ -29,13 +31,13 @@ public class PlayerAttackState : PlayerInteractState
     public override void Exit()
     {
         base.Exit();
+        
+        // playerController.Animator.SetBool("Shoot", false);
     }
 
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
-
-        // if clicked object is with tag enemy --> State = Attacking
     }
 
     public override void PhysicalUpdates()

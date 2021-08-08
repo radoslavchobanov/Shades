@@ -27,15 +27,19 @@ public class PlayerGroundState : PlayerState
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
-
-        moveInput = playerController.InputHandler.HorizontalMovementInput;
+        
+        // External - Other State Input ---------------------------------
         leftMouseClickInput = playerController.InputHandler.LeftMouseClick;
-
         if (leftMouseClickInput)
         {
             playerController.InputHandler.DoInteract();
             stateMachine.ChangeState(playerController.AttackState);
         }
+        // --------------------------------------------------------------
+
+        // Internal - GroundStateMovementInput --------------------------
+        moveInput = playerController.InputHandler.HorizontalMovementInput;
+        // --------------------------------------------------------------
     }
     public override void PhysicalUpdates()
     {

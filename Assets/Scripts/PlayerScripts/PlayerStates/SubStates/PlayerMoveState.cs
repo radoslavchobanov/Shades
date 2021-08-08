@@ -33,7 +33,7 @@ public class PlayerMoveState : PlayerGroundState
         }
     }
 
-    public override void PhysicalUpdates() // Physical updates while in Moving state !!! Executes just after Update() ends
+    public override void PhysicalUpdates() // Physical updates while in Moving state
     {
         base.PhysicalUpdates();
 
