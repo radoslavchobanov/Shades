@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public PlayerStateMachine StateMachine { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
+    public PlayerAttackState AttackState { get; private set; }
 
     #endregion
 
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
         StateMachine = new PlayerStateMachine();
         IdleState = new PlayerIdleState(this, StateMachine, global::PlayerState.State.Idle);
         MoveState = new PlayerMoveState(this, StateMachine, global::PlayerState.State.Running);
+        AttackState = new PlayerAttackState(this, StateMachine, global::PlayerState.State.Attacking);
 
         InitializeController();
     }
@@ -80,6 +82,26 @@ public class PlayerController : MonoBehaviour
             healthBarSlider.value = healthBarSlider.maxValue = Health;
         }
         isDead = false;
+    }
+
+    public Vector3 GetPointerPosByGroundPlane() // returns the mouse pointer point on the ground
+    {
+        Vector3 hitPoint = new Vector3();
+
+        // this creates a horizontal plane passing through this object's center
+        var plane = new Plane(Vector3.up, transform.position);
+        // create a ray from the mousePosition
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // plane.Raycast returns the distance from the ray start to the hit point
+        float distance;
+        if (plane.Raycast(ray, out distance))
+        {
+            // some point of the plane was hit - get its coordinates
+            hitPoint = ray.GetPoint(distance);
+            // use the hitPoint to aim your cannon
+        }
+
+        return hitPoint;
     }
 
     protected void OnDead()

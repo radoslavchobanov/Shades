@@ -16,17 +16,11 @@ public class PlayerIdleState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
-
-        Debugger.Log(playerController.gameObject, "Enters Idle state");
-
-        playerController.CurrentState = _State;
     }
 
     public override void Exit()
     {
         base.Exit();
-
-        Debugger.Log(playerController.gameObject, "Exits Idle state");
     }
     public override void LogicalUpdates()
     {
@@ -41,8 +35,6 @@ public class PlayerIdleState : PlayerGroundState
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
-
-        Debugger.Log(playerController.gameObject, "is Idling");
 
         playerController.Animator.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
     }

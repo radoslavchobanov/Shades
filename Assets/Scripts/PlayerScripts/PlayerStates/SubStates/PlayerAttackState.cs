@@ -17,6 +17,13 @@ public class PlayerAttackState : PlayerInteractState
     public override void Enter()
     {
         base.Enter();
+
+        playerController.transform.LookAt(playerController.GetPointerPosByGroundPlane());
+
+        // melee : do dmg in front of some radius
+        // range : shoot projectile
+
+        isInteractionDone = true;
     }
 
     public override void Exit()

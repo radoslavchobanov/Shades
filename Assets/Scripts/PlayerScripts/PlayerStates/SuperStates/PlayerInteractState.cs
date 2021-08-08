@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInteractState : PlayerState
 {
-    protected float leftMouseClickInput; // 0 -> not clicked || 1 -> clicked
+    protected bool isInteractionDone;
 
     public PlayerInteractState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
         : base(playerController, stateMachine, state)
@@ -18,6 +18,8 @@ public class PlayerInteractState : PlayerState
     public override void Enter()
     {
         base.Enter();
+
+        isInteractionDone = false;
     }
 
     public override void Exit()
@@ -29,7 +31,8 @@ public class PlayerInteractState : PlayerState
     {
         base.LogicalUpdates();
 
-        leftMouseClickInput = playerController.InputHandler.LeftMouseClick;
+        if (isInteractionDone)
+            stateMachine.ChangeState(playerController.IdleState);
     }
 
     public override void PhysicalUpdates()

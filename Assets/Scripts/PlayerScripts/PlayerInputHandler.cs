@@ -6,8 +6,10 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour
 {
     public Vector2 HorizontalMovementInput { get; private set; }
-    public float LeftMouseClick { get; private set; }
-    
+
+    public bool LeftMouseClick { get; private set; }
+    public GameObject objectClicked { get; private set; }
+
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
@@ -16,6 +18,8 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnLeftMouseClick(InputAction.CallbackContext context)
     {
-        LeftMouseClick = context.ReadValue<float>();
+        if (context.started)
+            LeftMouseClick = true;
     }
+    public void DoInteract() => LeftMouseClick = false;
 }
