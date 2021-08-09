@@ -11,10 +11,9 @@ public class LaunchProjectileFinished : MonoBehaviour
     {
         if (Player.singleton.CurrentState == PlayerState.State.Attacking)
         {
-            GameObject ball = Instantiate(projectile,
-            transform.position, transform.rotation);
+            GameObject ball = Instantiate(projectile, transform.position, transform.rotation);
 
-            ball.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, launchVelocity,0));
+            ball.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * launchVelocity);
         }
     }
 }

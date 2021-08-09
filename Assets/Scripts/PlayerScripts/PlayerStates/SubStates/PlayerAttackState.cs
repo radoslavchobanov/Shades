@@ -23,10 +23,19 @@ public class PlayerAttackState : PlayerInteractState
 
         playerController.transform.LookAt(playerController.GetPointerPosByGroundPlane());
 
-        playerController.Animator.SetBool("Shoot", true);
+        if (Time.time >= playerController.timeForNextAttack) // if the time for next attack has come
+        {
+            playerController.Animator.SetBool("Shoot", true);
+
+        // range : shoot projectile
+            playerController.Shoot(playerController.BulletPrefab, 
+                                    playerController.ShootingStartPoint.transform.position, 
+                                    playerController.ShootingStartPoint.transform.localRotation);
+        // -----------------------
 
         // melee : do dmg in front of some radius
-        // range : shoot projectile
+        // --------------------------------------
+        }
 
         isInteractionDone = true;
     }

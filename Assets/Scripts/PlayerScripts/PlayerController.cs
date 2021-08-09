@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
 
     #region Controller variables
+    [SerializeField] private float attackSpeed; // attacks per second
     [SerializeField] private float movementSpeed;
     [SerializeField] private float health;
     [SerializeField] private PlayerState.State currentState;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
 
     #region GETTERS AND SETTERS
+    public float AttackSpeed { get => attackSpeed; set => attackSpeed = value; }
     public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
     public float Health { get => health; set => health = value; }
     public PlayerState.State CurrentState { get => currentState; set => currentState = value; }
@@ -43,7 +45,14 @@ public class PlayerController : MonoBehaviour
 
 
     #region References
-    public AimAtPointer aimAtPointerComponent;
+    [NonSerialized] public AimAtPointer aimAtPointerComponent; // to enabled AimAtPointer.cs script
+
+    #endregion
+
+    #region Shooting vars
+    public GameObject ShootingStartPoint; // the point from where the bullet fires
+    public GameObject BulletPrefab; // prefab of the bullet. no shit.
+    public float timeForNextAttack;
 
     #endregion
 
@@ -84,6 +93,7 @@ public class PlayerController : MonoBehaviour
             healthBarSlider.value = healthBarSlider.maxValue = Health;
         }
         isDead = false;
+        timeForNextAttack = 0;
     }
 
     public Vector3 GetPointerPosByGroundPlane() // returns the mouse pointer point on the ground
@@ -104,10 +114,6 @@ public class PlayerController : MonoBehaviour
         }
 
         return hitPoint;
-    }
-    public void AimAtPointer(bool enabled)
-    {
-        aimAtPointerComponent.enabled = enabled;
     }
 
     protected void OnDead()
@@ -130,4 +136,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Shoot(GameObject bulletPrefab, Vector3 startPosition, Quaternion startRotation)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, ShootingStartPoint.transform.position, ShootingStartPoint.transform.rotation);
+
+        bullet.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 1000);
+        
+        timeForNextAttack = Time.time + (1 / AttackSpeed);
+    }
 }
