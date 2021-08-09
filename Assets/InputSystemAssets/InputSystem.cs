@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/InputSystem.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/InputSystemAssets/InputSystem.inputactions'
 
 using System;
 using System.Collections;
@@ -30,6 +30,14 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""9f36c936-b23c-4ab0-898e-214f3180c86c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ChangeAimState"",
+                    ""type"": ""Button"",
+                    ""id"": ""66832699-de31-4775-96c6-f3ac84f18bc8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -101,6 +109,17 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab2f1724-5cb1-45ae-9e2d-7d8e9ae52f66"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeAimState"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -111,6 +130,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         m_GameplayControlls = asset.FindActionMap("GameplayControlls", throwIfNotFound: true);
         m_GameplayControlls_HorizontalMovement = m_GameplayControlls.FindAction("HorizontalMovement", throwIfNotFound: true);
         m_GameplayControlls_Interact = m_GameplayControlls.FindAction("Interact", throwIfNotFound: true);
+        m_GameplayControlls_ChangeAimState = m_GameplayControlls.FindAction("ChangeAimState", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -162,12 +182,14 @@ public class @InputSystem : IInputActionCollection, IDisposable
     private IGameplayControllsActions m_GameplayControllsActionsCallbackInterface;
     private readonly InputAction m_GameplayControlls_HorizontalMovement;
     private readonly InputAction m_GameplayControlls_Interact;
+    private readonly InputAction m_GameplayControlls_ChangeAimState;
     public struct GameplayControllsActions
     {
         private @InputSystem m_Wrapper;
         public GameplayControllsActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @HorizontalMovement => m_Wrapper.m_GameplayControlls_HorizontalMovement;
         public InputAction @Interact => m_Wrapper.m_GameplayControlls_Interact;
+        public InputAction @ChangeAimState => m_Wrapper.m_GameplayControlls_ChangeAimState;
         public InputActionMap Get() { return m_Wrapper.m_GameplayControlls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -183,6 +205,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Interact.started -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnInteract;
+                @ChangeAimState.started -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnChangeAimState;
+                @ChangeAimState.performed -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnChangeAimState;
+                @ChangeAimState.canceled -= m_Wrapper.m_GameplayControllsActionsCallbackInterface.OnChangeAimState;
             }
             m_Wrapper.m_GameplayControllsActionsCallbackInterface = instance;
             if (instance != null)
@@ -193,6 +218,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @ChangeAimState.started += instance.OnChangeAimState;
+                @ChangeAimState.performed += instance.OnChangeAimState;
+                @ChangeAimState.canceled += instance.OnChangeAimState;
             }
         }
     }
@@ -201,5 +229,6 @@ public class @InputSystem : IInputActionCollection, IDisposable
     {
         void OnHorizontalMovement(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnChangeAimState(InputAction.CallbackContext context);
     }
 }

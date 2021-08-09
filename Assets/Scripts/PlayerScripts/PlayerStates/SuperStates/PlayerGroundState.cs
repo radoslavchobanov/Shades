@@ -7,6 +7,7 @@ public class PlayerGroundState : PlayerState
     protected Vector2 moveInput;
 
     private bool leftMouseClickInput;
+    private bool rightMouseClickInput;
 
     public PlayerGroundState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
         : base(playerController, stateMachine, state)
@@ -27,15 +28,26 @@ public class PlayerGroundState : PlayerState
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
-        
+
         // External - Other State Input ---------------------------------
         leftMouseClickInput = playerController.InputHandler.LeftMouseClick;
         if (leftMouseClickInput)
         {
-            playerController.InputHandler.DoInteract();
             stateMachine.ChangeState(playerController.AttackState);
         }
         // --------------------------------------------------------------
+
+
+        // AimAtPointer State -------------------------------------------
+        // Ugly code !!! FIXME !!!
+        rightMouseClickInput = playerController.InputHandler.RightMouseClick;
+        if (rightMouseClickInput)
+        {
+            playerController.aimAtPointerComponent.enabled = !playerController.aimAtPointerComponent.enabled;
+            playerController.InputHandler.DoRightMouseClick();
+        }
+        // --------------------------------------------------------------
+
 
         // Internal - GroundStateMovementInput --------------------------
         moveInput = playerController.InputHandler.HorizontalMovementInput;

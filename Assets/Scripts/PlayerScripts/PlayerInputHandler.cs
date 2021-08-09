@@ -8,7 +8,10 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 HorizontalMovementInput { get; private set; }
 
     public bool LeftMouseClick { get; private set; }
+    public bool LeftMouseHold { get; private set; }
     public GameObject ObjectClicked { get; private set; }
+
+    public bool RightMouseClick { get; private set; }
 
 
     public void OnMoveInput(InputAction.CallbackContext context)
@@ -23,8 +26,21 @@ public class PlayerInputHandler : MonoBehaviour
             LeftMouseClick = true;
             ObjectClicked = GetClickedGameObject();
         }
+
+        else if (context.canceled)
+        {
+            LeftMouseClick = false;
+        }
     }
-    public void DoInteract() => LeftMouseClick = false;
+
+    public void OnRightMouseClick(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            RightMouseClick = true;
+        }
+    }
+    public void DoRightMouseClick() => RightMouseClick = false;
 
     private GameObject GetClickedGameObject()
     {

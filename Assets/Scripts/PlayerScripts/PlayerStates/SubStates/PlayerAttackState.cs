@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerInteractState
 {
+    public GameObject projectile;
+    public float launchVelocity;
+
 
     public PlayerAttackState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
         : base(playerController, stateMachine, state)
@@ -32,7 +35,7 @@ public class PlayerAttackState : PlayerInteractState
     {
         base.Exit();
         
-        // playerController.Animator.SetBool("Shoot", false);
+        playerController.Animator.SetBool("Shoot", false);
     }
 
     public override void LogicalUpdates()

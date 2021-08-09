@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
 
 
     #region References
+    public AimAtPointer aimAtPointerComponent;
 
     #endregion
 
@@ -60,6 +61,7 @@ public class PlayerController : MonoBehaviour
     {
         InputHandler = GetComponent<PlayerInputHandler>();
         Animator = GetComponentInChildren<Animator>();
+        aimAtPointerComponent = GetComponent<AimAtPointer>();
 
         StateMachine.Initialize(IdleState);
     }
@@ -103,6 +105,10 @@ public class PlayerController : MonoBehaviour
 
         return hitPoint;
     }
+    public void AimAtPointer(bool enabled)
+    {
+        aimAtPointerComponent.enabled = enabled;
+    }
 
     protected void OnDead()
     {
@@ -123,4 +129,5 @@ public class PlayerController : MonoBehaviour
             OnDead();
         }
     }
+
 }
