@@ -8,8 +8,8 @@ public class PlayerAttackState : PlayerInteractState
     public float launchVelocity;
 
 
-    public PlayerAttackState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
-        : base(playerController, stateMachine, state)
+    public PlayerAttackState(PlayerController playerController, PlayerStateManager stateManager, State state)
+        : base(playerController, stateManager, state)
     { }
 
     public override void DoChecks()

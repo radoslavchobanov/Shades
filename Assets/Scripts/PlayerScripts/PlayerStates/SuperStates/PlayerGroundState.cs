@@ -9,8 +9,8 @@ public class PlayerGroundState : PlayerState
     private bool leftMouseClickInput;
     private bool rightMouseClickInput;
 
-    public PlayerGroundState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
-        : base(playerController, stateMachine, state)
+    public PlayerGroundState(PlayerController playerController, PlayerStateManager stateManager, State state)
+        : base(playerController, stateManager, state)
     { }
 
     public override void DoChecks()
@@ -33,7 +33,7 @@ public class PlayerGroundState : PlayerState
         leftMouseClickInput = playerController.InputHandler.LeftMouseClick;
         if (leftMouseClickInput)
         {
-            stateMachine.ChangeState(playerController.AttackState);
+            stateManager.ChangeState(playerController.AttackState);
         }
         // --------------------------------------------------------------
 

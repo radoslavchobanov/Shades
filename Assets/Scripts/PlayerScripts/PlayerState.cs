@@ -6,23 +6,22 @@ using System;
 public class PlayerState
 {
     protected PlayerController playerController;
-    protected PlayerStateMachine stateMachine;
+    protected PlayerStateManager stateManager;
 
     protected float startTime;
 
     public enum State
     {
         Idle,
-        Walking,
-        Running,
+        Move,
         Attacking
     };
     public State _State { get; private set; }
 
-    public PlayerState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
+    public PlayerState(PlayerController playerController, PlayerStateManager stateManager, State state)
     {
         this.playerController = playerController;
-        this.stateMachine = stateMachine;
+        this.stateManager = stateManager;
         this._State = state;
     }
 

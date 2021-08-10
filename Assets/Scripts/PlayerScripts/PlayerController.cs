@@ -7,8 +7,8 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
-    #region StateMachine
-    public PlayerStateMachine StateMachine { get; private set; }
+    #region StateManager
+    public PlayerStateManager StateManager { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
@@ -59,10 +59,10 @@ public class PlayerController : MonoBehaviour
 
     protected void OnControllerAwake()
     {
-        StateMachine = new PlayerStateMachine();
-        IdleState = new PlayerIdleState(this, StateMachine, global::PlayerState.State.Idle);
-        MoveState = new PlayerMoveState(this, StateMachine, global::PlayerState.State.Running);
-        AttackState = new PlayerAttackState(this, StateMachine, global::PlayerState.State.Attacking);
+        StateManager = new PlayerStateManager();
+        IdleState = new PlayerIdleState(this, StateManager, global::PlayerState.State.Idle);
+        MoveState = new PlayerMoveState(this, StateManager, global::PlayerState.State.Move);
+        AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attacking);
 
         InitializeController();
     }
@@ -72,16 +72,16 @@ public class PlayerController : MonoBehaviour
         Animator = GetComponentInChildren<Animator>();
         aimAtPointerComponent = GetComponent<AimAtPointer>();
 
-        StateMachine.Initialize(IdleState);
+        StateManager.Initialize(IdleState);
     }
 
     protected void OnControllerUpdate() // this is like Update function
     {
-        StateMachine.CurrentState.LogicalUpdates();
+        StateManager.CurrentState.LogicalUpdates();
     }
     protected void OnControllerFixedUpdate()
     {
-        StateMachine.CurrentState.PhysicalUpdates();
+        StateManager.CurrentState.PhysicalUpdates();
     }
 
     public virtual void InitializeController()
