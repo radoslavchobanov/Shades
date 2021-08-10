@@ -50,6 +50,13 @@ public class PlayerAttackState : PlayerInteractState
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
+        
+        // // ??? Potential FIXME ???
+        // if (Time.time - startTime >= 0.16f) // 0.16f is the duration of the animation ?
+        // {
+        //     isInteractionDone = true;
+        // }
+        // else playerController.Animator.SetBool("Shoot", false);
     }
 
     public override void PhysicalUpdates()
