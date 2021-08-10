@@ -32,7 +32,7 @@ public class Player : PlayerController
 
     public override void InitializeController()
     {
-        this.AttackSpeed = 8;
+        this.AttackSpeed = 5;
         this.Health = 100;
         this.MovementSpeed = 7f;
 
