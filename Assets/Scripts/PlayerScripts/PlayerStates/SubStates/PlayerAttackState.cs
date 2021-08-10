@@ -8,8 +8,8 @@ public class PlayerAttackState : PlayerInteractState
     public float launchVelocity;
 
 
-    public PlayerAttackState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
-        : base(playerController, stateMachine, state)
+    public PlayerAttackState(PlayerController playerController, PlayerStateManager stateManager, State state)
+        : base(playerController, stateManager, state)
     { }
 
     public override void DoChecks()
@@ -23,10 +23,19 @@ public class PlayerAttackState : PlayerInteractState
 
         playerController.transform.LookAt(playerController.GetPointerPosByGroundPlane());
 
-        playerController.Animator.SetBool("Shoot", true);
+        if (Time.time >= playerController.timeForNextAttack) // if the time for next attack has come
+        {
+            playerController.Animator.SetBool("Shoot", true);
+
+        // range : shoot projectile
+            playerController.Shoot(playerController.BulletPrefab, 
+                                    playerController.ShootingStartPoint.transform.position, 
+                                    playerController.ShootingStartPoint.transform.localRotation);
+        // -----------------------
 
         // melee : do dmg in front of some radius
-        // range : shoot projectile
+        // --------------------------------------
+        }
 
         isInteractionDone = true;
     }
@@ -41,6 +50,13 @@ public class PlayerAttackState : PlayerInteractState
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
+        
+        // // ??? Potential FIXME ???
+        // if (Time.time - startTime >= 0.16f) // 0.16f is the duration of the animation ?
+        // {
+        //     isInteractionDone = true;
+        // }
+        // else playerController.Animator.SetBool("Shoot", false);
     }
 
     public override void PhysicalUpdates()

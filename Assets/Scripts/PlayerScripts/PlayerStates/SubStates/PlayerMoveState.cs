@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerMoveState : PlayerGroundState
 {
-    public PlayerMoveState(PlayerController playerController, PlayerStateMachine stateMachine, State state)
-     : base(playerController, stateMachine, state)
+    public PlayerMoveState(PlayerController playerController, PlayerStateManager stateManager, State state)
+     : base(playerController, stateManager, state)
     { }
 
     public override void DoChecks()
@@ -29,7 +29,7 @@ public class PlayerMoveState : PlayerGroundState
 
         if (moveInput.x == 0 && moveInput.y == 0) // if current input is (0, 0) --> change player state to Idle
         {
-            stateMachine.ChangeState(playerController.IdleState);
+            stateManager.ChangeState(playerController.IdleState);
         }
     }
 

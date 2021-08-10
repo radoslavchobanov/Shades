@@ -7,8 +7,8 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
-    #region StateMachine
-    public PlayerStateMachine StateMachine { get; private set; }
+    #region StateManager
+    public PlayerStateManager StateManager { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
 
     #region Controller variables
+    [SerializeField] private float attackSpeed; // attacks per second
     [SerializeField] private float movementSpeed;
     [SerializeField] private float health;
     [SerializeField] private PlayerState.State currentState;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
 
     #region GETTERS AND SETTERS
+    public float AttackSpeed { get => attackSpeed; set => attackSpeed = value; }
     public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
     public float Health { get => health; set => health = value; }
     public PlayerState.State CurrentState { get => currentState; set => currentState = value; }
@@ -43,17 +45,24 @@ public class PlayerController : MonoBehaviour
 
 
     #region References
-    public AimAtPointer aimAtPointerComponent;
+    [NonSerialized] public AimAtPointer aimAtPointerComponent; // to enabled AimAtPointer.cs script
+
+    #endregion
+
+    #region Shooting vars
+    public GameObject ShootingStartPoint; // the point from where the bullet fires
+    public GameObject BulletPrefab; // prefab of the bullet. no shit.
+    public float timeForNextAttack;
 
     #endregion
 
 
     protected void OnControllerAwake()
     {
-        StateMachine = new PlayerStateMachine();
-        IdleState = new PlayerIdleState(this, StateMachine, global::PlayerState.State.Idle);
-        MoveState = new PlayerMoveState(this, StateMachine, global::PlayerState.State.Running);
-        AttackState = new PlayerAttackState(this, StateMachine, global::PlayerState.State.Attacking);
+        StateManager = new PlayerStateManager();
+        IdleState = new PlayerIdleState(this, StateManager, global::PlayerState.State.Idle);
+        MoveState = new PlayerMoveState(this, StateManager, global::PlayerState.State.Move);
+        AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attacking);
 
         InitializeController();
     }
@@ -63,16 +72,16 @@ public class PlayerController : MonoBehaviour
         Animator = GetComponentInChildren<Animator>();
         aimAtPointerComponent = GetComponent<AimAtPointer>();
 
-        StateMachine.Initialize(IdleState);
+        StateManager.Initialize(IdleState);
     }
 
     protected void OnControllerUpdate() // this is like Update function
     {
-        StateMachine.CurrentState.LogicalUpdates();
+        StateManager.CurrentState.LogicalUpdates();
     }
     protected void OnControllerFixedUpdate()
     {
-        StateMachine.CurrentState.PhysicalUpdates();
+        StateManager.CurrentState.PhysicalUpdates();
     }
 
     public virtual void InitializeController()
@@ -84,6 +93,7 @@ public class PlayerController : MonoBehaviour
             healthBarSlider.value = healthBarSlider.maxValue = Health;
         }
         isDead = false;
+        timeForNextAttack = 0;
     }
 
     public Vector3 GetPointerPosByGroundPlane() // returns the mouse pointer point on the ground
@@ -105,10 +115,6 @@ public class PlayerController : MonoBehaviour
 
         return hitPoint;
     }
-    public void AimAtPointer(bool enabled)
-    {
-        aimAtPointerComponent.enabled = enabled;
-    }
 
     protected void OnDead()
     {
@@ -119,7 +125,11 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float damage)
     {
         // Take damage animation
-        Debug.Log("Player takes " + damage + " damage");
+        // Debug.Log("Player takes " + damage + " damage");
+
+        // Invoke an Event with parameter - this gameObject --> so on AddListener we will call FloatingTextManager.Show()
+        // and on the position - put the transform.position of this gameObject
+        FloatingTextManager.singleton.Show("- " + damage, 20, Color.red, transform.position, Vector3.up * 50, 2.0f);
 
         Health -= damage;
         healthBarSlider.value = Health;
@@ -130,4 +140,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Shoot(GameObject bulletPrefab, Vector3 startPosition, Quaternion startRotation)
+    {
+        GameObject bullet = Instantiate(bulletPrefab, ShootingStartPoint.transform.position, ShootingStartPoint.transform.rotation);
+
+        bullet.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 1000);
+        
+        timeForNextAttack = Time.time + (1 / AttackSpeed);
+    }
 }

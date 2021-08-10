@@ -2,12 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInteractState : PlayerState
+public class PauseState : GameState
 {
-    protected bool isInteractionDone;
-
-    public PlayerInteractState(PlayerController playerController, PlayerStateManager stateManager, State state)
-        : base(playerController, stateManager, state)
+    public PauseState(State state) : base(state)
     { }
 
     public override void DoChecks()
@@ -18,25 +15,33 @@ public class PlayerInteractState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        Debug.Log("Enter Pause State");
 
-        isInteractionDone = false;
+        Time.timeScale = 0f; // stops PhysicalUpdate
+
+        // Stop player inputs
     }
 
     public override void Exit()
     {
         base.Exit();
+        Debug.Log("Exit Pause State");
     }
 
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
 
-        if (isInteractionDone)
-            stateManager.ChangeState(playerController.IdleState);
+        if (escapeClickInput)
+        {
+            GameStateManager.singleton.ChangeState(GameStateManager.singleton.PlayState);
+            GameStateManager.singleton.InputHandler.DoEscapeClick();
+        }
     }
 
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
     }
+
 }

@@ -2,7 +2,7 @@
     "name": "InputSystem",
     "maps": [
         {
-            "name": "GameplayControlls",
+            "name": "PlayerControls",
             "id": "68bcd418-ce34-4933-820b-9c90cb5e8d58",
             "actions": [
                 {
@@ -105,6 +105,33 @@
                     "processors": "",
                     "groups": "",
                     "action": "ChangeAimState",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "GameInput",
+            "id": "6d1e9250-75ad-427f-b912-13a10fcc9332",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "3b0c9687-9e8b-4b05-bddc-a73e95491f89",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "26cd4f45-eaa4-4f98-955b-da477e271d29",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
