@@ -2,12 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInteractState : PlayerState
+public class StartState : GameState
 {
-    protected bool isInteractionDone;
-
-    public PlayerInteractState(PlayerController playerController, PlayerStateManager stateManager, State state)
-        : base(playerController, stateManager, state)
+    public StartState(State state) : base(state)
     { }
 
     public override void DoChecks()
@@ -18,8 +15,6 @@ public class PlayerInteractState : PlayerState
     public override void Enter()
     {
         base.Enter();
-
-        isInteractionDone = false;
     }
 
     public override void Exit()
@@ -30,9 +25,6 @@ public class PlayerInteractState : PlayerState
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
-
-        if (isInteractionDone)
-            stateManager.ChangeState(playerController.IdleState);
     }
 
     public override void PhysicalUpdates()
