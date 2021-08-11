@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
 
     #region References
-    [NonSerialized] public AimAtPointer aimAtPointerComponent; // to enabled AimAtPointer.cs script
+    [NonSerialized] public LaserSightAim laserSightAimComponent; // to enabled AimAtPointer.cs script
 
     #endregion
 
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
     {
         InputHandler = GetComponent<PlayerInputHandler>();
         Animator = GetComponentInChildren<Animator>();
-        aimAtPointerComponent = GetComponent<AimAtPointer>();
+        laserSightAimComponent = GetComponent<LaserSightAim>();
 
         StateManager.Initialize(IdleState);
     }

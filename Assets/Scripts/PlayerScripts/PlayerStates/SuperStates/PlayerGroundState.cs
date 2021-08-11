@@ -43,7 +43,7 @@ public class PlayerGroundState : PlayerState
         rightMouseClickInput = playerController.InputHandler.RightMouseClick;
         if (rightMouseClickInput)
         {
-            playerController.aimAtPointerComponent.enabled = !playerController.aimAtPointerComponent.enabled;
+            playerController.laserSightAimComponent.enabled = !playerController.laserSightAimComponent.enabled;
             playerController.InputHandler.DoRightMouseClick();
         }
         // --------------------------------------------------------------
