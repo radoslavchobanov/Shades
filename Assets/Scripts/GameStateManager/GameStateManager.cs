@@ -23,6 +23,10 @@ public class GameStateManager : MonoBehaviour
     public GameInputHandler InputHandler { get; private set; }
     #endregion
 
+    #region Editor References
+    public GameObject SettingsMenu;
+    #endregion
+
     private void Awake()
     {
         if (singleton == null)
@@ -58,5 +62,14 @@ public class GameStateManager : MonoBehaviour
         CurrentState.Exit();
         CurrentState = newState;
         CurrentState.Enter();
+    }
+
+    public void OnPauseStateEnter()
+    {
+        SettingsMenu.SetActive(true);
+    }
+    public void OnPauseStateExit()
+    {
+        SettingsMenu.SetActive(false);
     }
 }
