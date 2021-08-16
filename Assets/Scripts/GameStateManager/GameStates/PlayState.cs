@@ -15,7 +15,6 @@ public class PlayState : GameState
     public override void Enter()
     {
         base.Enter();
-        Debug.Log("Enter Play State");
 
         Time.timeScale = 1f; // starts PhysicalUpdate
 
@@ -25,7 +24,6 @@ public class PlayState : GameState
     public override void Exit()
     {
         base.Exit();
-        Debug.Log("Exit Play State");
     }
 
     public override void LogicalUpdates()
@@ -34,8 +32,7 @@ public class PlayState : GameState
         
         if (escapeClickInput)
         {
-            GameStateManager.singleton.ChangeState(GameStateManager.singleton.PauseState);
-            GameStateManager.singleton.InputHandler.DoEscapeClick();
+            PauseGame();
         }
     }
 

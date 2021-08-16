@@ -5,7 +5,26 @@ using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
 {
-#region Resolution
+#region Panels
+    public GameObject mainPanel;
+    public GameObject optionsPanel;
+#endregion
+
+#region MainPanelItems
+    public GameObject resumeButtonObj;
+    private Button resumeButton;
+
+    public GameObject optionsButtonObj;
+    private Button optionsButton;
+
+    public GameObject quitButtonObj;
+    private Button quitButton;
+#endregion
+
+#region OptionsPanelItems
+    public GameObject backButtonObj;
+    private Button backButton;
+
     public GameObject resolutionDropdownObj;
     private Dropdown resolutionDropdown;
     public struct ResolutionInfo
@@ -22,12 +41,52 @@ public class SettingsController : MonoBehaviour
     }
 #endregion
 
-    void Start()
+    private void Awake() 
     {
-        resolutionDropdown = resolutionDropdownObj.GetComponent<Dropdown>();
+    #region MainPanelItems
+        resumeButton = resumeButtonObj.GetComponent<Button>();
+        optionsButton = optionsButtonObj.GetComponent<Button>();
+        quitButton = quitButtonObj.GetComponent<Button>();
+    #endregion
 
-        // print(resolutionDropdown.options[0].text);
+    #region OptionsPanelItems
+        backButton = backButtonObj.GetComponent<Button>();
+        resolutionDropdown = resolutionDropdownObj.GetComponent<Dropdown>();
+    #endregion
+    }
+
+    private void Start()
+    {
+        resumeButton.onClick.AddListener(OnResumeButtonClicked);
+        optionsButton.onClick.AddListener(OnOptionButtonClicked);
+        quitButton.onClick.AddListener(OnQuitButtonClicked);
+        
+        backButton.onClick.AddListener(OnBackButtonClicked);
 
         SetResolution();
+    }
+
+    private void OnEnable() 
+    {
+        mainPanel.SetActive(true);
+        optionsPanel.SetActive(false);
+    }
+
+    private void OnResumeButtonClicked() => GameStateManager.singleton.ChangeState(GameStateManager.singleton.PlayState);
+    private void OnOptionButtonClicked()
+    {
+        mainPanel.SetActive(false);
+        optionsPanel.SetActive(true);
+    }
+    private void OnQuitButtonClicked()
+    {
+        // EXITS from the Play mode in unity / quits the application
+        UnityEditor.EditorApplication.isPlaying = false;
+    }
+
+    private void OnBackButtonClicked()
+    {
+        mainPanel.SetActive(true);
+        optionsPanel.SetActive(false);
     }
 }

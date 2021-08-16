@@ -125,7 +125,6 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float damage)
     {
         // Take damage animation
-        // Debug.Log("Player takes " + damage + " damage");
 
         // Invoke an Event with parameter - this gameObject --> so on AddListener we will call FloatingTextManager.Show()
         // and on the position - put the transform.position of this gameObject
