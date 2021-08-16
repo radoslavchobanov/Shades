@@ -35,11 +35,10 @@ public class PlayerState
     }
     public virtual void LogicalUpdates()
     {
+        Debugger.Log(playerController.gameObject, "is " + _State);
     }
     public virtual void PhysicalUpdates()
-    {
-        Debugger.Log(playerController.gameObject, "is " + _State);
-        
+    {   
         DoChecks();
     }
     public virtual void Exit()

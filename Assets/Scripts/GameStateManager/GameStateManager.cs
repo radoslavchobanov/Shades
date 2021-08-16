@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
-    [SerializeReference] private GameState currentState;
-
     #region Singleton 
     public static GameStateManager singleton;
     #endregion
 
+    [SerializeReference] private GameState currentState;
 
     #region States
     public PlayState PlayState { get; private set; }
@@ -24,7 +23,7 @@ public class GameStateManager : MonoBehaviour
     #endregion
 
     #region Editor References
-    public GameObject SettingsMenu;
+    public GameObject PauseMenu;
     #endregion
 
     private void Awake()
@@ -64,12 +63,13 @@ public class GameStateManager : MonoBehaviour
         CurrentState.Enter();
     }
 
+// make these UnityEvents
     public void OnPauseStateEnter()
     {
-        SettingsMenu.SetActive(true);
+        PauseMenu.SetActive(true);
     }
     public void OnPauseStateExit()
     {
-        SettingsMenu.SetActive(false);
+        PauseMenu.SetActive(false);
     }
 }
