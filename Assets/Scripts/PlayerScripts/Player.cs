@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : PlayerController
 {
+    #region Singleton
     public static Player singleton;
+    #endregion
 
     private void Awake()
     {

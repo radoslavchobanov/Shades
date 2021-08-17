@@ -28,9 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float health;
     [SerializeField] private PlayerState.State currentState;
     private Animator animator;
-    public Slider healthBarSlider;
     public bool isDead;
-
     #endregion
 
 
@@ -54,6 +52,11 @@ public class PlayerController : MonoBehaviour
     public GameObject BulletPrefab; // prefab of the bullet. no shit.
     public float timeForNextAttack;
 
+    #endregion
+
+    
+    #region Player Events
+    [NonSerialized] public UnityEvent<float> PlayerTakeDamage = new UnityEvent<float>();
     #endregion
 
 
@@ -86,12 +89,6 @@ public class PlayerController : MonoBehaviour
 
     public virtual void InitializeController()
     {
-        if (healthBarSlider == null)
-            print("Player's healthbar is not initialised !!!");
-        else
-        {
-            healthBarSlider.value = healthBarSlider.maxValue = Health;
-        }
         isDead = false;
         timeForNextAttack = 0;
     }
@@ -126,12 +123,11 @@ public class PlayerController : MonoBehaviour
     {
         // Take damage animation
 
-        // Invoke an Event with parameter - this gameObject --> so on AddListener we will call FloatingTextManager.Show()
-        // and on the position - put the transform.position of this gameObject
         FloatingTextManager.singleton.Show("- " + damage, 20, Color.red, transform.position, Vector3.up * 50, 2.0f);
 
         Health -= damage;
-        healthBarSlider.value = Health;
+
+        PlayerTakeDamage.Invoke(damage);
 
         if (Health <= 0)
         {
