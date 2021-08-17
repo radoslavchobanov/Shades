@@ -18,7 +18,7 @@ public class PauseState : GameState
 
         Time.timeScale = 0f; // stops PhysicalUpdate
 
-        GameStateManager.singleton.OnPauseStateEnter();
+        GameUIManager.singleton.OnPauseStateEnter();
 
         // Stop player inputs
     }
@@ -27,7 +27,7 @@ public class PauseState : GameState
     {
         base.Exit();
 
-        GameStateManager.singleton.OnPauseStateExit();
+        GameUIManager.singleton.OnPauseStateExit();
     }
 
     public override void LogicalUpdates()

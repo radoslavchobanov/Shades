@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsController : MonoBehaviour
+public class PauseMenu : MonoBehaviour
 {
 #region Panels
     public GameObject mainPanel;
