@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 270486200325138367}
   - component: {fileID: 270486200325138364}
   m_Layer: 5
-  m_Name: MainPanel
+  m_Name: PausePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Menu
+  m_Text: Pause
 --- !u!1 &1250092842028256606
 GameObject:
   m_ObjectHideFlags: 0
