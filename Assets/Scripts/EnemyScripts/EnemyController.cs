@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour
     private int magicResist;
 
     //utility vars
-    private int health;
+    [SerializeField] private float health;
     private int mana;
     private float movementSpeed;
     private float visionRange;
@@ -42,6 +42,8 @@ public class EnemyController : MonoBehaviour
     private float timeForNextAttack = 0;
     RoamingMovementVars roamingMovementVars;
 
+    private bool isDead;
+
 
 #region GETTERS AND SETTERS
     public EnemyState State { get => state; set => state = value;}
@@ -51,7 +53,7 @@ public class EnemyController : MonoBehaviour
     public EnemyAttackType AttackType { get => this.attackType; set {this.attackType = value;}}
     public int Armor { get => this.armor; set {this.armor = value;}}
     public int MagicResist { get => this.magicResist; set {this.magicResist = value;}}
-    public int Health { get => this.health; set {this.health = value;}}
+    public float Health { get => this.health; set {this.health = value;}}
     public int Mana { get => this.mana; set {this.mana = value;}}
     public float MovementSpeed { get => this.movementSpeed; set {this.movementSpeed = value;}}
     public float VisionRange { get => visionRange; set => visionRange = value;}
@@ -267,6 +269,27 @@ public class EnemyController : MonoBehaviour
         else
         {
             State = EnemyState.Idle;
+        }
+    }
+
+    protected void OnDead()
+    {
+        // Dead animation ... etc
+        Debug.Log("Enemy is Dead !");
+        isDead = true;
+        Destroy(gameObject);
+    }
+    public void TakeDamage(float damage)
+    {
+        // Take damage animation
+
+        FloatingTextManager.singleton.Show("- " + damage, 20, Color.yellow, transform.position, Vector3.up * 50, 2.0f);
+
+        Health -= damage;
+
+        if (Health <= 0)
+        {
+            OnDead();
         }
     }
 }

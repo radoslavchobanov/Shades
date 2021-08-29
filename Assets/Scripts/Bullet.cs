@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public float damage;
     public float moveSpeed;
     public float lifetime; // in seconds
 
@@ -21,6 +22,7 @@ public class Bullet : MonoBehaviour
         if (collider.gameObject.CompareTag("Enemy"))
         {
             // enemy take damage
+            collider.GetComponent<Enemy>().TakeDamage(damage);
             
             Destroy(gameObject);
         }

@@ -54,7 +54,7 @@ public class LaserSightAim : MonoBehaviour
     {
         gameObject.transform.LookAt(GetPointerPosByGroundPlane());
 
-        lr.SetPosition(0, this.transform.position);
+        lr.SetPosition(0, Player.singleton.ShootingStartPoint.transform.position);
         lr.SetPosition(1, GetPointerPosByGroundPlane());
     }
 }
