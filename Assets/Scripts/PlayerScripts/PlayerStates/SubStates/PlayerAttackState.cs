@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class PlayerAttackState : PlayerInteractState
 {
-    public GameObject projectile;
-    public float launchVelocity;
-
-
     public PlayerAttackState(PlayerController playerController, PlayerStateManager stateManager, State state)
         : base(playerController, stateManager, state)
     { }
@@ -25,13 +21,18 @@ public class PlayerAttackState : PlayerInteractState
 
         if (Time.time >= playerController.timeForNextAttack) // if the time for next attack has come
         {
+            playerController.timeForNextAttack = Time.time + (1 / playerController.AttackSpeed);
             playerController.Animator.SetBool("Shoot", true);
+
+        // Check for the weapon type :
+        // - if it is melee -> go to MeleeAttackState
+        // - if it is range -> go to RangeAttackState
 
         // range : shoot projectile
             playerController.Shoot(playerController.BulletPrefab, 
                                     playerController.ShootingStartPoint.transform.position, 
                                     playerController.ShootingStartPoint.transform.localRotation);
-        // -----------------------
+        // -----------------------  
 
         // melee : do dmg in front of some radius
         // --------------------------------------

@@ -137,10 +137,6 @@ public class PlayerController : MonoBehaviour
 
     public void Shoot(GameObject bulletPrefab, Vector3 startPosition, Quaternion startRotation)
     {
-        GameObject bullet = Instantiate(bulletPrefab, ShootingStartPoint.transform.position, ShootingStartPoint.transform.rotation);
-
-        bullet.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 1000);
-        
-        timeForNextAttack = Time.time + (1 / AttackSpeed);
+        Instantiate(bulletPrefab, ShootingStartPoint.transform.position, ShootingStartPoint.transform.rotation);
     }
 }
