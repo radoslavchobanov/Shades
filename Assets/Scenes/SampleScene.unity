@@ -8509,7 +8509,7 @@ MonoBehaviour:
   currentState: 0
   isDead: 0
   ShootingStartPoint: {fileID: 2095297207}
-  BulletPrefab: {fileID: 9082474525674128158, guid: 0fba37360bfdfcd40883b2fcdb40c4d7, type: 3}
+  BulletPrefab: {fileID: 9222281179213891208, guid: 161a4d36ec205694c8575740876321a8, type: 3}
   timeForNextAttack: 0
 --- !u!136 &957227975
 CapsuleCollider:
@@ -11932,7 +11932,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1290962770}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -16442,6 +16442,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9d67c48dc825ba4dbbc95199bba65dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  redBasicBullet_prefab: {fileID: 9082474525674128158, guid: 0fba37360bfdfcd40883b2fcdb40c4d7, type: 3}
+  greenBasicBullet_prefab: {fileID: 9222281179213891208, guid: 161a4d36ec205694c8575740876321a8, type: 3}
 --- !u!114 &1781369608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17926,6 +17928,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7620774568422493516, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7620774568614794756, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -17936,6 +17942,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7955615575220771190, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7955615577023529211, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8237446831080041417, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
