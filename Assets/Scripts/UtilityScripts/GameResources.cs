@@ -6,7 +6,8 @@ public class GameResources : MonoBehaviour
 {
     public static GameResources singleton;
 
-    // public GameObject BulletPrefab;
+    public GameObject redBasicBullet_prefab;
+    public GameObject greenBasicBullet_prefab;
 
     private void Awake() 
     {

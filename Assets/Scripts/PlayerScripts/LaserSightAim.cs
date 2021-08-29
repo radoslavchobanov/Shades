@@ -2,11 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AimAtPointer : MonoBehaviour
+public class LaserSightAim : MonoBehaviour
 {
+    private LineRenderer lr;
+
+    private void OnEnable() 
+    {
+        lr.enabled = true;     
+    }
+
+    private void OnDisable() 
+    {
+        lr.enabled = false;    
+    }
+
+    private void Awake() 
+    {
+        lr = GetComponent<LineRenderer>();
+    }
+
+    private void Start() 
+    {    
+    }
+
     private void Update() 
     {
-        gameObject.transform.LookAt(GetPointerPosByGroundPlane());
+        LaserSightAiming();
     }
 
     private Vector3 GetPointerPosByGroundPlane() // returns the mouse pointer point on the ground
@@ -27,5 +48,13 @@ public class AimAtPointer : MonoBehaviour
         }
 
         return hitPoint;
+    }
+
+    private void LaserSightAiming()
+    {
+        gameObject.transform.LookAt(GetPointerPosByGroundPlane());
+
+        lr.SetPosition(0, Player.singleton.ShootingStartPoint.transform.position);
+        lr.SetPosition(1, GetPointerPosByGroundPlane());
     }
 }

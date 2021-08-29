@@ -28,9 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float health;
     [SerializeField] private PlayerState.State currentState;
     private Animator animator;
-    public Slider healthBarSlider;
     public bool isDead;
-
     #endregion
 
 
@@ -45,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
 
     #region References
-    [NonSerialized] public AimAtPointer aimAtPointerComponent; // to enabled AimAtPointer.cs script
+    [NonSerialized] public LaserSightAim laserSightAimComponent; // to enabled AimAtPointer.cs script
 
     #endregion
 
@@ -54,6 +52,11 @@ public class PlayerController : MonoBehaviour
     public GameObject BulletPrefab; // prefab of the bullet. no shit.
     public float timeForNextAttack;
 
+    #endregion
+
+    
+    #region Player Events
+    [NonSerialized] public UnityEvent<float> PlayerTakeDamage = new UnityEvent<float>();
     #endregion
 
 
@@ -70,7 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         InputHandler = GetComponent<PlayerInputHandler>();
         Animator = GetComponentInChildren<Animator>();
-        aimAtPointerComponent = GetComponent<AimAtPointer>();
+        laserSightAimComponent = GetComponent<LaserSightAim>();
 
         StateManager.Initialize(IdleState);
     }
@@ -86,12 +89,6 @@ public class PlayerController : MonoBehaviour
 
     public virtual void InitializeController()
     {
-        if (healthBarSlider == null)
-            print("Player's healthbar is not initialised !!!");
-        else
-        {
-            healthBarSlider.value = healthBarSlider.maxValue = Health;
-        }
         isDead = false;
         timeForNextAttack = 0;
     }
@@ -125,14 +122,12 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(float damage)
     {
         // Take damage animation
-        // Debug.Log("Player takes " + damage + " damage");
 
-        // Invoke an Event with parameter - this gameObject --> so on AddListener we will call FloatingTextManager.Show()
-        // and on the position - put the transform.position of this gameObject
         FloatingTextManager.singleton.Show("- " + damage, 20, Color.red, transform.position, Vector3.up * 50, 2.0f);
 
         Health -= damage;
-        healthBarSlider.value = Health;
+
+        PlayerTakeDamage.Invoke(damage);
 
         if (Health <= 0)
         {
@@ -142,10 +137,6 @@ public class PlayerController : MonoBehaviour
 
     public void Shoot(GameObject bulletPrefab, Vector3 startPosition, Quaternion startRotation)
     {
-        GameObject bullet = Instantiate(bulletPrefab, ShootingStartPoint.transform.position, ShootingStartPoint.transform.rotation);
-
-        bullet.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * 1000);
-        
-        timeForNextAttack = Time.time + (1 / AttackSpeed);
+        Instantiate(bulletPrefab, ShootingStartPoint.transform.position, ShootingStartPoint.transform.rotation);
     }
 }

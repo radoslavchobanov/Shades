@@ -31,11 +31,15 @@ public class GameState
 
     public virtual void Enter()
     {
+        Debugger.Log("Game enters " + _State + " state");
+
         DoChecks();
         startTime = Time.time;
     }
     public virtual void LogicalUpdates()
     {
+        Debugger.Log("Game is " + _State);
+
         escapeClickInput = GameStateManager.singleton.InputHandler.EscapeClick; // check for clicked escape
     }
     public virtual void PhysicalUpdates()
@@ -44,8 +48,21 @@ public class GameState
     }
     public virtual void Exit()
     {
+        Debugger.Log("Game exits " + _State + " state");
     }
     public virtual void DoChecks()
     {
     }
+
+    protected void PauseGame()
+    {
+        GameStateManager.singleton.ChangeState(GameStateManager.singleton.PauseState);
+        GameStateManager.singleton.InputHandler.DoEscapeClick();
+    }
+    protected void ResumeGame()
+    {
+        GameStateManager.singleton.ChangeState(GameStateManager.singleton.PlayState);
+        GameStateManager.singleton.InputHandler.DoEscapeClick();
+    }
+
 }

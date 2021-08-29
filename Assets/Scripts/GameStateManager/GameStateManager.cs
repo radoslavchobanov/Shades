@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class GameStateManager : MonoBehaviour
 {
-    [SerializeReference] private GameState currentState;
-
     #region Singleton 
     public static GameStateManager singleton;
     #endregion
 
+    [SerializeReference] private GameState currentState;
 
     #region States
     public PlayState PlayState { get; private set; }

@@ -9,5 +9,6 @@ public class Enemy : EnemyController
         MovementSpeed = 2f;
         VisionRange = 6f;
         AttackRange = 2f;
+        Health = 100;
     }
 }
