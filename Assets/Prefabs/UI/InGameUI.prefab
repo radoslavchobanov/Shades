@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 2834494962073582006}
   - component: {fileID: 2834494962073582005}
   m_Layer: 5
-  m_Name: UI
+  m_Name: InGameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,6 +278,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2834494962073582004}
     m_Modifications:
+    - target: {fileID: 356101183905013909, guid: 65abaf3a5bb54f84395279e1e03917e0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3049882530621657683, guid: 65abaf3a5bb54f84395279e1e03917e0, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

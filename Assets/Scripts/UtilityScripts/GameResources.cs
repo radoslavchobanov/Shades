@@ -6,6 +6,9 @@ public class GameResources : MonoBehaviour
 {
     public static GameResources singleton;
 
+    public string PlayScene = "PlayScene";
+    public string MainMenuScene = "MainMenuScene";
+
     public GameObject redBasicBullet_prefab;
     public GameObject greenBasicBullet_prefab;
 

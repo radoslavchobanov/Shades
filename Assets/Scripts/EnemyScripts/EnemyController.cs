@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using System;
 
-public enum EnemyState {Idle, Roaming, MovingToTarget, Attacking};
 public enum EnemyAttackType { Melee, Range };
 public class EnemyEvents
 {
@@ -16,23 +17,23 @@ public class EnemyEvents
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private EnemyState state;
-    
-    //attacking vars
-    private int attackDamage;
-    private float attackSpeed; // attacks per second
-    private float attackRange;
-    private EnemyAttackType attackType;
-    
-    //defensive vars
-    private int armor;
-    private int magicResist;
+    #region Player Stats
+    [SerializeField] private EnemyStats enemyStats;
+    #endregion
+
+    #region StateManager
+    public EnemyStateManager StateManager { get; private set; }
+    public EnemyIdleState IdleState { get; private set; }
+    public EnemyRoamingState RoamingState { get; private set; }
+    public EnemyMovingToTargetState MovingToTargetState { get; private set; }
+    public EnemyAttackingState AttackingState { get; private set; }
+
+    #endregion
+
+    [SerializeField] private EnemyState.State currentState;
 
     //utility vars
-    [SerializeField] private float health;
-    private int mana;
-    private float movementSpeed;
-    private float visionRange;
+    public Slider enemyHealthBarSlider;
 
     [SerializeField] private GameObject target; // should be the Player in most cases, could be something that the Player summoned
     [SerializeField] private float distanceToTarget;
@@ -46,31 +47,40 @@ public class EnemyController : MonoBehaviour
 
 
 #region GETTERS AND SETTERS
-    public EnemyState State { get => state; set => state = value;}
-    public int AttackDamage { get => this.attackDamage; set {this.attackDamage = value;}}
-    public float AttackSpeed { get => this.attackSpeed; set {this.attackSpeed = value;}}
-    public float AttackRange { get => this.attackRange; set {this.attackRange = value;}}
-    public EnemyAttackType AttackType { get => this.attackType; set {this.attackType = value;}}
-    public int Armor { get => this.armor; set {this.armor = value;}}
-    public int MagicResist { get => this.magicResist; set {this.magicResist = value;}}
-    public float Health { get => this.health; set {this.health = value;}}
-    public int Mana { get => this.mana; set {this.mana = value;}}
-    public float MovementSpeed { get => this.movementSpeed; set {this.movementSpeed = value;}}
-    public float VisionRange { get => visionRange; set => visionRange = value;}
+    public EnemyStats EnemyStats { get => enemyStats; set => enemyStats = value; }
+
+    public EnemyState.State CurrentState { get => currentState; set => currentState = value; }
+    public int AttackDamage { get => enemyStats.attackDamage; set {enemyStats.attackDamage = value;}}
+    public float AttackSpeed { get => enemyStats.attackSpeed; set {enemyStats.attackSpeed = value;}}
+    public float AttackRange { get => enemyStats.attackRange; set {enemyStats.attackRange = value;}}
+    public EnemyAttackType AttackType { get => enemyStats.attackType; set {enemyStats.attackType = value;}}
+    public int Armor { get => enemyStats.armor; set {enemyStats.armor = value;}}
+    public float Health { get => enemyStats.health; set {enemyStats.health = value;}}
+    public int Mana { get => enemyStats.mana; set {enemyStats.mana = value;}}
+    public float MovementSpeed { get => enemyStats.movementSpeed; set {enemyStats.movementSpeed = value;}}
+    public float WalkingSpeed { get => enemyStats.walkingSpeed; set {enemyStats.walkingSpeed = value;}}
+    public float VisionRange { get => enemyStats.visionRange; set => enemyStats.visionRange = value;}
     public GameObject Target { get => target; set => target = value;}
     public float DistanceToTarget { get => distanceToTarget; set => distanceToTarget = value;}
 
 #endregion
 
+
+    #region Enemy Events
+    [NonSerialized] public UnityEvent<float> EnemyTakeDamage = new UnityEvent<float>();
+    #endregion
+
     private void Awake() 
     {
         Initialize();
+        InitializeStateManager();
     }
 
     private void Start() 
     {
         InitializeControllerVars();
         InitializeRoamingVars();
+        StateManager.Initialize(IdleState);
 
     // Add listeners to EnemyEvents ==================================================
         EnemyEvents.PlayerEntersVisionRange.AddListener(OnPlayerEntersVisionRange);
@@ -83,43 +93,40 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        switch (State)
-        {
-            case EnemyState.Idle: 
-                Idle();
-                break;
+        StateManager.CurrentState.LogicalUpdates(); 
+    }
 
-            case EnemyState.Roaming:
-                RoamAround();
-                break;
-
-            case EnemyState.MovingToTarget:
-                MoveTowardsTarget();
-                break;
-
-            case EnemyState.Attacking:
-                AttackTarget();
-                break;
-        }
+    private void FixedUpdate() 
+    {
+        StateManager.CurrentState.PhysicalUpdates();    
     }
 
     private void Initialize()
     {
-        movementSpeed = 0.0f;
-        visionRange = 0.0f;
         target = null;
         distanceToTarget = 0.0f;
 
         EnemyEvents = new EnemyEvents();
     }
-    public virtual void InitializeControllerVars() {}
+    private void InitializeStateManager()
+    {
+        StateManager = new EnemyStateManager();
+        IdleState = new EnemyIdleState(this, StateManager, global::EnemyState.State.Idle);
+        RoamingState = new EnemyRoamingState(this, StateManager, global::EnemyState.State.Roaming);
+        MovingToTargetState = new EnemyMovingToTargetState(this, StateManager, global::EnemyState.State.MovingToTarget);
+        AttackingState = new EnemyAttackingState(this, StateManager, global::EnemyState.State.Attacking);
+    }
+    public virtual void InitializeControllerVars() 
+    {
+        enemyHealthBarSlider.value = enemyHealthBarSlider.maxValue = Health;
+    }
     public virtual void InitializeRoamingVars() // BASE Initialize of roamingMovementVars struct
     {
         roamingMovementVars = new RoamingMovementVars()
         {
             arrived = true,
             finishedIdle = false,
-            roamingMovementSpeed = movementSpeed/3,
+            roamingMovementSpeed = WalkingSpeed,
 
             isIdle = roamingMovementVars.ShouldIdleOrNot(),
             idleStartTime = 0f,
@@ -127,12 +134,11 @@ public class EnemyController : MonoBehaviour
         };
     }
 
-    private void Idle()
+    public void Idle()
     {
-        // Idle animation
         if (roamingMovementVars.finishedIdle)
         { 
-            State = EnemyState.Roaming;
+            StateManager.ChangeState(RoamingState);
         }
         else
         {
@@ -144,7 +150,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Think about making RoamAround and Idle functions Coroutine
-    private void RoamAround()
+    public void RoamAround()
     {
         if (roamingMovementVars.arrived)
         {
@@ -167,12 +173,13 @@ public class EnemyController : MonoBehaviour
                     roamingMovementVars.idleStartTime = Time.time;
                     roamingMovementVars.idleDuration = roamingMovementVars.GetIdleDuration();
                     roamingMovementVars.finishedIdle = false;
-                    State = EnemyState.Idle;
+                    
+                    StateManager.ChangeState(IdleState);
                 }
             }
         }
     }
-    private void MoveTowardsTarget()
+    public void MoveTowardsTarget()
     {
         if (Target == null)
         {
@@ -180,7 +187,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            MoveForwardpoint(Target.transform.position, movementSpeed);
+            MoveForwardpoint(Target.transform.position, MovementSpeed);
         }
     }
     private void MoveForwardpoint(Vector3 point, float movementSpeed)
@@ -194,7 +201,7 @@ public class EnemyController : MonoBehaviour
 
         timeForNextAttack = Time.time + (1 / AttackSpeed); // in order not to attack instantly when target is reached
     }
-    private void AttackTarget()
+    public void AttackTarget()
     {
         // Play attack animation here
 
@@ -209,9 +216,9 @@ public class EnemyController : MonoBehaviour
 
     private Vector3 GenerateRandomPointInRange(float minX, float maxX, float minZ, float maxZ)
     {
-        return new Vector3(Random.Range(minX, maxX), //x
+        return new Vector3(UnityEngine.Random.Range(minX, maxX), //x
                     gameObject.transform.position.y, // y
-                    Random.Range(minZ, maxZ)); //z
+                    UnityEngine.Random.Range(minZ, maxZ)); //z
     }
     private Vector3 GenerateRoamingPointFromGivenPoint(Vector3 point, float offsetX, float offsetZ)
     {
@@ -230,7 +237,7 @@ public class EnemyController : MonoBehaviour
 
         Target = Player.singleton.gameObject;
 
-        State = EnemyState.MovingToTarget;
+        StateManager.ChangeState(MovingToTargetState);
     }
     private void OnPlayerLeavesVisionRange()
     {
@@ -244,18 +251,18 @@ public class EnemyController : MonoBehaviour
         {
             roamingMovementVars.idleStartTime = Time.time;
             roamingMovementVars.idleDuration = roamingMovementVars.GetIdleDuration();
-            State = EnemyState.Idle;
+            StateManager.ChangeState(IdleState);
         }
         else
         {
-            State = EnemyState.Roaming;
+            StateManager.ChangeState(RoamingState);
         }
     }
     private void OnPlayerEntersAttackRange()
     {
         Debugger.Log(this, "Player Enters Attack Range! ");
 
-        State = EnemyState.Attacking;
+        StateManager.ChangeState(AttackingState);
     }
     private void OnPlayerLeavesAttackRange()
     {
@@ -264,11 +271,11 @@ public class EnemyController : MonoBehaviour
         // To check if still has a targeted Player
         if (Target)
         {
-            State = EnemyState.MovingToTarget;
+            StateManager.ChangeState(MovingToTargetState);
         }
         else
         {
-            State = EnemyState.Idle;
+            StateManager.ChangeState(IdleState);
         }
     }
 
@@ -286,6 +293,7 @@ public class EnemyController : MonoBehaviour
         FloatingTextManager.singleton.Show("- " + damage, 20, Color.yellow, transform.position, Vector3.up * 50, 2.0f);
 
         Health -= damage;
+        enemyHealthBarSlider.value -= damage;
 
         if (Health <= 0)
         {
