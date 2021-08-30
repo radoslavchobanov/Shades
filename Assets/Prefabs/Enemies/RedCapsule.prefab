@@ -469,7 +469,7 @@ GameObject:
   - component: {fileID: -4352266521081575225}
   - component: {fileID: -7218826405746295146}
   - component: {fileID: -4326257513642317081}
-  - component: {fileID: 391223493902978482}
+  - component: {fileID: 970944732582651930}
   m_Layer: 0
   m_Name: RedCapsule
   m_TagString: Enemy
@@ -567,7 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e7962d1d3a65142860c2ead08573d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &391223493902978482
+--- !u!114 &970944732582651930
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -576,13 +576,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4293075269028170373}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c2d82eab12543441babb1911a2c3d9a, type: 3}
+  m_Script: {fileID: 11500000, guid: 10d8e56b1a3367242a39c3bd534afb67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyStats:
     attackDamage: 10
     attackSpeed: 1.7
-    attackRange: 3
+    attackRange: 2.6
     movementSpeed: 3.2
     walkingSpeed: 1.5
     health: 80

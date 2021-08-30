@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 2038085621416663822}
   - component: {fileID: 2038085621416663823}
   - component: {fileID: 2038085621416663811}
-  - component: {fileID: 1894300575628136694}
+  - component: {fileID: 5212122742690219722}
   m_Layer: 0
   m_Name: WhiteCapsule
   m_TagString: Enemy
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e7962d1d3a65142860c2ead08573d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1894300575628136694
+--- !u!114 &5212122742690219722
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -332,14 +332,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2038085621416663817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c2d82eab12543441babb1911a2c3d9a, type: 3}
+  m_Script: {fileID: 11500000, guid: 10d8e56b1a3367242a39c3bd534afb67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyStats:
     attackDamage: 18
-    attackSpeed: 1.7
+    attackSpeed: 0.7
     attackRange: 2
-    movementSpeed: 1.8
+    movementSpeed: 2
     walkingSpeed: 0.8
     health: 120
     mana: 0
