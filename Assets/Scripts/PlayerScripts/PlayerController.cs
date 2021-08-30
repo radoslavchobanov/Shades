@@ -7,6 +7,10 @@ using System;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Player Stats
+    [SerializeField] private PlayerStats playerStats;
+    #endregion
+
     #region StateManager
     public PlayerStateManager StateManager { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
@@ -23,9 +27,6 @@ public class PlayerController : MonoBehaviour
 
 
     #region Controller variables
-    [SerializeField] private float attackSpeed; // attacks per second
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float health;
     [SerializeField] private PlayerState.State currentState;
     private Animator animator;
     public bool isDead;
@@ -33,11 +34,13 @@ public class PlayerController : MonoBehaviour
 
 
     #region GETTERS AND SETTERS
-    public float AttackSpeed { get => attackSpeed; set => attackSpeed = value; }
-    public float MovementSpeed { get => movementSpeed; set => movementSpeed = value; }
-    public float Health { get => health; set => health = value; }
+    public PlayerStats PlayerStats { get => playerStats; set => playerStats = value; }
     public PlayerState.State CurrentState { get => currentState; set => currentState = value; }
     public Animator Animator { get => animator; set => animator = value; }
+
+    public float AttackSpeed { get => playerStats.attackSpeed; set => playerStats.attackSpeed = value; }
+    public float MovementSpeed { get => playerStats.movementSpeed; set => playerStats.movementSpeed = value; }
+    public float Health { get => playerStats.health; set => playerStats.health = value; }
 
     #endregion
 
