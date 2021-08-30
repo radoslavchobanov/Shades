@@ -77,4 +77,7 @@ public class GameStateManager : MonoBehaviour
         ChangeScene(GameResources.singleton.MainMenuScene);
         ChangeState(PauseState);
     }
+
+    // Utility Functions ---------------------
+    // ---------------------------------------
 }
