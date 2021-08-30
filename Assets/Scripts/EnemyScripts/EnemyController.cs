@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum EnemyState {Idle, Roaming, MovingToTarget, Attacking};
 public enum EnemyAttackType { Melee, Range };
 public class EnemyEvents
 {
@@ -16,7 +15,16 @@ public class EnemyEvents
 
 public class EnemyController : MonoBehaviour
 {
-    [SerializeField] private EnemyState state;
+    #region StateManager
+    public EnemyStateManager StateManager { get; private set; }
+    public EnemyIdleState IdleState { get; private set; }
+    public EnemyRoamingState RoamingState { get; private set; }
+    public EnemyMovingToTargetState MovingToTargetState { get; private set; }
+    public EnemyAttackingState AttackingState { get; private set; }
+
+    #endregion
+
+    [SerializeField] private EnemyState.State currentState;
     
     //attacking vars
     private int attackDamage;
@@ -46,7 +54,7 @@ public class EnemyController : MonoBehaviour
 
 
 #region GETTERS AND SETTERS
-    public EnemyState State { get => state; set => state = value;}
+    public EnemyState.State CurrentState { get => currentState; set => currentState = value; }
     public int AttackDamage { get => this.attackDamage; set {this.attackDamage = value;}}
     public float AttackSpeed { get => this.attackSpeed; set {this.attackSpeed = value;}}
     public float AttackRange { get => this.attackRange; set {this.attackRange = value;}}
@@ -65,12 +73,14 @@ public class EnemyController : MonoBehaviour
     private void Awake() 
     {
         Initialize();
+        InitializeStateManager();
     }
 
     private void Start() 
     {
         InitializeControllerVars();
         InitializeRoamingVars();
+        StateManager.Initialize(IdleState);
 
     // Add listeners to EnemyEvents ==================================================
         EnemyEvents.PlayerEntersVisionRange.AddListener(OnPlayerEntersVisionRange);
@@ -83,24 +93,12 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        switch (State)
-        {
-            case EnemyState.Idle: 
-                Idle();
-                break;
+        StateManager.CurrentState.LogicalUpdates(); 
+    }
 
-            case EnemyState.Roaming:
-                RoamAround();
-                break;
-
-            case EnemyState.MovingToTarget:
-                MoveTowardsTarget();
-                break;
-
-            case EnemyState.Attacking:
-                AttackTarget();
-                break;
-        }
+    private void FixedUpdate() 
+    {
+        StateManager.CurrentState.PhysicalUpdates();    
     }
 
     private void Initialize()
@@ -111,6 +109,14 @@ public class EnemyController : MonoBehaviour
         distanceToTarget = 0.0f;
 
         EnemyEvents = new EnemyEvents();
+    }
+    private void InitializeStateManager()
+    {
+        StateManager = new EnemyStateManager();
+        IdleState = new EnemyIdleState(this, StateManager, global::EnemyState.State.Idle);
+        RoamingState = new EnemyRoamingState(this, StateManager, global::EnemyState.State.Roaming);
+        MovingToTargetState = new EnemyMovingToTargetState(this, StateManager, global::EnemyState.State.MovingToTarget);
+        AttackingState = new EnemyAttackingState(this, StateManager, global::EnemyState.State.Attacking);
     }
     public virtual void InitializeControllerVars() {}
     public virtual void InitializeRoamingVars() // BASE Initialize of roamingMovementVars struct
@@ -127,12 +133,11 @@ public class EnemyController : MonoBehaviour
         };
     }
 
-    private void Idle()
+    public void Idle()
     {
-        // Idle animation
         if (roamingMovementVars.finishedIdle)
         { 
-            State = EnemyState.Roaming;
+            StateManager.ChangeState(RoamingState);
         }
         else
         {
@@ -144,7 +149,7 @@ public class EnemyController : MonoBehaviour
     }
 
     // Think about making RoamAround and Idle functions Coroutine
-    private void RoamAround()
+    public void RoamAround()
     {
         if (roamingMovementVars.arrived)
         {
@@ -167,12 +172,13 @@ public class EnemyController : MonoBehaviour
                     roamingMovementVars.idleStartTime = Time.time;
                     roamingMovementVars.idleDuration = roamingMovementVars.GetIdleDuration();
                     roamingMovementVars.finishedIdle = false;
-                    State = EnemyState.Idle;
+                    
+                    StateManager.ChangeState(IdleState);
                 }
             }
         }
     }
-    private void MoveTowardsTarget()
+    public void MoveTowardsTarget()
     {
         if (Target == null)
         {
@@ -194,7 +200,7 @@ public class EnemyController : MonoBehaviour
 
         timeForNextAttack = Time.time + (1 / AttackSpeed); // in order not to attack instantly when target is reached
     }
-    private void AttackTarget()
+    public void AttackTarget()
     {
         // Play attack animation here
 
@@ -230,7 +236,7 @@ public class EnemyController : MonoBehaviour
 
         Target = Player.singleton.gameObject;
 
-        State = EnemyState.MovingToTarget;
+        StateManager.ChangeState(MovingToTargetState);
     }
     private void OnPlayerLeavesVisionRange()
     {
@@ -244,18 +250,18 @@ public class EnemyController : MonoBehaviour
         {
             roamingMovementVars.idleStartTime = Time.time;
             roamingMovementVars.idleDuration = roamingMovementVars.GetIdleDuration();
-            State = EnemyState.Idle;
+            StateManager.ChangeState(IdleState);
         }
         else
         {
-            State = EnemyState.Roaming;
+            StateManager.ChangeState(RoamingState);
         }
     }
     private void OnPlayerEntersAttackRange()
     {
         Debugger.Log(this, "Player Enters Attack Range! ");
 
-        State = EnemyState.Attacking;
+        StateManager.ChangeState(AttackingState);
     }
     private void OnPlayerLeavesAttackRange()
     {
@@ -264,11 +270,11 @@ public class EnemyController : MonoBehaviour
         // To check if still has a targeted Player
         if (Target)
         {
-            State = EnemyState.MovingToTarget;
+            StateManager.ChangeState(MovingToTargetState);
         }
         else
         {
-            State = EnemyState.Idle;
+            StateManager.ChangeState(IdleState);
         }
     }
 
