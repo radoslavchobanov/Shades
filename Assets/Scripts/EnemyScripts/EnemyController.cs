@@ -17,6 +17,10 @@ public class EnemyEvents
 
 public class EnemyController : MonoBehaviour
 {
+    #region Player Stats
+    [SerializeField] private EnemyStats enemyStats;
+    #endregion
+
     #region StateManager
     public EnemyStateManager StateManager { get; private set; }
     public EnemyIdleState IdleState { get; private set; }
@@ -27,23 +31,9 @@ public class EnemyController : MonoBehaviour
     #endregion
 
     [SerializeField] private EnemyState.State currentState;
-    
-    //attacking vars
-    private int attackDamage;
-    private float attackSpeed; // attacks per second
-    private float attackRange;
-    private EnemyAttackType attackType;
-    
-    //defensive vars
-    private int armor;
-    private int magicResist;
 
     //utility vars
     public Slider enemyHealthBarSlider;
-    [SerializeField] private float health;
-    private int mana;
-    private float movementSpeed;
-    private float visionRange;
 
     [SerializeField] private GameObject target; // should be the Player in most cases, could be something that the Player summoned
     [SerializeField] private float distanceToTarget;
@@ -57,17 +47,19 @@ public class EnemyController : MonoBehaviour
 
 
 #region GETTERS AND SETTERS
+    public EnemyStats EnemyStats { get => enemyStats; set => enemyStats = value; }
+
     public EnemyState.State CurrentState { get => currentState; set => currentState = value; }
-    public int AttackDamage { get => this.attackDamage; set {this.attackDamage = value;}}
-    public float AttackSpeed { get => this.attackSpeed; set {this.attackSpeed = value;}}
-    public float AttackRange { get => this.attackRange; set {this.attackRange = value;}}
-    public EnemyAttackType AttackType { get => this.attackType; set {this.attackType = value;}}
-    public int Armor { get => this.armor; set {this.armor = value;}}
-    public int MagicResist { get => this.magicResist; set {this.magicResist = value;}}
-    public float Health { get => this.health; set {this.health = value;}}
-    public int Mana { get => this.mana; set {this.mana = value;}}
-    public float MovementSpeed { get => this.movementSpeed; set {this.movementSpeed = value;}}
-    public float VisionRange { get => visionRange; set => visionRange = value;}
+    public int AttackDamage { get => enemyStats.attackDamage; set {enemyStats.attackDamage = value;}}
+    public float AttackSpeed { get => enemyStats.attackSpeed; set {enemyStats.attackSpeed = value;}}
+    public float AttackRange { get => enemyStats.attackRange; set {enemyStats.attackRange = value;}}
+    public EnemyAttackType AttackType { get => enemyStats.attackType; set {enemyStats.attackType = value;}}
+    public int Armor { get => enemyStats.armor; set {enemyStats.armor = value;}}
+    public float Health { get => enemyStats.health; set {enemyStats.health = value;}}
+    public int Mana { get => enemyStats.mana; set {enemyStats.mana = value;}}
+    public float MovementSpeed { get => enemyStats.movementSpeed; set {enemyStats.movementSpeed = value;}}
+    public float WalkingSpeed { get => enemyStats.walkingSpeed; set {enemyStats.walkingSpeed = value;}}
+    public float VisionRange { get => enemyStats.visionRange; set => enemyStats.visionRange = value;}
     public GameObject Target { get => target; set => target = value;}
     public float DistanceToTarget { get => distanceToTarget; set => distanceToTarget = value;}
 
@@ -111,8 +103,6 @@ public class EnemyController : MonoBehaviour
 
     private void Initialize()
     {
-        movementSpeed = 0.0f;
-        visionRange = 0.0f;
         target = null;
         distanceToTarget = 0.0f;
 
@@ -136,7 +126,7 @@ public class EnemyController : MonoBehaviour
         {
             arrived = true,
             finishedIdle = false,
-            roamingMovementSpeed = movementSpeed/3,
+            roamingMovementSpeed = WalkingSpeed,
 
             isIdle = roamingMovementVars.ShouldIdleOrNot(),
             idleStartTime = 0f,
@@ -197,7 +187,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            MoveForwardpoint(Target.transform.position, movementSpeed);
+            MoveForwardpoint(Target.transform.position, MovementSpeed);
         }
     }
     private void MoveForwardpoint(Vector3 point, float movementSpeed)

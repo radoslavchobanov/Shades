@@ -225,9 +225,9 @@ GameObject:
   - component: {fileID: 2038085621416663822}
   - component: {fileID: 2038085621416663823}
   - component: {fileID: 2038085621416663811}
-  - component: {fileID: 2038085621416663816}
+  - component: {fileID: 1894300575628136694}
   m_Layer: 0
-  m_Name: EnemyCapsule
+  m_Name: WhiteCapsule
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78e7962d1d3a65142860c2ead08573d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2038085621416663816
+--- !u!114 &1894300575628136694
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -335,9 +335,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c2d82eab12543441babb1911a2c3d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyStats:
+    attackDamage: 18
+    attackSpeed: 1.7
+    attackRange: 2
+    movementSpeed: 1.8
+    walkingSpeed: 0.8
+    health: 120
+    mana: 0
+    armor: 0
+    visionRange: 6
+    attackType: 0
   currentState: 0
   enemyHealthBarSlider: {fileID: 6818721983009888450}
-  health: 0
   target: {fileID: 0}
   distanceToTarget: 0
 --- !u!1 &2176440448011319420
