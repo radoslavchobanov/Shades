@@ -11,6 +11,8 @@ public class PauseMenu : MonoBehaviour
 #endregion
 
 #region MainPanelItems
+    public GameObject newGameButtonObj;
+    private Button newGameButton;
     public GameObject resumeButtonObj;
     private Button resumeButton;
 
@@ -27,6 +29,7 @@ public class PauseMenu : MonoBehaviour
 
     public GameObject resolutionDropdownObj;
     private Dropdown resolutionDropdown;
+
     public struct ResolutionInfo
     {
         int width {get {return this.width;} set {this.width = width;}}
@@ -44,6 +47,7 @@ public class PauseMenu : MonoBehaviour
     private void Awake() 
     {
     #region MainPanelItems
+        newGameButton = newGameButtonObj.GetComponent<Button>();
         resumeButton = resumeButtonObj.GetComponent<Button>();
         optionsButton = optionsButtonObj.GetComponent<Button>();
         quitButton = quitButtonObj.GetComponent<Button>();
@@ -57,9 +61,10 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        resumeButton.onClick.AddListener(OnResumeButtonClicked);
-        optionsButton.onClick.AddListener(OnOptionButtonClicked);
-        quitButton.onClick.AddListener(OnQuitButtonClicked);
+        newGameButton?.onClick.AddListener(OnNewGameButtonClicked);
+        resumeButton?.onClick.AddListener(OnResumeButtonClicked);
+        optionsButton?.onClick.AddListener(OnOptionButtonClicked);
+        quitButton?.onClick.AddListener(OnQuitButtonClicked);
         
         backButton.onClick.AddListener(OnBackButtonClicked);
 
@@ -72,6 +77,10 @@ public class PauseMenu : MonoBehaviour
         optionsPanel.SetActive(false);
     }
 
+    private void OnNewGameButtonClicked()
+    {
+        GameStateManager.singleton.ToPlayScene();
+    }
     private void OnResumeButtonClicked() => GameStateManager.singleton.ChangeState(GameStateManager.singleton.PlayState);
     private void OnOptionButtonClicked()
     {
@@ -81,7 +90,11 @@ public class PauseMenu : MonoBehaviour
     private void OnQuitButtonClicked()
     {
         // EXITS from the Play mode in unity / quits the application
-        UnityEditor.EditorApplication.isPlaying = false;
+
+        if (GameStateManager.singleton.CurrentScene.name == GameResources.singleton.PlayScene)
+            GameStateManager.singleton.ToMainMenuScene();
+        else if (GameStateManager.singleton.CurrentScene.name == GameResources.singleton.MainMenuScene)
+            UnityEditor.EditorApplication.isPlaying = false;
     }
 
     private void OnBackButtonClicked()

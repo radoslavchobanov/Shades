@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -22,6 +21,8 @@ public class GameStateManager : MonoBehaviour
     public GameInputHandler InputHandler { get; private set; }
     #endregion
 
+    public Scene CurrentScene { get; private set; }
+
     private void Awake()
     {
         if (singleton == null)
@@ -37,6 +38,8 @@ public class GameStateManager : MonoBehaviour
         InputHandler = GetComponent<GameInputHandler>();
 
         Initialize(PlayState);
+
+        CurrentScene = SceneManager.GetActiveScene();
     }
 
     private void Update()
@@ -57,5 +60,21 @@ public class GameStateManager : MonoBehaviour
         CurrentState.Exit();
         CurrentState = newState;
         CurrentState.Enter();
+    }
+    private void ChangeScene(string SceneName)
+    {
+        SceneManager.LoadScene(SceneName);
+        CurrentScene = SceneManager.GetActiveScene();
+    }
+
+    public void ToPlayScene()
+    {
+        ChangeScene(GameResources.singleton.PlayScene);
+        ChangeState(PlayState);
+    }
+    public void ToMainMenuScene()
+    {
+        ChangeScene(GameResources.singleton.MainMenuScene);
+        ChangeState(PauseState);
     }
 }
