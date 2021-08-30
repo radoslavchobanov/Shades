@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+using System;
 
 public enum EnemyAttackType { Melee, Range };
 public class EnemyEvents
@@ -37,6 +39,7 @@ public class EnemyController : MonoBehaviour
     private int magicResist;
 
     //utility vars
+    public Slider enemyHealthBarSlider;
     [SerializeField] private float health;
     private int mana;
     private float movementSpeed;
@@ -69,6 +72,11 @@ public class EnemyController : MonoBehaviour
     public float DistanceToTarget { get => distanceToTarget; set => distanceToTarget = value;}
 
 #endregion
+
+
+    #region Enemy Events
+    [NonSerialized] public UnityEvent<float> EnemyTakeDamage = new UnityEvent<float>();
+    #endregion
 
     private void Awake() 
     {
@@ -118,7 +126,10 @@ public class EnemyController : MonoBehaviour
         MovingToTargetState = new EnemyMovingToTargetState(this, StateManager, global::EnemyState.State.MovingToTarget);
         AttackingState = new EnemyAttackingState(this, StateManager, global::EnemyState.State.Attacking);
     }
-    public virtual void InitializeControllerVars() {}
+    public virtual void InitializeControllerVars() 
+    {
+        enemyHealthBarSlider.value = enemyHealthBarSlider.maxValue = Health;
+    }
     public virtual void InitializeRoamingVars() // BASE Initialize of roamingMovementVars struct
     {
         roamingMovementVars = new RoamingMovementVars()
@@ -215,9 +226,9 @@ public class EnemyController : MonoBehaviour
 
     private Vector3 GenerateRandomPointInRange(float minX, float maxX, float minZ, float maxZ)
     {
-        return new Vector3(Random.Range(minX, maxX), //x
+        return new Vector3(UnityEngine.Random.Range(minX, maxX), //x
                     gameObject.transform.position.y, // y
-                    Random.Range(minZ, maxZ)); //z
+                    UnityEngine.Random.Range(minZ, maxZ)); //z
     }
     private Vector3 GenerateRoamingPointFromGivenPoint(Vector3 point, float offsetX, float offsetZ)
     {
@@ -292,6 +303,7 @@ public class EnemyController : MonoBehaviour
         FloatingTextManager.singleton.Show("- " + damage, 20, Color.yellow, transform.position, Vector3.up * 50, 2.0f);
 
         Health -= damage;
+        enemyHealthBarSlider.value -= damage;
 
         if (Health <= 0)
         {

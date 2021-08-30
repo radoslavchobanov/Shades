@@ -10,5 +10,7 @@ public class Enemy : EnemyController
         VisionRange = 6f;
         AttackRange = 2f;
         Health = 100;
+
+        base.InitializeControllerVars();
     }
 }
