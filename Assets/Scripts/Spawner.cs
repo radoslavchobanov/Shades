@@ -8,8 +8,6 @@ public class Spawner : MonoBehaviour
     public int density; // count objects to spawn
     public float timeBetweenSpawn;
 
-    // public float spawnSpeed; // spawned objects per second
-
     private float timeForNextSpawn;
 
     // private float activationRange; // ?? distance to the player ??
