@@ -13,4 +13,7 @@ public class PlayerStats
     public float energy; // a time, the player can shoot without burning out
     public float mana; // mana bar for some spells/utilities
     public float armor;
+
+    public float dashSpeed;
+    public float dashDuration;
 }

@@ -6,8 +6,6 @@ public class PlayerGroundState : PlayerState
 {
     protected Vector2 moveInput;
 
-    private bool leftMouseClickInput;
-    private bool rightMouseClickInput;
 
     public PlayerGroundState(PlayerController playerController, PlayerStateManager stateManager, State state)
         : base(playerController, stateManager, state)
@@ -30,18 +28,22 @@ public class PlayerGroundState : PlayerState
         base.LogicalUpdates();
 
         // External - Other State Input ---------------------------------
-        leftMouseClickInput = playerController.InputHandler.LeftMouseClick;
-        if (leftMouseClickInput)
+        if (playerController.InputHandler.LeftMouseClick)
         {
             stateManager.ChangeState(playerController.AttackState);
+        }
+
+        if (playerController.InputHandler.ShiftClicked)
+        {
+            stateManager.ChangeState(playerController.DashState);
+            playerController.InputHandler.DoShiftClick();
         }
         // --------------------------------------------------------------
 
 
         // AimAtPointer State -------------------------------------------
         // Ugly code !!! FIXME !!!
-        rightMouseClickInput = playerController.InputHandler.RightMouseClick;
-        if (rightMouseClickInput)
+        if (playerController.InputHandler.RightMouseClick)
         {
             playerController.laserSightAimComponent.enabled = !playerController.laserSightAimComponent.enabled;
             playerController.InputHandler.DoRightMouseClick();

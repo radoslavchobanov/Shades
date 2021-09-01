@@ -9,7 +9,7 @@ public class LaunchProjectileFinished : MonoBehaviour
 
     void Update()
     {
-        if (Player.singleton.CurrentState == PlayerState.State.Attacking)
+        if (Player.singleton.CurrentState == PlayerState.State.Attack)
         {
             GameObject ball = Instantiate(projectile, transform.position, transform.rotation);
 

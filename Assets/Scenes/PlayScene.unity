@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &226936972 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2109065813690612016, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+  m_PrefabInstance: {fileID: 2109065813305383673}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 701a826e89d55194480f6108510ec725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!108 &705507994 stripped
 Light:
   m_CorrespondingSourceObject: {fileID: 530545266983068230, guid: 9bb124cd6194528418a409f73564e1f2, type: 3}
@@ -646,9 +657,69 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612019, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612019, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: da7ac18b-abc2-4acd-a9cd-c0fc32efaf58
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612019, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
+      value: PlayerControls/Dash[/Keyboard/leftShift]
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612019, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612019, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612019, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 226936972}
+    - target: {fileID: 2109065813690612019, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612019, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDashInput
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612019, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerInputHandler, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612019, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2109065813690612029, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
       propertyPath: m_Name
       value: PlayerObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: playerStats.health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: playerStats.dashSpeed
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: playerStats.attackSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: playerStats.dashDuration
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: playerStats.movementSpeed
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}

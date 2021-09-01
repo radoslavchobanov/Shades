@@ -41,6 +41,14 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""da7ac18b-abc2-4acd-a9cd-c0fc32efaf58"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -120,6 +128,17 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""action"": ""ChangeAimState"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2fcebf1-7f01-41f3-ab3c-e4b6367cfd8a"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -158,6 +177,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         m_PlayerControls_HorizontalMovement = m_PlayerControls.FindAction("HorizontalMovement", throwIfNotFound: true);
         m_PlayerControls_Interact = m_PlayerControls.FindAction("Interact", throwIfNotFound: true);
         m_PlayerControls_ChangeAimState = m_PlayerControls.FindAction("ChangeAimState", throwIfNotFound: true);
+        m_PlayerControls_Dash = m_PlayerControls.FindAction("Dash", throwIfNotFound: true);
         // GameInput
         m_GameInput = asset.FindActionMap("GameInput", throwIfNotFound: true);
         m_GameInput_Pause = m_GameInput.FindAction("Pause", throwIfNotFound: true);
@@ -213,6 +233,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerControls_HorizontalMovement;
     private readonly InputAction m_PlayerControls_Interact;
     private readonly InputAction m_PlayerControls_ChangeAimState;
+    private readonly InputAction m_PlayerControls_Dash;
     public struct PlayerControlsActions
     {
         private @InputSystem m_Wrapper;
@@ -220,6 +241,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         public InputAction @HorizontalMovement => m_Wrapper.m_PlayerControls_HorizontalMovement;
         public InputAction @Interact => m_Wrapper.m_PlayerControls_Interact;
         public InputAction @ChangeAimState => m_Wrapper.m_PlayerControls_ChangeAimState;
+        public InputAction @Dash => m_Wrapper.m_PlayerControls_Dash;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -238,6 +260,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @ChangeAimState.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnChangeAimState;
                 @ChangeAimState.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnChangeAimState;
                 @ChangeAimState.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnChangeAimState;
+                @Dash.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDash;
             }
             m_Wrapper.m_PlayerControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -251,6 +276,9 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @ChangeAimState.started += instance.OnChangeAimState;
                 @ChangeAimState.performed += instance.OnChangeAimState;
                 @ChangeAimState.canceled += instance.OnChangeAimState;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
             }
         }
     }
@@ -293,6 +321,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
         void OnHorizontalMovement(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
         void OnChangeAimState(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
     }
     public interface IGameInputActions
     {
