@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public PlayerIdleState IdleState { get; private set; }
     public PlayerMoveState MoveState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
+    public PlayerDashState DashState { get; private set; }
 
     #endregion
 
@@ -68,7 +69,8 @@ public class PlayerController : MonoBehaviour
         StateManager = new PlayerStateManager();
         IdleState = new PlayerIdleState(this, StateManager, global::PlayerState.State.Idle);
         MoveState = new PlayerMoveState(this, StateManager, global::PlayerState.State.Move);
-        AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attacking);
+        AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attack);
+        DashState = new PlayerDashState(this, StateManager, global::PlayerState.State.Dash);
 
         InitializeController();
     }

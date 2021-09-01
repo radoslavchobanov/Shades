@@ -14,7 +14,8 @@ public class PlayerState
     {
         Idle,
         Move,
-        Attacking
+        Attack,
+        Dash,
     };
     public State _State { get; private set; }
 

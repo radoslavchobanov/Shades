@@ -79,5 +79,13 @@ public class GameStateManager : MonoBehaviour
     }
 
     // Utility Functions ---------------------
+    public static GameObject GetMousePointedGameObject()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
+            return hit.transform.gameObject;
+        return null;
+    }
     // ---------------------------------------
 }
