@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
     #region Shooting vars
     public GameObject ShootingStartPoint; // the point from where the bullet fires
     public GameObject BulletPrefab; // prefab of the bullet. no shit.
-    public float timeForNextAttack;
+    [NonSerialized] public float timeForNextAttack;
 
     #endregion
 
