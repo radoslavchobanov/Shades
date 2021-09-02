@@ -16,25 +16,16 @@ public class PlayerDashState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
-
-        startTime = Time.time;
-
-        Debug.Log("Enter Dash State");
     }
 
     public override void Exit()
     {
         base.Exit();
-        
-        Debug.Log("Exit Dash State");
     }
 
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
-
-        
-        Debug.Log("Dash stating");
         
         if (Time.time - startTime >= playerController.PlayerStats.dashDuration)
         {

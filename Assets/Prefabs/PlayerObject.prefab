@@ -298,9 +298,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 234734920d0099a40941716b57ca8df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackSpeed: 0
-  movementSpeed: 0
-  health: 0
+  playerStats:
+    damage: 0
+    attackSpeed: 0
+    movementSpeed: 0
+    walkingSpeed: 0
+    health: 0
+    stamina: 0
+    energy: 0
+    mana: 0
+    armor: 0
+    dashSpeed: 0
+    dashDuration: 0
   currentState: 0
   isDead: 0
   ShootingStartPoint: {fileID: 2109065812686891086}
