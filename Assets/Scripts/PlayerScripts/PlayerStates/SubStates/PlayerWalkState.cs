@@ -31,11 +31,6 @@ public class PlayerWalkState : PlayerGroundState
         {
             stateManager.ChangeState(playerController.IdleState);
         }
-        
-        if (playerController.Stamina.current >= playerController.Stamina.GetMaxValue())
-        {
-            stateManager.ChangeState(playerController.RunState);
-        }
     }
 
     public override void PhysicalUpdates()

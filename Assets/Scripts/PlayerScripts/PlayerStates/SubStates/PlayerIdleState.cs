@@ -11,11 +11,15 @@ public class PlayerIdleState : PlayerGroundState
     public override void DoChecks()
     {
         base.DoChecks();
+
+        playerController.Stamina.UpdateRegenerate();
     }
 
     public override void Enter()
     {
         base.Enter();
+
+        playerController.Stamina.StartRegenerate();
     }
 
     public override void Exit()
