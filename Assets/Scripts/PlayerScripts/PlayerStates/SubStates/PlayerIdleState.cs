@@ -28,7 +28,7 @@ public class PlayerIdleState : PlayerGroundState
 
         if (moveInput.x != 0 || moveInput.y != 0)
         {
-            stateManager.ChangeState(playerController.MoveState);
+            stateManager.ChangeState(playerController.RunState);
         }
     }
 

@@ -6,7 +6,6 @@ public class PlayerGroundState : PlayerState
 {
     protected Vector2 moveInput;
 
-
     public PlayerGroundState(PlayerController playerController, PlayerStateManager stateManager, State state)
         : base(playerController, stateManager, state)
     { }

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveState : PlayerGroundState
+public class PlayerWalkState : PlayerGroundState
 {
-    public PlayerMoveState(PlayerController playerController, PlayerStateManager stateManager, State state)
+    public PlayerWalkState(PlayerController playerController, PlayerStateManager stateManager, State state)
      : base(playerController, stateManager, state)
     { }
 
@@ -12,8 +12,8 @@ public class PlayerMoveState : PlayerGroundState
     {
         base.DoChecks();
 
-        if (playerController.Stamina.current <= playerController.Stamina.GetMinValue())
-            stateManager.ChangeState(playerController.WalkState);
+        if (playerController.Stamina.current >= playerController.Stamina.GetMaxValue())
+            stateManager.ChangeState(playerController.RunState);
     }
 
     public override void Enter()
@@ -26,24 +26,24 @@ public class PlayerMoveState : PlayerGroundState
         base.Exit();
     }
 
-    public override void LogicalUpdates() // Logical updates while in Moving state
+    public override void LogicalUpdates()
     {
         base.LogicalUpdates();
-
+        
         if (moveInput.x == 0 && moveInput.y == 0) // if current input is (0, 0) --> change player state to Idle
         {
             stateManager.ChangeState(playerController.IdleState);
         }
     }
 
-    public override void PhysicalUpdates() // Physical updates while in Moving state
+    public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
-
-        playerController.Animator.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
+        
+        playerController.Animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
 
         Vector3 moveDirection = Vector3.forward * -moveInput.x + Vector3.right * moveInput.y;
 
-        playerController.Move(moveDirection, playerController.RunSpeed);
+        playerController.Move(moveDirection, playerController.Walkspeed);
     }
 }

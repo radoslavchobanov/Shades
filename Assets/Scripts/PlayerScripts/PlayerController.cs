@@ -14,16 +14,15 @@ public class PlayerController : MonoBehaviour
     #region StateManager
     public PlayerStateManager StateManager { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
-    public PlayerMoveState MoveState { get; private set; }
+    public PlayerMoveState RunState { get; private set; }
+    public PlayerWalkState WalkState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
     public PlayerDashState DashState { get; private set; }
-
     #endregion
 
 
     #region PlayerInput
     public PlayerInputHandler InputHandler { get; private set; }
-
     #endregion
 
 
@@ -40,8 +39,10 @@ public class PlayerController : MonoBehaviour
     public Animator Animator { get => animator; set => animator = value; }
 
     public float AttackSpeed { get => playerStats.attackSpeed; set => playerStats.attackSpeed = value; }
-    public float MovementSpeed { get => playerStats.movementSpeed; set => playerStats.movementSpeed = value; }
+    public float RunSpeed { get => playerStats.runSpeed; set => playerStats.runSpeed = value; }
+    public float Walkspeed { get => playerStats.walkSpeed; set => playerStats.walkSpeed = value; }
     public float Health { get => playerStats.health; set => playerStats.health = value; }
+    public Stamina Stamina { get => playerStats.stamina; }
 
     #endregion
 
@@ -58,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    
+
     #region Player Events
     [NonSerialized] public UnityEvent<float> PlayerTakeDamage = new UnityEvent<float>();
     #endregion
@@ -68,7 +69,8 @@ public class PlayerController : MonoBehaviour
     {
         StateManager = new PlayerStateManager();
         IdleState = new PlayerIdleState(this, StateManager, global::PlayerState.State.Idle);
-        MoveState = new PlayerMoveState(this, StateManager, global::PlayerState.State.Move);
+        RunState = new PlayerMoveState(this, StateManager, global::PlayerState.State.Run);
+        WalkState = new PlayerWalkState(this, StateManager, global::PlayerState.State.Walk);
         AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attack);
         DashState = new PlayerDashState(this, StateManager, global::PlayerState.State.Dash);
 
@@ -79,6 +81,8 @@ public class PlayerController : MonoBehaviour
         InputHandler = GetComponent<PlayerInputHandler>();
         Animator = GetComponentInChildren<Animator>();
         laserSightAimComponent = GetComponent<LaserSightAim>();
+
+        playerStats.InitializeStats();
 
         StateManager.Initialize(IdleState);
     }
@@ -143,5 +147,11 @@ public class PlayerController : MonoBehaviour
     public void Shoot(GameObject bulletPrefab, Vector3 startPosition, Quaternion startRotation)
     {
         Instantiate(bulletPrefab, ShootingStartPoint.transform.position, ShootingStartPoint.transform.rotation);
+    }
+
+    public void Move(Vector3 direction, float speed)
+    {
+        gameObject.transform.position += direction * speed * Time.deltaTime;
+        gameObject.transform.forward = direction;
     }
 }

@@ -13,7 +13,8 @@ public class PlayerState
     public enum State
     {
         Idle,
-        Move,
+        Run,
+        Walk,
         Attack,
         Dash,
     };
