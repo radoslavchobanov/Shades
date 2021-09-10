@@ -11,8 +11,6 @@ public class PlayerIdleState : PlayerGroundState
     public override void DoChecks()
     {
         base.DoChecks();
-
-        playerController.Stamina.UpdateRegenerate();
     }
 
     public override void Enter()
@@ -39,6 +37,8 @@ public class PlayerIdleState : PlayerGroundState
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
+        
+        playerController.Stamina.UpdateRegenerate();
 
         playerController.Animator.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
     }

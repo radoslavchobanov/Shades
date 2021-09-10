@@ -11,8 +11,6 @@ public class PlayerRunState : PlayerGroundState
     public override void DoChecks()
     {
         base.DoChecks();
-        
-        playerController.Stamina.UpdateDegenerate();
     }
 
     public override void Enter()
@@ -45,6 +43,8 @@ public class PlayerRunState : PlayerGroundState
     public override void PhysicalUpdates() // Physical updates while in Moving state
     {
         base.PhysicalUpdates();
+        
+        playerController.Stamina.UpdateDegenerate();
 
         playerController.Animator.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
 

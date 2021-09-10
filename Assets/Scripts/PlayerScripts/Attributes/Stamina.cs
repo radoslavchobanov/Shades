@@ -50,9 +50,11 @@ public class Stamina : Attribute
 
     private void Regenerate()
     {
-        if (current + regen > max)
+        var valueToRegen = regen * regenerateSpeed;
+
+        if (current + valueToRegen > max)
             current = max;
-        else current += regen * regenerateSpeed;
+        else current += valueToRegen;
 
         lastRegenerateTime = Time.time;
     }
