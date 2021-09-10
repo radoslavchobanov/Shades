@@ -20,7 +20,9 @@ public class PlayerAttackState : PlayerInteractState
         playerController.transform.LookAt(playerController.GetPointerPosByGroundPlane());
 
         if (Time.time >= playerController.timeForNextAttack) // if the time for next attack has come
-        {
+        {   
+            playerController.Energy.UpdateDegenerate();
+
             playerController.timeForNextAttack = Time.time + (1 / playerController.AttackSpeed);
             playerController.Animator.SetBool("Shoot", true);
 
