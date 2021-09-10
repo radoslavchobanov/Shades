@@ -300,6 +300,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spawner
       objectReference: {fileID: 0}
+    - target: {fileID: 4675656998149354737, guid: fbcb04cac7523f249963c364fa83e84b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4675656998149354742, guid: fbcb04cac7523f249963c364fa83e84b, type: 3}
       propertyPath: density
       value: 5
@@ -649,8 +653,20 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: playerStats.stamina
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: playerStats.runSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
       propertyPath: playerStats.dashSpeed
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: playerStats.walkSpeed
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
       propertyPath: playerStats.attackSpeed
