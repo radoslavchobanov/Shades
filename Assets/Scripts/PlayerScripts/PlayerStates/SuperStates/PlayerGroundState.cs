@@ -49,7 +49,6 @@ public class PlayerGroundState : PlayerState
         }
         // --------------------------------------------------------------
 
-
         // Internal - GroundStateMovementInput --------------------------
         moveInput = playerController.InputHandler.HorizontalMovementInput;
         // --------------------------------------------------------------

@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public float Walkspeed { get => playerStats.walkSpeed; set => playerStats.walkSpeed = value; }
     public float Health { get => playerStats.health; set => playerStats.health = value; }
     public Stamina Stamina { get => playerStats.stamina; }
+    public Energy Energy { get => playerStats.energy; }
 
     #endregion
 
@@ -82,14 +83,14 @@ public class PlayerController : MonoBehaviour
         Animator = GetComponentInChildren<Animator>();
         laserSightAimComponent = GetComponent<LaserSightAim>();
 
-        playerStats.InitializeStats();
-
         StateManager.Initialize(IdleState);
     }
 
     protected void OnControllerUpdate() // this is like Update function
     {
         StateManager.CurrentState.LogicalUpdates();
+
+        Energy.UpdateRegenerate();
     }
     protected void OnControllerFixedUpdate()
     {
@@ -98,6 +99,7 @@ public class PlayerController : MonoBehaviour
 
     public virtual void InitializeController()
     {
+        playerStats.InitializeStats();
         isDead = false;
         timeForNextAttack = 0;
     }

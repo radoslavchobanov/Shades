@@ -12,6 +12,8 @@ public class GameUIManager : MonoBehaviour
     
     public GameObject PauseMenu;
     public Slider PlayerHealthbar;
+    public Slider PlayerEnergyBar;
+    public Slider PlayerStaminaBar;
 
     private void Awake() 
     {
@@ -23,6 +25,8 @@ public class GameUIManager : MonoBehaviour
     {
         // vars init
         PlayerHealthbar.value = PlayerHealthbar.maxValue = Player.singleton.Health;
+        PlayerEnergyBar.value = PlayerEnergyBar.maxValue = Player.singleton.Energy.current;
+        PlayerStaminaBar.value = PlayerStaminaBar.maxValue = Player.singleton.Stamina.current;
 
         // event listeners
         Player.singleton.PlayerTakeDamage.AddListener(OnPlayerTakesDamage);
@@ -30,7 +34,8 @@ public class GameUIManager : MonoBehaviour
 
     private void Update()
     {
-
+        PlayerEnergyBar.value = Player.singleton.Energy.current;
+        PlayerStaminaBar.value = Player.singleton.Stamina.current;
     }
     
     public void OnPauseStateEnter()
