@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMoveState : PlayerGroundState
+public class PlayerRunState : PlayerGroundState
 {
-    public PlayerMoveState(PlayerController playerController, PlayerStateManager stateManager, State state)
+    public PlayerRunState(PlayerController playerController, PlayerStateManager stateManager, State state)
      : base(playerController, stateManager, state)
     { }
 
