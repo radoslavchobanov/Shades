@@ -13,13 +13,13 @@ public class PlayerStats
     public float energy; // a time, the player can shoot without burning out
     public float mana; // mana bar for some spells/utilities
     public float armor;
-    public Stamina stamina = new Stamina(); // a time, the player can run without getting exhausted
+    public Stamina stamina; // a time, the player can run without getting exhausted
 
     public float dashSpeed;
     public float dashDuration;
 
     public void InitializeStats()
     {
-        stamina.current = stamina.GetMaxValue();
+        stamina = new Stamina();
     }
 }

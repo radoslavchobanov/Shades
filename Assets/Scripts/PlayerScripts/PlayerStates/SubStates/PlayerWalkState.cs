@@ -11,9 +11,6 @@ public class PlayerWalkState : PlayerGroundState
     public override void DoChecks()
     {
         base.DoChecks();
-
-        if (playerController.Stamina.current >= playerController.Stamina.GetMaxValue())
-            stateManager.ChangeState(playerController.RunState);
     }
 
     public override void Enter()
@@ -33,6 +30,11 @@ public class PlayerWalkState : PlayerGroundState
         if (moveInput.x == 0 && moveInput.y == 0) // if current input is (0, 0) --> change player state to Idle
         {
             stateManager.ChangeState(playerController.IdleState);
+        }
+        
+        if (playerController.Stamina.current >= playerController.Stamina.GetMaxValue())
+        {
+            stateManager.ChangeState(playerController.RunState);
         }
     }
 

@@ -673,12 +673,20 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: playerStats.stamina.max
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
       propertyPath: playerStats.dashDuration
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
       propertyPath: playerStats.movementSpeed
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
+      propertyPath: playerStats.stamina.regen
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}

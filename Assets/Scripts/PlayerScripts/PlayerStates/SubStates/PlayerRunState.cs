@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class PlayerRunState : PlayerGroundState
 {
+    //Stamina code
+    float staminaTimer = 1f;
+    float lastStaminaTick;
+    // ----------
+
     public PlayerRunState(PlayerController playerController, PlayerStateManager stateManager, State state)
      : base(playerController, stateManager, state)
     { }
@@ -11,14 +16,15 @@ public class PlayerRunState : PlayerGroundState
     public override void DoChecks()
     {
         base.DoChecks();
-
-        if (playerController.Stamina.current <= playerController.Stamina.GetMinValue())
-            stateManager.ChangeState(playerController.WalkState);
     }
 
     public override void Enter()
     {
         base.Enter();
+
+        //Stamina code
+        lastStaminaTick = Time.time;
+        //--------
     }
 
     public override void Exit()
@@ -30,9 +36,22 @@ public class PlayerRunState : PlayerGroundState
     {
         base.LogicalUpdates();
 
+        // Stamina code. Move it from here ------------------------------
+        if (Time.time - lastStaminaTick >= staminaTimer)
+        {
+            playerController.Stamina.current -= 1;
+            lastStaminaTick = Time.time;
+        }
+        // ------------------------------
+
         if (moveInput.x == 0 && moveInput.y == 0) // if current input is (0, 0) --> change player state to Idle
         {
             stateManager.ChangeState(playerController.IdleState);
+        }
+
+        else if (playerController.Stamina.current <= playerController.Stamina.GetMinValue())
+        {
+            stateManager.ChangeState(playerController.WalkState);
         }
     }
 
