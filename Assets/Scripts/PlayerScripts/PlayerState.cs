@@ -41,8 +41,11 @@ public class PlayerState
         Debugger.Log(playerController.gameObject, "is " + _State);
     }
     public virtual void PhysicalUpdates()
-    {   
+    {
         DoChecks();
+    }
+    public virtual void AnimationUpdates()
+    {
     }
     public virtual void Exit()
     {

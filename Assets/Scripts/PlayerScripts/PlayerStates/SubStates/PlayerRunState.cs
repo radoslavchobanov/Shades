@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerRunState : PlayerGroundState
 {
+    private Vector3 moveDirection;
+
     public PlayerRunState(PlayerController playerController, PlayerStateManager stateManager, State state)
      : base(playerController, stateManager, state)
     { }
@@ -38,6 +40,10 @@ public class PlayerRunState : PlayerGroundState
         {
             stateManager.ChangeState(playerController.WalkState);
         }
+
+        // moveDirection = Vector3.forward * -moveInput.x + Vector3.right * moveInput.y;
+        moveDirection = new Vector3(moveInput.y, 0f, -moveInput.x);
+        Debug.Log(moveDirection);
     }
 
     public override void PhysicalUpdates() // Physical updates while in Moving state
@@ -46,10 +52,23 @@ public class PlayerRunState : PlayerGroundState
         
         playerController.Stamina.UpdateDegenerate();
 
-        playerController.Animator.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
+        UpdateMovement();
+    }
 
-        Vector3 moveDirection = Vector3.forward * -moveInput.x + Vector3.right * moveInput.y;
+    public override void AnimationUpdates()
+    {
+        base.AnimationUpdates();
 
+        float speedX = Vector3.Dot(moveDirection.normalized, playerController.gameObject.transform.forward);
+        float speedZ = Vector3.Dot(moveDirection.normalized, playerController.gameObject.transform.right);
+        
+        playerController.Animator.SetFloat("SpeedZ", speedZ, 0.1f, Time.deltaTime);
+        playerController.Animator.SetFloat("SpeedX", speedX, 0.1f, Time.deltaTime);
+    }
+
+    private void UpdateMovement()
+    {
+        // Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
         playerController.Move(moveDirection, playerController.RunSpeed);
     }
 }

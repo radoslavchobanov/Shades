@@ -32,6 +32,10 @@ public class Player : PlayerController
     {
         OnControllerFixedUpdate();
     }
+    private void LateUpdate() 
+    {
+        OnControllerLateUpdate();    
+    }
 
     public override void InitializeController()
     {
