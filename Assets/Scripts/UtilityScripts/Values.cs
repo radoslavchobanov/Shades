@@ -2,6 +2,13 @@ using System;
 
 public static class Values
 {
+    #region Health
+    public const float defaultHealthRegen = 5f; // health/per second
+    public const float defaultMinHealth = 0f;
+    public const float defaultMaxHealth = 100f;
+    public const float defaultHealthRegenerateSpeed = 0.3f; // tick speed
+    #endregion
+
     #region Stamina
     public const float defaultStaminaRegen = 15f; // stamina/per second when idle
     public const float defaultMinStamina = 0f;

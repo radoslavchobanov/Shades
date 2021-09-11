@@ -44,6 +44,7 @@ public class PlayerDeadState : PlayerState
         else if (Time.time - startTime >= deadTimer)
         {
             Exit();
+            // on deadTime expires --> autospawn the Player from the beginning, etc ...
         }
     }
 }

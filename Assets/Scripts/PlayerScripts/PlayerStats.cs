@@ -9,7 +9,7 @@ public class PlayerStats
     public float attackSpeed;
     public float runSpeed;
     public float walkSpeed;
-    public float health;
+    public Health health;
     public float mana; // mana bar for some spells/utilities
     public float armor;
     public Stamina stamina; // a time, the player can run without getting exhausted
@@ -20,6 +20,7 @@ public class PlayerStats
 
     public void InitializeStats()
     {
+        health = new Health();
         stamina = new Stamina();
         energy = new Energy();
     }
