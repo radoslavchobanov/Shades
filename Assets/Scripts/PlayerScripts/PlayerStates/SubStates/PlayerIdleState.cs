@@ -39,8 +39,13 @@ public class PlayerIdleState : PlayerGroundState
         base.PhysicalUpdates();
         
         playerController.Stamina.UpdateRegenerate();
-
-        playerController.Animator.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
     }
 
+    public override void AnimationUpdates()
+    {
+        base.AnimationUpdates();
+        
+        playerController.Animator.SetFloat("SpeedZ", 0, 0.1f, Time.deltaTime);
+        playerController.Animator.SetFloat("SpeedX", 0, 0.1f, Time.deltaTime);
+    }
 }

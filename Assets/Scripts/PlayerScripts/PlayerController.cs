@@ -98,6 +98,10 @@ public class PlayerController : MonoBehaviour
     {
         StateManager.CurrentState.PhysicalUpdates();
     }
+    protected void OnControllerLateUpdate()
+    {
+        StateManager.CurrentState.AnimationUpdates();
+    }
 
     public virtual void InitializeController()
     {
@@ -154,7 +158,14 @@ public class PlayerController : MonoBehaviour
 
     public void Move(Vector3 direction, float speed)
     {
-        gameObject.transform.position += direction * speed * Time.deltaTime;
-        gameObject.transform.forward = direction;
+        if (direction.magnitude > 0)
+        {
+            direction.Normalize();
+            direction *= speed * Time.deltaTime;
+            gameObject.transform.Translate(direction, Space.World);
+        }
+
+        // gameObject.transform.position += direction * speed * Time.deltaTime;
+        // gameObject.transform.forward = direction;
     }
 }
