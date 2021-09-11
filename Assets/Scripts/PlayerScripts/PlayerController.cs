@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public PlayerWalkState WalkState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
     public PlayerDashState DashState { get; private set; }
+    public PlayerDeadState DeadState { get; private set; }
     #endregion
 
 
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour
         WalkState = new PlayerWalkState(this, StateManager, global::PlayerState.State.Walk);
         AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attack);
         DashState = new PlayerDashState(this, StateManager, global::PlayerState.State.Dash);
+        DeadState = new PlayerDeadState(this, StateManager, global::PlayerState.State.Dead);
 
         InitializeController();
     }
@@ -90,7 +92,7 @@ public class PlayerController : MonoBehaviour
     {
         StateManager.CurrentState.LogicalUpdates();
 
-        Energy.UpdateRegenerate();
+        PlayerRegens();
     }
     protected void OnControllerFixedUpdate()
     {
@@ -102,6 +104,10 @@ public class PlayerController : MonoBehaviour
         playerStats.InitializeStats();
         isDead = false;
         timeForNextAttack = 0;
+    }
+    private void PlayerRegens() // regenerates every second
+    {
+        Energy.UpdateRegenerate();
     }
 
     public Vector3 GetPointerPosByGroundPlane() // returns the mouse pointer point on the ground
@@ -124,25 +130,19 @@ public class PlayerController : MonoBehaviour
         return hitPoint;
     }
 
-    protected void OnDead()
-    {
-        // Dead animation ... etc
-        Debug.Log("Player is Dead !");
-        isDead = true;
-    }
     public void TakeDamage(float damage)
     {
         // Take damage animation
+        PlayerTakeDamage.Invoke(damage);
 
         FloatingTextManager.singleton.Show("- " + damage, 20, Color.red, transform.position, Vector3.up * 50, 2.0f);
 
         Health -= damage;
 
-        PlayerTakeDamage.Invoke(damage);
-
         if (Health <= 0)
         {
-            OnDead();
+            isDead = true;
+            StateManager.ChangeState(DeadState);
         }
     }
 

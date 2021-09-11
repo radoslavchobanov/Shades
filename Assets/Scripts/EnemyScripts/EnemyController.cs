@@ -212,6 +212,10 @@ public class EnemyController : MonoBehaviour
             Player.singleton.TakeDamage(this.AttackDamage);
             timeForNextAttack = Time.time + (1 / AttackSpeed);
         }
+        else if (Player.singleton.isDead)
+        {
+            StateManager.ChangeState(RoamingState);
+        }
     }
 
     private Vector3 GenerateRandomPointInRange(float minX, float maxX, float minZ, float maxZ)
