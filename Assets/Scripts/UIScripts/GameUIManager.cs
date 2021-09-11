@@ -24,16 +24,14 @@ public class GameUIManager : MonoBehaviour
     private void Start() // Initialize in Start, cuz in Awake there is still no Player created
     {
         // vars init
-        PlayerHealthbar.value = PlayerHealthbar.maxValue = Player.singleton.Health;
+        PlayerHealthbar.value = PlayerHealthbar.maxValue = Player.singleton.Health.current;
         PlayerEnergyBar.value = PlayerEnergyBar.maxValue = Player.singleton.Energy.current;
         PlayerStaminaBar.value = PlayerStaminaBar.maxValue = Player.singleton.Stamina.current;
-
-        // event listeners
-        Player.singleton.PlayerTakeDamage.AddListener(OnPlayerTakesDamage);
     }
 
     private void Update()
     {
+        PlayerHealthbar.value = Player.singleton.Health.current;
         PlayerEnergyBar.value = Player.singleton.Energy.current;
         PlayerStaminaBar.value = Player.singleton.Stamina.current;
     }
@@ -45,9 +43,5 @@ public class GameUIManager : MonoBehaviour
     public void OnPauseStateExit()
     {
         PauseMenu.SetActive(false);
-    }
-    private void OnPlayerTakesDamage(float damage)
-    {
-        PlayerHealthbar.value -= damage;
     }
 }

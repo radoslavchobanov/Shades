@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     public float AttackSpeed { get => playerStats.attackSpeed; set => playerStats.attackSpeed = value; }
     public float RunSpeed { get => playerStats.runSpeed; set => playerStats.runSpeed = value; }
     public float Walkspeed { get => playerStats.walkSpeed; set => playerStats.walkSpeed = value; }
-    public float Health { get => playerStats.health; set => playerStats.health = value; }
+    public Health Health { get => playerStats.health; }
     public Stamina Stamina { get => playerStats.stamina; }
     public Energy Energy { get => playerStats.energy; }
 
@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour
     }
     private void PlayerRegens() // regenerates every second
     {
+        Health.UpdateRegenerate();
         Energy.UpdateRegenerate();
     }
 
@@ -137,9 +138,9 @@ public class PlayerController : MonoBehaviour
 
         FloatingTextManager.singleton.Show("- " + damage, 20, Color.red, transform.position, Vector3.up * 50, 2.0f);
 
-        Health -= damage;
+        Health.current -= damage;
 
-        if (Health <= 0)
+        if (Health.current <= 0)
         {
             isDead = true;
             StateManager.ChangeState(DeadState);
