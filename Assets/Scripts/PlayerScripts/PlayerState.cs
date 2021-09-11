@@ -17,6 +17,7 @@ public class PlayerState
         Walk,
         Attack,
         Dash,
+        Dead,
     };
     public State _State { get; private set; }
 
