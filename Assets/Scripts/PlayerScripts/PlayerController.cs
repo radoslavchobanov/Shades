@@ -19,8 +19,10 @@ public class PlayerController : MonoBehaviour
     public PlayerNoCombatIdleState NoCombatIdleState { get; private set; }
 
     public PlayerMoveState MoveState { get; private set; }
-    public PlayerRunState RunState { get; private set; }
-    public PlayerWalkState WalkState { get; private set; }
+    public PlayerCombatRunState CombatRunState { get; private set; }
+    public PlayerNoCombatRunState NoCombatRunState { get; private set; }
+    public PlayerCombatWalkState CombatWalkState { get; private set; }
+    public PlayerNoCombatWalkState NoCombatWalkState { get; private set; }
     
     public PlayerAttackState AttackState { get; private set; }
     public PlayerDashState DashState { get; private set; }
@@ -85,8 +87,10 @@ public class PlayerController : MonoBehaviour
         NoCombatIdleState = new PlayerNoCombatIdleState(this, StateManager, global::PlayerState.State.Idle);
 
         MoveState = new PlayerMoveState(this, StateManager, global::PlayerState.State.Move);
-        RunState = new PlayerRunState(this, StateManager, global::PlayerState.State.Run);
-        WalkState = new PlayerWalkState(this, StateManager, global::PlayerState.State.Walk);
+        CombatRunState = new PlayerCombatRunState(this, StateManager, global::PlayerState.State.Run);
+        NoCombatRunState = new PlayerNoCombatRunState(this, StateManager, global::PlayerState.State.Run);
+        CombatWalkState = new PlayerCombatWalkState(this, StateManager, global::PlayerState.State.Walk);
+        NoCombatWalkState = new PlayerNoCombatWalkState(this, StateManager, global::PlayerState.State.Walk);
         
         AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attack);
         DashState = new PlayerDashState(this, StateManager, global::PlayerState.State.Dash);

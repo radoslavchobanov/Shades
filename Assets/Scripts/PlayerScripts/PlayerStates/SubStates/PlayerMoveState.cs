@@ -14,9 +14,10 @@ public class PlayerMoveState : PlayerGroundState
     {
         base.DoChecks();
 
-        if (playerController.Stamina.current <= playerController.Stamina.GetMinValue())
-            stateManager.ChangeState(playerController.WalkState);
-        else stateManager.ChangeState(playerController.RunState);
+        if (playerController.CombatState)
+            stateManager.ChangeState(playerController.CombatRunState);
+        else if (!playerController.CombatState)
+            stateManager.ChangeState(playerController.NoCombatRunState);
     }
 
     public override void Enter()
