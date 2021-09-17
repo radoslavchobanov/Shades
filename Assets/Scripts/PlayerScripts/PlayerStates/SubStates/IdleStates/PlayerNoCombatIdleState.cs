@@ -28,7 +28,6 @@ public class PlayerNoCombatIdleState : PlayerIdleState
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
-        Debug.Log("NO Combat IDLE");
     }
 
     public override void PhysicalUpdates()

@@ -12,14 +12,16 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region StateManager
-    
+    public PlayerStateManager StateManager { get; private set; }
+
+    public PlayerIdleState IdleState { get; private set; }
     public PlayerCombatIdleState CombatIdleState { get; private set; }
     public PlayerNoCombatIdleState NoCombatIdleState { get; private set; }
 
-    public PlayerStateManager StateManager { get; private set; }
-    public PlayerIdleState IdleState { get; private set; }
+    public PlayerMoveState MoveState { get; private set; }
     public PlayerRunState RunState { get; private set; }
     public PlayerWalkState WalkState { get; private set; }
+    
     public PlayerAttackState AttackState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
@@ -77,15 +79,18 @@ public class PlayerController : MonoBehaviour
     protected void OnControllerAwake()
     {
         StateManager = new PlayerStateManager();
+
         IdleState = new PlayerIdleState(this, StateManager, global::PlayerState.State.Idle);
+        CombatIdleState = new PlayerCombatIdleState(this, StateManager, global::PlayerState.State.Idle);
+        NoCombatIdleState = new PlayerNoCombatIdleState(this, StateManager, global::PlayerState.State.Idle);
+
+        MoveState = new PlayerMoveState(this, StateManager, global::PlayerState.State.Move);
         RunState = new PlayerRunState(this, StateManager, global::PlayerState.State.Run);
         WalkState = new PlayerWalkState(this, StateManager, global::PlayerState.State.Walk);
+        
         AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attack);
         DashState = new PlayerDashState(this, StateManager, global::PlayerState.State.Dash);
         DeadState = new PlayerDeadState(this, StateManager, global::PlayerState.State.Dead);
-        
-        CombatIdleState = new PlayerCombatIdleState(this, StateManager, global::PlayerState.State.Idle);
-        NoCombatIdleState = new PlayerNoCombatIdleState(this, StateManager, global::PlayerState.State.Idle);
 
         InitializeController();
     }
