@@ -13,9 +13,6 @@ public class PlayerStateManager
 
     public void ChangeState(PlayerState newState)
     {
-        if (CurrentState == newState)
-            return;
-
         CurrentState.Exit();
         CurrentState = newState;
         CurrentState.Enter();

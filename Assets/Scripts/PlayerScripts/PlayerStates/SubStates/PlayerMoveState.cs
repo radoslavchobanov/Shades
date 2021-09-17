@@ -15,8 +15,8 @@ public class PlayerMoveState : PlayerGroundState
         base.DoChecks();
 
         if (playerController.Stamina.current <= playerController.Stamina.GetMinValue())
-            stateManager.ChangeState(playerController.WalkState);
-        else stateManager.ChangeState(playerController.RunState);
+            stateManager.ChangeState(playerController.States.WalkState);
+        else stateManager.ChangeState(playerController.States.RunState);
     }
 
     public override void Enter()
@@ -35,7 +35,7 @@ public class PlayerMoveState : PlayerGroundState
         
         if (moveInput.x == 0 && moveInput.y == 0) // if current input is (0, 0) --> change player state to Idle
         {
-            stateManager.ChangeState(playerController.IdleState);
+            stateManager.ChangeState(playerController.States.IdleState);
         }
         
         moveDirection = new Vector3(moveInput.y, 0f, -moveInput.x);

@@ -13,9 +13,9 @@ public class PlayerIdleState : PlayerGroundState
         base.DoChecks();
 
         if (playerController.CombatState)
-            stateManager.ChangeState(playerController.CombatIdleState);
+            stateManager.ChangeState(playerController.States.CombatIdleState);
         else if (!playerController.CombatState)
-            stateManager.ChangeState(playerController.NoCombatIdleState);
+            stateManager.ChangeState(playerController.States.NoCombatIdleState);
     }
 
     public override void Enter()
@@ -35,7 +35,7 @@ public class PlayerIdleState : PlayerGroundState
 
         if (moveInput.x != 0 || moveInput.y != 0)
         {
-            stateManager.ChangeState(playerController.MoveState);
+            stateManager.ChangeState(playerController.States.MoveState);
         }
     }
 
