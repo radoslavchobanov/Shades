@@ -43,7 +43,6 @@ public class PlayerRunState : PlayerGroundState
 
         // moveDirection = Vector3.forward * -moveInput.x + Vector3.right * moveInput.y;
         moveDirection = new Vector3(moveInput.y, 0f, -moveInput.x);
-        Debug.Log(moveDirection);
     }
 
     public override void PhysicalUpdates() // Physical updates while in Moving state
