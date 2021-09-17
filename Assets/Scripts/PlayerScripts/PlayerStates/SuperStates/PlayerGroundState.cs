@@ -31,12 +31,12 @@ public class PlayerGroundState : PlayerState
         // External - Other State Input ---------------------------------
         if (playerController.InputHandler.LeftMouseClick)
         {
-            stateManager.ChangeState(playerController.States.AttackState);
+            stateManager.ChangeState(playerController.AttackState);
         }
 
         if (playerController.InputHandler.ShiftClicked)
         {
-            stateManager.ChangeState(playerController.States.DashState);
+            stateManager.ChangeState(playerController.DashState);
             playerController.InputHandler.DoShiftClick();
         }
         // --------------------------------------------------------------

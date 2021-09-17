@@ -32,7 +32,7 @@ public class PlayerInteractState : PlayerState
         base.LogicalUpdates();
 
         if (isInteractionDone)
-            stateManager.ChangeState(playerController.States.IdleState);
+            stateManager.ChangeState(playerController.IdleState);
     }
 
     public override void PhysicalUpdates()

@@ -29,7 +29,7 @@ public class PlayerDashState : PlayerGroundState
         
         if (Time.time - startTime >= playerController.PlayerStats.dashDuration)
         {
-            stateManager.ChangeState(playerController.States.IdleState);
+            stateManager.ChangeState(playerController.IdleState);
         }
     }
 
