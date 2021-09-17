@@ -17,6 +17,8 @@ public class PlayerGroundState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        
+        playerController.laserSightAimComponent.enabled = playerController.CombatState;
     }
     public override void Exit()
     {
@@ -44,7 +46,7 @@ public class PlayerGroundState : PlayerState
         // Ugly code !!! FIXME !!!
         if (playerController.InputHandler.RightMouseClick)
         {
-            playerController.laserSightAimComponent.enabled = !playerController.laserSightAimComponent.enabled;
+            playerController.CombatState = !playerController.CombatState;
             playerController.InputHandler.DoRightMouseClick();
         }
         // --------------------------------------------------------------

@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region StateManager
+    
+    public PlayerCombatIdleState CombatIdleState { get; private set; }
+    public PlayerNoCombatIdleState NoCombatIdleState { get; private set; }
+
     public PlayerStateManager StateManager { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
     public PlayerRunState RunState { get; private set; }
@@ -28,6 +32,9 @@ public class PlayerController : MonoBehaviour
 
 
     #region Controller variables
+    public string Weapon = "gun";
+    public bool CombatState = true;
+
     [SerializeField] private PlayerState.State currentState;
     private Animator animator;
     public bool isDead;
@@ -76,6 +83,9 @@ public class PlayerController : MonoBehaviour
         AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attack);
         DashState = new PlayerDashState(this, StateManager, global::PlayerState.State.Dash);
         DeadState = new PlayerDeadState(this, StateManager, global::PlayerState.State.Dead);
+        
+        CombatIdleState = new PlayerCombatIdleState(this, StateManager, global::PlayerState.State.Idle);
+        NoCombatIdleState = new PlayerNoCombatIdleState(this, StateManager, global::PlayerState.State.Idle);
 
         InitializeController();
     }

@@ -11,6 +11,11 @@ public class PlayerIdleState : PlayerGroundState
     public override void DoChecks()
     {
         base.DoChecks();
+
+        if (playerController.CombatState)
+            stateManager.ChangeState(playerController.CombatIdleState);
+        else if (!playerController.CombatState)
+            stateManager.ChangeState(playerController.NoCombatIdleState);
     }
 
     public override void Enter()
@@ -44,8 +49,5 @@ public class PlayerIdleState : PlayerGroundState
     public override void AnimationUpdates()
     {
         base.AnimationUpdates();
-        
-        playerController.Animator.SetFloat("SpeedZ", 0, 0.1f, Time.deltaTime);
-        playerController.Animator.SetFloat("SpeedX", 0, 0.1f, Time.deltaTime);
     }
 }
