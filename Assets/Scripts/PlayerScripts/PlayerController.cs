@@ -183,8 +183,5 @@ public class PlayerController : MonoBehaviour
             direction *= speed * Time.deltaTime;
             gameObject.transform.Translate(direction, Space.World);
         }
-
-        // gameObject.transform.position += direction * speed * Time.deltaTime;
-        // gameObject.transform.forward = direction;
     }
 }
