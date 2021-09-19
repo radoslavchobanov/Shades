@@ -36,6 +36,8 @@ public class PlayerNoCombatRunState : PlayerMoveState
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
+
+        playerController.transform.forward = moveDirection;
         
         playerController.Move(moveDirection, playerController.RunSpeed);
     }
@@ -43,5 +45,8 @@ public class PlayerNoCombatRunState : PlayerMoveState
     public override void AnimationUpdates()
     {
         base.AnimationUpdates();
+        
+        playerController.Animator.SetFloat("Combat", 0, 0.1f, Time.deltaTime);
+        playerController.Animator.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
     }
 }
