@@ -19,11 +19,6 @@ public class PlayerCombatRunState : PlayerMoveState
     public override void Enter()
     {
         base.Enter();
-
-        playerController.Animator.SetBool("Combat", true);
-        playerController.Animator.SetBool("Run", true);
-
-        playerController.Stamina.StartDegenerate();
     }
 
     public override void Exit()
@@ -31,20 +26,20 @@ public class PlayerCombatRunState : PlayerMoveState
         base.Exit();
     }
 
-    public override void LogicalUpdates() // Logical updates while in Moving state
+    public override void LogicalUpdates()
     {
         base.LogicalUpdates();
-        
+
         playerController.Stamina.UpdateDegenerate();
     }
 
-    public override void PhysicalUpdates() // Physical updates while in Moving state
+    public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
-
+        
         playerController.Move(moveDirection, playerController.RunSpeed);
     }
-
+    
     public override void AnimationUpdates()
     {
         base.AnimationUpdates();
@@ -52,6 +47,8 @@ public class PlayerCombatRunState : PlayerMoveState
         float speedX = Vector3.Dot(moveDirection.normalized, playerController.gameObject.transform.forward);
         float speedZ = Vector3.Dot(moveDirection.normalized, playerController.gameObject.transform.right);
         
+        playerController.Animator.SetFloat("Combat", 1, 0.1f, Time.deltaTime);
+        playerController.Animator.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
         playerController.Animator.SetFloat("SpeedZ", speedZ, 0.1f, Time.deltaTime);
         playerController.Animator.SetFloat("SpeedX", speedX, 0.1f, Time.deltaTime);
     }

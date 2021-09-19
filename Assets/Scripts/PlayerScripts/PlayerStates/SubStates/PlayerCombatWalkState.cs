@@ -10,15 +10,12 @@ public class PlayerCombatWalkState : PlayerMoveState
 
     public override void DoChecks()
     {
-        // base.DoChecks();
+        base.DoChecks();
     }
 
     public override void Enter()
     {
         base.Enter();
-        
-        playerController.Animator.SetBool("Combat", true);
-        playerController.Animator.SetBool("Run", false);
     }
 
     public override void Exit()
@@ -34,17 +31,19 @@ public class PlayerCombatWalkState : PlayerMoveState
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
-
+        
         playerController.Move(moveDirection, playerController.Walkspeed);
     }
-
+    
     public override void AnimationUpdates()
     {
         base.AnimationUpdates();
-
+        
         float speedX = Vector3.Dot(moveDirection.normalized, playerController.gameObject.transform.forward);
         float speedZ = Vector3.Dot(moveDirection.normalized, playerController.gameObject.transform.right);
         
+        playerController.Animator.SetFloat("Combat", 1, 0.1f, Time.deltaTime);
+        playerController.Animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
         playerController.Animator.SetFloat("SpeedZ", speedZ, 0.1f, Time.deltaTime);
         playerController.Animator.SetFloat("SpeedX", speedX, 0.1f, Time.deltaTime);
     }

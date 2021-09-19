@@ -12,17 +12,15 @@ public class PlayerIdleState : PlayerGroundState
     {
         base.DoChecks();
 
-        if (playerController.CombatState)
+        if (playerController.CombatStance)
             stateManager.ChangeState(playerController.CombatIdleState);
-        else if (!playerController.CombatState)
+        else if (!playerController.CombatStance)
             stateManager.ChangeState(playerController.NoCombatIdleState);
     }
 
     public override void Enter()
     {
         base.Enter();
-
-        playerController.Stamina.StartRegenerate();
     }
 
     public override void Exit()
@@ -46,8 +44,10 @@ public class PlayerIdleState : PlayerGroundState
         playerController.Stamina.UpdateRegenerate();
     }
 
-    public override void AnimationUpdates()
+    public override void AnimationUpdates() 
     {
         base.AnimationUpdates();
+        
+        playerController.Animator.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
     }
 }

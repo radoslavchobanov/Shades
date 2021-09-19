@@ -16,8 +16,6 @@ public class PlayerCombatIdleState : PlayerIdleState
     public override void Enter()
     {
         base.Enter();
-        
-        playerController.Animator.SetBool("Combat", true);
     }
 
     public override void Exit()
@@ -38,8 +36,7 @@ public class PlayerCombatIdleState : PlayerIdleState
     public override void AnimationUpdates()
     {
         base.AnimationUpdates();
-        
-        playerController.Animator.SetFloat("SpeedZ", 0, 0.1f, Time.deltaTime);
-        playerController.Animator.SetFloat("SpeedX", 0, 0.1f, Time.deltaTime);
+
+        playerController.Animator.SetFloat("Combat", 1, 0.1f, Time.deltaTime);
     }
 }

@@ -20,10 +20,10 @@ public class PlayerController : MonoBehaviour
 
     public PlayerMoveState MoveState { get; private set; }
     public PlayerCombatRunState CombatRunState { get; private set; }
-    public PlayerNoCombatRunState NoCombatRunState { get; private set; }
     public PlayerCombatWalkState CombatWalkState { get; private set; }
+    public PlayerNoCombatRunState NoCombatRunState { get; private set; }
     public PlayerNoCombatWalkState NoCombatWalkState { get; private set; }
-    
+
     public PlayerAttackState AttackState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     #region Controller variables
     public string Weapon = "gun";
-    public bool CombatState = true;
+    public bool CombatStance = true;
 
     [SerializeField] private PlayerState.State currentState;
     private Animator animator;
@@ -88,10 +88,10 @@ public class PlayerController : MonoBehaviour
 
         MoveState = new PlayerMoveState(this, StateManager, global::PlayerState.State.Move);
         CombatRunState = new PlayerCombatRunState(this, StateManager, global::PlayerState.State.Run);
-        NoCombatRunState = new PlayerNoCombatRunState(this, StateManager, global::PlayerState.State.Run);
         CombatWalkState = new PlayerCombatWalkState(this, StateManager, global::PlayerState.State.Walk);
+        NoCombatRunState = new PlayerNoCombatRunState(this, StateManager, global::PlayerState.State.Run);
         NoCombatWalkState = new PlayerNoCombatWalkState(this, StateManager, global::PlayerState.State.Walk);
-        
+
         AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attack);
         DashState = new PlayerDashState(this, StateManager, global::PlayerState.State.Dash);
         DeadState = new PlayerDeadState(this, StateManager, global::PlayerState.State.Dead);

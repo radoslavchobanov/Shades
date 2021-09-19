@@ -340,7 +340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4675656998149354737, guid: fbcb04cac7523f249963c364fa83e84b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4675656998149354742, guid: fbcb04cac7523f249963c364fa83e84b, type: 3}
       propertyPath: density
@@ -880,5 +880,9 @@ PrefabInstance:
       propertyPath: PlayerStaminaBar
       value: 
       objectReference: {fileID: 211574958}
+    - target: {fileID: 8279248463291539807, guid: a561af0fff2c13c409777c6e2a26ac7e, type: 3}
+      propertyPath: DEBUG
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a561af0fff2c13c409777c6e2a26ac7e, type: 3}

@@ -13,16 +13,27 @@ public class PlayerMoveState : PlayerGroundState
     public override void DoChecks()
     {
         base.DoChecks();
+        
+        if (!CombatStanceChanged)
+            return;
 
-        if (playerController.CombatState)
+        if (playerController.CombatStance)
+        {
+            CombatStanceChanged = false;
             stateManager.ChangeState(playerController.CombatRunState);
-        else if (!playerController.CombatState)
+        }
+        else if (!playerController.CombatStance)
+        {
+            CombatStanceChanged = false;
             stateManager.ChangeState(playerController.NoCombatRunState);
+        }
     }
 
     public override void Enter()
     {
         base.Enter();
+        
+        CombatStanceChanged = true;
     }
 
     public override void Exit()
