@@ -107,11 +107,9 @@ public class PlayerController : MonoBehaviour
         StateManager.Initialize(IdleState);
     }
 
-    protected void OnControllerUpdate() // this is like Update function
+    protected void OnControllerUpdate()
     {
         StateManager.CurrentState.LogicalUpdates();
-
-        PlayerRegens();
     }
     protected void OnControllerFixedUpdate()
     {
@@ -120,6 +118,8 @@ public class PlayerController : MonoBehaviour
     protected void OnControllerLateUpdate()
     {
         StateManager.CurrentState.AnimationUpdates();
+        
+        RegenerationUpdates();
     }
 
     public virtual void InitializeController()
@@ -128,7 +128,7 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         timeForNextAttack = 0;
     }
-    private void PlayerRegens() // regenerates every second
+    private void RegenerationUpdates() // regenerates every second
     {
         Health.UpdateRegenerate();
         Energy.UpdateRegenerate();
