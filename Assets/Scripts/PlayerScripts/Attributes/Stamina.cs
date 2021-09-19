@@ -32,10 +32,6 @@ public class Stamina : Attribute
 
         lastDegenerateTime = Time.time;
     }
-    public void StartDegenerate()
-    {
-        lastDegenerateTime = Time.time;
-    }
     private bool ShouldDegenerate()
     {
         return Time.time - lastDegenerateTime >= degenerateSpeed;
@@ -56,10 +52,6 @@ public class Stamina : Attribute
             current = max;
         else current += valueToRegen;
 
-        lastRegenerateTime = Time.time;
-    }
-    public void StartRegenerate()
-    {
         lastRegenerateTime = Time.time;
     }
     private bool ShouldRegenerate()

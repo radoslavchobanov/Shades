@@ -13,9 +13,17 @@ public class PlayerController : MonoBehaviour
 
     #region StateManager
     public PlayerStateManager StateManager { get; private set; }
+
     public PlayerIdleState IdleState { get; private set; }
-    public PlayerRunState RunState { get; private set; }
-    public PlayerWalkState WalkState { get; private set; }
+    public PlayerCombatIdleState CombatIdleState { get; private set; }
+    public PlayerNoCombatIdleState NoCombatIdleState { get; private set; }
+
+    public PlayerMoveState MoveState { get; private set; }
+    public PlayerCombatRunState CombatRunState { get; private set; }
+    public PlayerCombatWalkState CombatWalkState { get; private set; }
+    public PlayerNoCombatRunState NoCombatRunState { get; private set; }
+    public PlayerNoCombatWalkState NoCombatWalkState { get; private set; }
+
     public PlayerAttackState AttackState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
@@ -28,6 +36,9 @@ public class PlayerController : MonoBehaviour
 
 
     #region Controller variables
+    public string Weapon = "gun";
+    public bool CombatStance = true;
+
     [SerializeField] private PlayerState.State currentState;
     private Animator animator;
     public bool isDead;
@@ -70,9 +81,17 @@ public class PlayerController : MonoBehaviour
     protected void OnControllerAwake()
     {
         StateManager = new PlayerStateManager();
+
         IdleState = new PlayerIdleState(this, StateManager, global::PlayerState.State.Idle);
-        RunState = new PlayerRunState(this, StateManager, global::PlayerState.State.Run);
-        WalkState = new PlayerWalkState(this, StateManager, global::PlayerState.State.Walk);
+        CombatIdleState = new PlayerCombatIdleState(this, StateManager, global::PlayerState.State.Idle);
+        NoCombatIdleState = new PlayerNoCombatIdleState(this, StateManager, global::PlayerState.State.Idle);
+
+        MoveState = new PlayerMoveState(this, StateManager, global::PlayerState.State.Move);
+        CombatRunState = new PlayerCombatRunState(this, StateManager, global::PlayerState.State.Run);
+        CombatWalkState = new PlayerCombatWalkState(this, StateManager, global::PlayerState.State.Walk);
+        NoCombatRunState = new PlayerNoCombatRunState(this, StateManager, global::PlayerState.State.Run);
+        NoCombatWalkState = new PlayerNoCombatWalkState(this, StateManager, global::PlayerState.State.Walk);
+
         AttackState = new PlayerAttackState(this, StateManager, global::PlayerState.State.Attack);
         DashState = new PlayerDashState(this, StateManager, global::PlayerState.State.Dash);
         DeadState = new PlayerDeadState(this, StateManager, global::PlayerState.State.Dead);
@@ -88,11 +107,9 @@ public class PlayerController : MonoBehaviour
         StateManager.Initialize(IdleState);
     }
 
-    protected void OnControllerUpdate() // this is like Update function
+    protected void OnControllerUpdate()
     {
         StateManager.CurrentState.LogicalUpdates();
-
-        PlayerRegens();
     }
     protected void OnControllerFixedUpdate()
     {
@@ -101,6 +118,8 @@ public class PlayerController : MonoBehaviour
     protected void OnControllerLateUpdate()
     {
         StateManager.CurrentState.AnimationUpdates();
+        
+        RegenerationUpdates();
     }
 
     public virtual void InitializeController()
@@ -109,7 +128,7 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         timeForNextAttack = 0;
     }
-    private void PlayerRegens() // regenerates every second
+    private void RegenerationUpdates() // regenerates every second
     {
         Health.UpdateRegenerate();
         Energy.UpdateRegenerate();
@@ -164,8 +183,5 @@ public class PlayerController : MonoBehaviour
             direction *= speed * Time.deltaTime;
             gameObject.transform.Translate(direction, Space.World);
         }
-
-        // gameObject.transform.position += direction * speed * Time.deltaTime;
-        // gameObject.transform.forward = direction;
     }
 }

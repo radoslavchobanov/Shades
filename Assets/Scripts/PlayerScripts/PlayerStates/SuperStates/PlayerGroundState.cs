@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerGroundState : PlayerState
 {
     protected Vector2 moveInput;
+    
+    protected bool CombatStanceChanged;
 
     public PlayerGroundState(PlayerController playerController, PlayerStateManager stateManager, State state)
         : base(playerController, stateManager, state)
@@ -17,6 +19,8 @@ public class PlayerGroundState : PlayerState
     public override void Enter()
     {
         base.Enter();
+        
+        playerController.laserSightAimComponent.enabled = playerController.CombatStance;
     }
     public override void Exit()
     {
@@ -44,7 +48,8 @@ public class PlayerGroundState : PlayerState
         // Ugly code !!! FIXME !!!
         if (playerController.InputHandler.RightMouseClick)
         {
-            playerController.laserSightAimComponent.enabled = !playerController.laserSightAimComponent.enabled;
+            playerController.CombatStance = !playerController.CombatStance;
+            CombatStanceChanged = true;
             playerController.InputHandler.DoRightMouseClick();
         }
         // --------------------------------------------------------------

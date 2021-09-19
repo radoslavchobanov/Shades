@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWalkState : PlayerGroundState
+public class PlayerNoCombatWalkState : PlayerMoveState
 {
-    public PlayerWalkState(PlayerController playerController, PlayerStateManager stateManager, State state)
+    public PlayerNoCombatWalkState(PlayerController playerController, PlayerStateManager stateManager, State state)
      : base(playerController, stateManager, state)
     { }
 
@@ -26,21 +26,22 @@ public class PlayerWalkState : PlayerGroundState
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
-        
-        if (moveInput.x == 0 && moveInput.y == 0) // if current input is (0, 0) --> change player state to Idle
-        {
-            stateManager.ChangeState(playerController.IdleState);
-        }
     }
 
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
         
-        playerController.Animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
-
-        Vector3 moveDirection = Vector3.forward * -moveInput.x + Vector3.right * moveInput.y;
-
+        playerController.transform.forward = moveDirection;
+        
         playerController.Move(moveDirection, playerController.Walkspeed);
+    }
+    
+    public override void AnimationUpdates()
+    {
+        base.AnimationUpdates();
+        
+        playerController.Animator.SetFloat("Combat", 0, 0.1f, Time.deltaTime);
+        playerController.Animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
     }
 }
