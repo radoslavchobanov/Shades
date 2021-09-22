@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerDeadState : PlayerState
 {
-    private float deadTimer = 10f;
+    private float deadTimer;
 
     public PlayerDeadState(PlayerController playerController, PlayerStateManager stateManager, State state)
      : base(playerController, stateManager, state)
@@ -19,8 +19,12 @@ public class PlayerDeadState : PlayerState
     {
         base.Enter();
 
+        playerController.InputHandler.enabled = false;
+
         // Dead animation, sound ... etc
-        playerController.Animator.SetBool("Dead", true);
+        playerController.Animator.Play("Dead");
+
+        deadTimer = playerController.Animator.GetCurrentAnimatorStateInfo(0).length;
     }
 
     public override void Exit()
@@ -37,13 +41,8 @@ public class PlayerDeadState : PlayerState
     {
         base.PhysicalUpdates();
 
-        if (Time.time - startTime < 0.5f)
+        if (Time.time - startTime >= deadTimer)
         {
-            playerController.Animator.SetBool("Dead", false);
-        }
-        else if (Time.time - startTime >= deadTimer)
-        {
-            Exit();
             // on deadTime expires --> autospawn the Player from the beginning, etc ...
         }
     }

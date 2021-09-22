@@ -33,9 +33,10 @@ public class PlayerGroundState : PlayerState
         CombatStanceCheck();
 
         // External - Other State Input ---------------------------------
-        if (playerController.InputHandler.AttackInput)
+        if (playerController.InputHandler.AttackInput && playerController.CanAttack())
         {
-            stateManager.ChangeState(playerController.AttackState);
+            // stateManager.ChangeState(playerController.AttackState);
+            playerController.Shoot();
         }
 
         if (playerController.InputHandler.DashInput && playerController.CanDash())

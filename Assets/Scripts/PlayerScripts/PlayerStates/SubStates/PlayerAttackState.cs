@@ -20,7 +20,7 @@ public class PlayerAttackState : PlayerInteractState
         playerController.transform.LookAt(GameStateManager.singleton.
                                         GetPointerPosByGroundPlane(playerController.gameObject));
 
-        if (Time.time >= playerController.timeForNextAttack) // if the time for next attack has come
+        if (playerController.CanAttack()) // if the time for next attack has come
         {   
         // Check for the weapon type :
         // - if it is melee -> go to MeleeAttackState

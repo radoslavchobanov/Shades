@@ -6,6 +6,7 @@ public class PlayerStats
 {
     public float damage; // depends on the player weapon's damage
 
+    [NonSerialized] public float timeForNextAttack;
     public float attackSpeed;
     public float runSpeed;
     public float walkSpeed;

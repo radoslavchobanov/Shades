@@ -340,7 +340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4675656998149354737, guid: fbcb04cac7523f249963c364fa83e84b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4675656998149354742, guid: fbcb04cac7523f249963c364fa83e84b, type: 3}
       propertyPath: density
@@ -732,7 +732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
       propertyPath: playerStats.dashCooldown
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2109065813690612031, guid: 16a0e8d3573489d4c9ca3a7b5d912325, type: 3}
       propertyPath: playerStats.dashDuration

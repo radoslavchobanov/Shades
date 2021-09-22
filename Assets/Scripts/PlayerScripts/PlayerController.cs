@@ -68,7 +68,6 @@ public class PlayerController : MonoBehaviour
     #region Shooting vars
     public GameObject ShootingStartPoint; // the point from where the bullet fires
     public GameObject BulletPrefab; // prefab of the bullet. no shit.
-    [NonSerialized] public float timeForNextAttack;
 
     #endregion
 
@@ -126,7 +125,7 @@ public class PlayerController : MonoBehaviour
     {
         playerStats.InitializeStats();
         isDead = false;
-        timeForNextAttack = 0;
+        playerStats.timeForNextAttack = 0;
     }
     private void RegenerationUpdates() // regenerates every second
     {
@@ -145,14 +144,18 @@ public class PlayerController : MonoBehaviour
 
         if (Health.current <= 0)
         {
-            isDead = true;
-            StateManager.ChangeState(DeadState);
+            OnDead();
         }
+    }
+    private void OnDead()
+    {
+        isDead = true;
+        StateManager.ChangeState(DeadState);
     }
 
     public void Shoot()
     {
-        timeForNextAttack = Time.time + (1 / AttackSpeed);
+        playerStats.timeForNextAttack = Time.time + (1 / AttackSpeed);
         Instantiate(BulletPrefab, ShootingStartPoint.transform.position, ShootingStartPoint.transform.rotation);
     }
 
@@ -164,6 +167,10 @@ public class PlayerController : MonoBehaviour
             direction *= speed * Time.deltaTime;
             gameObject.transform.Translate(direction, Space.World);
         }
+    }
+    public bool CanAttack()
+    {
+        return (Time.time >= playerStats.timeForNextAttack);
     }
     public bool CanDash()
     {
