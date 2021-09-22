@@ -176,4 +176,18 @@ public class PlayerController : MonoBehaviour
     {
         return (Time.time >= playerStats.timeForNextDash);
     }
+
+    // Utility funcs
+    public AnimationClip GetAnimationClipByName(string name) // returns the AnimationClip
+    {
+        foreach (AnimationClip anim in Animator.runtimeAnimatorController.animationClips)
+        {
+            if (anim.name == name)
+            {
+                return anim;
+            }
+        }
+        return null;
+    }
+    // --------------
 }

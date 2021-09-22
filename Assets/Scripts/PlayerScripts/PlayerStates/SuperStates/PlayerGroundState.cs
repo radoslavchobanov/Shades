@@ -8,6 +8,8 @@ public class PlayerGroundState : PlayerState
     
     protected bool CombatStanceChanged;
 
+    protected bool attacking;
+
     public PlayerGroundState(PlayerController playerController, PlayerStateManager stateManager, State state)
         : base(playerController, stateManager, state)
     { }
@@ -33,10 +35,10 @@ public class PlayerGroundState : PlayerState
         CombatStanceCheck();
 
         // External - Other State Input ---------------------------------
-        if (playerController.InputHandler.AttackInput && playerController.CanAttack())
+        if (playerController.InputHandler.AttackInput)
         {
-            // stateManager.ChangeState(playerController.AttackState);
-            playerController.Shoot();
+            attacking = true;
+            stateManager.ChangeState(playerController.AttackState);
         }
 
         if (playerController.InputHandler.DashInput && playerController.CanDash())
