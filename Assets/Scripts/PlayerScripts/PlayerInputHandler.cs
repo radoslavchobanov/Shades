@@ -9,15 +9,14 @@ public class PlayerInputHandler : MonoBehaviour
     public Vector2 HorizontalMovementInput { get; private set; }
     
     // Dash input
-    public bool ShiftClicked { get; private set; }
+    public bool DashInput { get; private set; }
 
-    // Interaction input
-    public bool LeftMouseClick { get; private set; }
-    // public bool LeftMouseHold { get; private set; }
+    // Attack input
+    public bool AttackInput { get; private set; }
     public GameObject ObjectClicked { get; private set; }
 
-    // Aim state input
-    public bool RightMouseClick { get; private set; }
+    // Stance input
+    public bool ChangeStanceInput { get; private set; }
 
 
     public void OnMoveInput(InputAction.CallbackContext context)
@@ -29,31 +28,31 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.started)
         {
-            ShiftClicked = true;
+            DashInput = true;
         }
     }
-    public void DoShiftClick() => ShiftClicked = false;
+    public void DoDash() => DashInput = false;
 
-    public void OnLeftMouseClick(InputAction.CallbackContext context)
+    public void OnAttackInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            LeftMouseClick = true;
+            AttackInput = true;
             ObjectClicked = GameStateManager.GetMousePointedGameObject();
         }
 
         else if (context.canceled)
         {
-            LeftMouseClick = false;
+            AttackInput = false;
         }
     }
 
-    public void OnRightMouseClick(InputAction.CallbackContext context)
+    public void OnChangeStanceInput(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            RightMouseClick = true;
+            ChangeStanceInput = true;
         }
     }
-    public void DoRightMouseClick() => RightMouseClick = false;
+    public void DoChangeStance() => ChangeStanceInput = false;
 }

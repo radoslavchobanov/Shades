@@ -27,7 +27,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Interact"",
+                    ""name"": ""Attack"",
                     ""type"": ""Button"",
                     ""id"": ""9f36c936-b23c-4ab0-898e-214f3180c86c"",
                     ""expectedControlType"": ""Button"",
@@ -35,7 +35,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""ChangeAimState"",
+                    ""name"": ""ChangeStance"",
                     ""type"": ""Button"",
                     ""id"": ""66832699-de31-4775-96c6-f3ac84f18bc8"",
                     ""expectedControlType"": ""Button"",
@@ -114,7 +114,7 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Interact"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -125,14 +125,14 @@ public class @InputSystem : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""ChangeAimState"",
+                    ""action"": ""ChangeStance"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""b2fcebf1-7f01-41f3-ab3c-e4b6367cfd8a"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -175,8 +175,8 @@ public class @InputSystem : IInputActionCollection, IDisposable
         // PlayerControls
         m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
         m_PlayerControls_HorizontalMovement = m_PlayerControls.FindAction("HorizontalMovement", throwIfNotFound: true);
-        m_PlayerControls_Interact = m_PlayerControls.FindAction("Interact", throwIfNotFound: true);
-        m_PlayerControls_ChangeAimState = m_PlayerControls.FindAction("ChangeAimState", throwIfNotFound: true);
+        m_PlayerControls_Attack = m_PlayerControls.FindAction("Attack", throwIfNotFound: true);
+        m_PlayerControls_ChangeStance = m_PlayerControls.FindAction("ChangeStance", throwIfNotFound: true);
         m_PlayerControls_Dash = m_PlayerControls.FindAction("Dash", throwIfNotFound: true);
         // GameInput
         m_GameInput = asset.FindActionMap("GameInput", throwIfNotFound: true);
@@ -231,16 +231,16 @@ public class @InputSystem : IInputActionCollection, IDisposable
     private readonly InputActionMap m_PlayerControls;
     private IPlayerControlsActions m_PlayerControlsActionsCallbackInterface;
     private readonly InputAction m_PlayerControls_HorizontalMovement;
-    private readonly InputAction m_PlayerControls_Interact;
-    private readonly InputAction m_PlayerControls_ChangeAimState;
+    private readonly InputAction m_PlayerControls_Attack;
+    private readonly InputAction m_PlayerControls_ChangeStance;
     private readonly InputAction m_PlayerControls_Dash;
     public struct PlayerControlsActions
     {
         private @InputSystem m_Wrapper;
         public PlayerControlsActions(@InputSystem wrapper) { m_Wrapper = wrapper; }
         public InputAction @HorizontalMovement => m_Wrapper.m_PlayerControls_HorizontalMovement;
-        public InputAction @Interact => m_Wrapper.m_PlayerControls_Interact;
-        public InputAction @ChangeAimState => m_Wrapper.m_PlayerControls_ChangeAimState;
+        public InputAction @Attack => m_Wrapper.m_PlayerControls_Attack;
+        public InputAction @ChangeStance => m_Wrapper.m_PlayerControls_ChangeStance;
         public InputAction @Dash => m_Wrapper.m_PlayerControls_Dash;
         public InputActionMap Get() { return m_Wrapper.m_PlayerControls; }
         public void Enable() { Get().Enable(); }
@@ -254,12 +254,12 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @HorizontalMovement.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnHorizontalMovement;
                 @HorizontalMovement.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnHorizontalMovement;
                 @HorizontalMovement.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnHorizontalMovement;
-                @Interact.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnInteract;
-                @ChangeAimState.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnChangeAimState;
-                @ChangeAimState.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnChangeAimState;
-                @ChangeAimState.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnChangeAimState;
+                @Attack.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnAttack;
+                @ChangeStance.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnChangeStance;
+                @ChangeStance.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnChangeStance;
+                @ChangeStance.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnChangeStance;
                 @Dash.started -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDash;
                 @Dash.performed -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDash;
                 @Dash.canceled -= m_Wrapper.m_PlayerControlsActionsCallbackInterface.OnDash;
@@ -270,12 +270,12 @@ public class @InputSystem : IInputActionCollection, IDisposable
                 @HorizontalMovement.started += instance.OnHorizontalMovement;
                 @HorizontalMovement.performed += instance.OnHorizontalMovement;
                 @HorizontalMovement.canceled += instance.OnHorizontalMovement;
-                @Interact.started += instance.OnInteract;
-                @Interact.performed += instance.OnInteract;
-                @Interact.canceled += instance.OnInteract;
-                @ChangeAimState.started += instance.OnChangeAimState;
-                @ChangeAimState.performed += instance.OnChangeAimState;
-                @ChangeAimState.canceled += instance.OnChangeAimState;
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
+                @ChangeStance.started += instance.OnChangeStance;
+                @ChangeStance.performed += instance.OnChangeStance;
+                @ChangeStance.canceled += instance.OnChangeStance;
                 @Dash.started += instance.OnDash;
                 @Dash.performed += instance.OnDash;
                 @Dash.canceled += instance.OnDash;
@@ -319,8 +319,8 @@ public class @InputSystem : IInputActionCollection, IDisposable
     public interface IPlayerControlsActions
     {
         void OnHorizontalMovement(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
-        void OnChangeAimState(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
+        void OnChangeStance(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
     }
     public interface IGameInputActions

@@ -16,6 +16,8 @@ public class PlayerDashState : PlayerGroundState
     public override void Enter()
     {
         base.Enter();
+
+        playerController.PlayerStats.timeForNextDash = startTime + playerController.PlayerStats.dashCooldown;
     }
 
     public override void Exit()
@@ -36,11 +38,9 @@ public class PlayerDashState : PlayerGroundState
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
-        
-        Vector3 direction = playerController.gameObject.transform.forward;
-        float speed = playerController.PlayerStats.dashSpeed;
 
-        playerController.gameObject.transform.position += direction * speed * Time.deltaTime;
-        playerController.gameObject.transform.forward = direction;
+        var moveDirection = new Vector3(moveInput.y, 0f, -moveInput.x);
+
+        playerController.Move(moveDirection, playerController.PlayerStats.dashSpeed);
     }
 }

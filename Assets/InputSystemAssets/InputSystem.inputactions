@@ -14,7 +14,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Interact",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "9f36c936-b23c-4ab0-898e-214f3180c86c",
                     "expectedControlType": "Button",
@@ -22,7 +22,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "ChangeAimState",
+                    "name": "ChangeStance",
                     "type": "Button",
                     "id": "66832699-de31-4775-96c6-f3ac84f18bc8",
                     "expectedControlType": "Button",
@@ -101,7 +101,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interact",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -112,14 +112,14 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ChangeAimState",
+                    "action": "ChangeStance",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "b2fcebf1-7f01-41f3-ab3c-e4b6367cfd8a",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

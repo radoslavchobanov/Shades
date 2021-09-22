@@ -17,6 +17,8 @@ public class PlayerStats
 
     public float dashSpeed;
     public float dashDuration;
+    public float dashCooldown;
+    [NonSerialized] public float timeForNextDash;
 
     public void InitializeStats()
     {

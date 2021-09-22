@@ -29,28 +29,19 @@ public class PlayerGroundState : PlayerState
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
+        
+        CombatStanceCheck();
 
         // External - Other State Input ---------------------------------
-        if (playerController.InputHandler.LeftMouseClick)
+        if (playerController.InputHandler.AttackInput)
         {
             stateManager.ChangeState(playerController.AttackState);
         }
 
-        if (playerController.InputHandler.ShiftClicked)
+        if (playerController.InputHandler.DashInput && playerController.CanDash())
         {
             stateManager.ChangeState(playerController.DashState);
-            playerController.InputHandler.DoShiftClick();
-        }
-        // --------------------------------------------------------------
-
-
-        // AimAtPointer State -------------------------------------------
-        // Ugly code !!! FIXME !!!
-        if (playerController.InputHandler.RightMouseClick)
-        {
-            playerController.CombatStance = !playerController.CombatStance;
-            CombatStanceChanged = true;
-            playerController.InputHandler.DoRightMouseClick();
+            playerController.InputHandler.DoDash();
         }
         // --------------------------------------------------------------
 
@@ -63,4 +54,13 @@ public class PlayerGroundState : PlayerState
         base.PhysicalUpdates();
     }
 
+    private void CombatStanceCheck()
+    {
+        if (playerController.InputHandler.ChangeStanceInput)
+        {
+            playerController.CombatStance = !playerController.CombatStance;
+            CombatStanceChanged = true;
+            playerController.InputHandler.DoChangeStance();
+        }
+    }
 }

@@ -17,23 +17,17 @@ public class PlayerAttackState : PlayerInteractState
     {
         base.Enter();
 
-        playerController.transform.LookAt(playerController.GetPointerPosByGroundPlane());
+        playerController.transform.LookAt(GameStateManager.singleton.
+                                        GetPointerPosByGroundPlane(playerController.gameObject));
 
         if (Time.time >= playerController.timeForNextAttack) // if the time for next attack has come
         {   
-            playerController.Energy.UpdateDegenerate();
-
-            playerController.timeForNextAttack = Time.time + (1 / playerController.AttackSpeed);
-            playerController.Animator.SetBool("Shoot", true);
-
         // Check for the weapon type :
         // - if it is melee -> go to MeleeAttackState
         // - if it is range -> go to RangeAttackState
 
         // range : shoot projectile
-            playerController.Shoot(playerController.BulletPrefab, 
-                                    playerController.ShootingStartPoint.transform.position, 
-                                    playerController.ShootingStartPoint.transform.localRotation);
+            playerController.Shoot();
         // -----------------------  
 
         // melee : do dmg in front of some radius
@@ -53,17 +47,17 @@ public class PlayerAttackState : PlayerInteractState
     public override void LogicalUpdates()
     {
         base.LogicalUpdates();
-        
-        // // ??? Potential FIXME ???
-        // if (Time.time - startTime >= 0.16f) // 0.16f is the duration of the animation ?
-        // {
-        //     isInteractionDone = true;
-        // }
-        // else playerController.Animator.SetBool("Shoot", false);
     }
 
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
+    }
+
+    public override void AnimationUpdates()
+    {
+        base.AnimationUpdates();
+        
+        playerController.Animator.SetBool("Shoot", true);
     }
 }
