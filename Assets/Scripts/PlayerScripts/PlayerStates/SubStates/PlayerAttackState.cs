@@ -49,6 +49,7 @@ public class PlayerAttackState : PlayerGroundState
 
             // range : shoot projectile
                 playerController.Shoot();
+                playerController.PlayerStats.energy.UpdateDegenerate();
             // -----------------------  
 
             // melee : do dmg in front of some radius
