@@ -11,6 +11,12 @@ public class PlayerCombatWalkState : PlayerMoveState
     public override void DoChecks()
     {
         base.DoChecks();
+
+        if (playerController.InputHandler.AttackInput)
+        {
+            attacking = true;
+            stateManager.ChangeState(playerController.AttackWalkState);
+        }
     }
 
     public override void Enter()

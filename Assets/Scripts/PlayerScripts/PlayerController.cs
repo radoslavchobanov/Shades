@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerAttackRunState AttackRunState { get; private set; }
     public PlayerAttackIdleState AttackIdleState { get; private set; }
+    public PlayerAttackWalkState AttackWalkState { get; private set; }
     public PlayerDashState DashState { get; private set; }
     public PlayerDeadState DeadState { get; private set; }
     #endregion
@@ -94,6 +95,7 @@ public class PlayerController : MonoBehaviour
 
         AttackRunState = new PlayerAttackRunState(this, StateManager, global::PlayerState.State.Attack);
         AttackIdleState = new PlayerAttackIdleState(this, StateManager, global::PlayerState.State.Attack);
+        AttackWalkState = new PlayerAttackWalkState(this, StateManager, global::PlayerState.State.Attack);
         DashState = new PlayerDashState(this, StateManager, global::PlayerState.State.Dash);
         DeadState = new PlayerDeadState(this, StateManager, global::PlayerState.State.Dead);
 
