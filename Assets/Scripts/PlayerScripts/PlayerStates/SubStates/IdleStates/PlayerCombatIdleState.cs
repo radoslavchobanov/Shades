@@ -11,6 +11,12 @@ public class PlayerCombatIdleState : PlayerIdleState
     public override void DoChecks()
     {
         base.DoChecks();
+        
+        if (playerController.InputHandler.AttackInput)
+        {
+            attacking = true;
+            stateManager.ChangeState(playerController.AttackIdleState);
+        }
     }
 
     public override void Enter()

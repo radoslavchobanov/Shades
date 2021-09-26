@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttackState : PlayerGroundState
+public class PlayerAttackIdleState : PlayerCombatIdleState
 {
     float attackDuration;
 
-    public PlayerAttackState(PlayerController playerController, PlayerStateManager stateManager, State state)
+    public PlayerAttackIdleState(PlayerController playerController, PlayerStateManager stateManager, State state)
         : base(playerController, stateManager, state)
     { }
 
     public override void DoChecks()
     {
-        base.DoChecks();
+        // base.DoChecks(); // Stack Overflow !!!
     }
 
     public override void Enter()
@@ -61,10 +61,6 @@ public class PlayerAttackState : PlayerGroundState
     public override void PhysicalUpdates()
     {
         base.PhysicalUpdates();
-
-        var moveDirection = new Vector3(moveInput.y, 0f, -moveInput.x);
-
-        playerController.Move(moveDirection, playerController.RunSpeed);
     }
 
     public override void AnimationUpdates()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCombatRunState : PlayerMoveState
-{
+{   
     public PlayerCombatRunState(PlayerController playerController, PlayerStateManager stateManager, State state)
      : base(playerController, stateManager, state)
     { }
@@ -14,6 +14,11 @@ public class PlayerCombatRunState : PlayerMoveState
 
         if (playerController.Stamina.current <= playerController.Stamina.GetMinValue())
             stateManager.ChangeState(playerController.CombatWalkState);
+        else if (playerController.InputHandler.AttackInput)
+        {
+            attacking = true;
+            stateManager.ChangeState(playerController.AttackRunState);
+        }
     }
 
     public override void Enter()

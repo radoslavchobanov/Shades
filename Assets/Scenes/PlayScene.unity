@@ -286,6 +286,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5490876870642469983, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
+      propertyPath: m_Text
+      value: 'fps: 0'
+      objectReference: {fileID: 0}
     - target: {fileID: 7257308967867918054, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
       propertyPath: newGameButtonObj
       value: 
