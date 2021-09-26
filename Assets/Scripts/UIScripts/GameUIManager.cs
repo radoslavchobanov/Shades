@@ -14,6 +14,7 @@ public class GameUIManager : MonoBehaviour
     public Slider PlayerHealthbar;
     public Slider PlayerEnergyBar;
     public Slider PlayerStaminaBar;
+    public GameObject FPSTextObj;
 
     private void Awake() 
     {

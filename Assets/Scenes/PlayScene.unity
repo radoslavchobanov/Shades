@@ -160,6 +160,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5233392024592649339, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
   m_PrefabInstance: {fileID: 1985802274}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1618722372 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6259236686470826533, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
+  m_PrefabInstance: {fileID: 1985802274}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1806773971 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7955615575686235981, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
@@ -291,6 +296,10 @@ PrefabInstance:
       value: 'fps: 0'
       objectReference: {fileID: 0}
     - target: {fileID: 7257308967867918054, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
+      propertyPath: fpsToggleObj
+      value: 
+      objectReference: {fileID: 1618722372}
+    - target: {fileID: 7257308967867918054, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
       propertyPath: newGameButtonObj
       value: 
       objectReference: {fileID: 1509933471}
@@ -331,6 +340,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1985802276 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 18751957566077939, guid: f61fe686a7d0dcf4490394805cf5dbc3, type: 3}
+  m_PrefabInstance: {fileID: 1985802274}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2006334664
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -884,6 +898,10 @@ PrefabInstance:
       propertyPath: PauseMenu
       value: 
       objectReference: {fileID: 1102701440}
+    - target: {fileID: 8279248463291539803, guid: a561af0fff2c13c409777c6e2a26ac7e, type: 3}
+      propertyPath: FPSTextObj
+      value: 
+      objectReference: {fileID: 1985802276}
     - target: {fileID: 8279248463291539803, guid: a561af0fff2c13c409777c6e2a26ac7e, type: 3}
       propertyPath: PlayerEnergyBar
       value: 

@@ -30,6 +30,9 @@ public class PauseMenu : MonoBehaviour
     public GameObject resolutionDropdownObj;
     private Dropdown resolutionDropdown;
 
+    public GameObject fpsToggleObj;
+    private Toggle fpsToggle;
+
     public struct ResolutionInfo
     {
         int width {get {return this.width;} set {this.width = width;}}
@@ -56,6 +59,7 @@ public class PauseMenu : MonoBehaviour
     #region OptionsPanelItems
         backButton = backButtonObj.GetComponent<Button>();
         resolutionDropdown = resolutionDropdownObj.GetComponent<Dropdown>();
+        fpsToggle = fpsToggleObj.GetComponent<Toggle>();
     #endregion
     }
 
@@ -67,6 +71,8 @@ public class PauseMenu : MonoBehaviour
         quitButton?.onClick.AddListener(OnQuitButtonClicked);
         
         backButton.onClick.AddListener(OnBackButtonClicked);
+
+        fpsToggle.onValueChanged.AddListener(OnFPSToggled);
 
         SetResolution();
     }
@@ -101,5 +107,10 @@ public class PauseMenu : MonoBehaviour
     {
         mainPanel.SetActive(true);
         optionsPanel.SetActive(false);
+    }
+
+    private void OnFPSToggled(bool toggle)
+    {
+        GameUIManager.singleton.FPSTextObj.SetActive(toggle);
     }
 }
